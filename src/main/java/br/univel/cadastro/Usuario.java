@@ -1,6 +1,13 @@
 package br.univel.cadastro;
 
 public class Usuario {
+	
+	private int id;
+	private int idCliente;
+	private String nome;
+	private String senha;
+	
+	
 	public int getId() {
 		return id;
 	}
@@ -19,7 +26,17 @@ public class Usuario {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	private int id;
-	private int idCliente;
-	private String nome;
+	/**
+	 * @return the senha
+	 */
+	public String getSenha() {
+		return senha;
+	}
+	/**
+	 * @param senha the senha to set
+	 */
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
+
 }

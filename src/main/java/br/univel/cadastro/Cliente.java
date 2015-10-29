@@ -1,5 +1,10 @@
 package br.univel.cadastro;
 
+/**
+ * 
+ * @author jamzanchetta
+ *
+ */
 
 public class Cliente {
 	private int id;
@@ -13,6 +18,7 @@ public class Cliente {
 	public String getNome() {
 		return nome;
 	}
+	
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
