@@ -1,3 +1,5 @@
+package br.univel.cadastro;
+
 import java.util.List;
 
 /**
