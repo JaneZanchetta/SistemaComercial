@@ -10,10 +10,17 @@ import javax.swing.JMenuBar;
 import java.awt.Font;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
-
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+/**
+ * 
+ * @author Jane
+ *
+ */
 public class Principal extends JFrame {
 
 	private JPanel contentPane;
+	private JTabbedPane tabbedPane;
 
 	/**
 	 * Launch the application.
@@ -46,6 +53,11 @@ public class Principal extends JFrame {
 		menuBar.add(mnCadastros);
 		
 		JMenuItem mntmCliente = new JMenuItem("Cliente");
+		mntmCliente.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				cadCliente();
+			}
+		});
 		mnCadastros.add(mntmCliente);
 		
 		JMenuItem mntmProduto = new JMenuItem("Produto");
@@ -63,6 +75,11 @@ public class Principal extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
+	}
+
+	protected void cadCliente() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

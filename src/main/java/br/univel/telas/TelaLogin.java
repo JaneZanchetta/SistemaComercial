@@ -4,13 +4,21 @@
 package br.univel.telas;
 
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+
 import java.awt.GridBagLayout;
+
 import javax.swing.JLabel;
+
 import java.awt.GridBagConstraints;
+
 import javax.swing.JTextField;
+
 import java.awt.Insets;
 import java.awt.Font;
+
 import javax.swing.JButton;
+
 import java.awt.Color;
 
 /**
@@ -19,7 +27,7 @@ import java.awt.Color;
  */
 public class TelaLogin extends JPanel {
 	private JTextField txtUsuario;
-	private JTextField txtSenha;
+	private JPasswordField txtSenha;
 
 	/**
 	 * Create the panel.
@@ -79,5 +87,18 @@ public class TelaLogin extends JPanel {
 		add(btnEntrar, gbc_btnEntrar);
 
 	}
+	
+	public TelaLogin(Runnable acaoOk) {
+		this();
+		btnEntrar.addActionListener(e -> {
+			if (textField.getText().trim().equals("1")
+					&& new String(passwordField.getPassword()).equals("1")) {
+				acaoOk.run();
+			} else {
+				JOptionPane.showMessageDialog(PainelLogin.this,
+						"Usuário e/ou senha inválidos!");
+			}
+		});
+
 
 }
