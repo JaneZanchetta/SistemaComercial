@@ -28,6 +28,7 @@ import java.awt.Color;
 public class TelaLogin extends JPanel {
 	private JTextField txtUsuario;
 	private JPasswordField txtSenha;
+	private JButton btnEntrar;
 
 	/**
 	 * Create the panel.
@@ -68,7 +69,7 @@ public class TelaLogin extends JPanel {
 		gbc_lblSenha.gridy = 3;
 		add(lblSenha, gbc_lblSenha);
 		
-		txtSenha = new JTextField();
+		txtSenha = new JPasswordField();
 		txtSenha.setEditable(false);
 		GridBagConstraints gbc_txtSenha = new GridBagConstraints();
 		gbc_txtSenha.insets = new Insets(0, 0, 5, 0);
@@ -78,7 +79,7 @@ public class TelaLogin extends JPanel {
 		add(txtSenha, gbc_txtSenha);
 		txtSenha.setColumns(10);
 		
-		JButton btnEntrar = new JButton("LOGIN");
+		btnEntrar = new JButton("LOGIN");
 		btnEntrar.setFont(new Font("Tahoma", Font.BOLD, 11));
 		GridBagConstraints gbc_btnEntrar = new GridBagConstraints();
 		gbc_btnEntrar.anchor = GridBagConstraints.BASELINE;
