@@ -1,6 +1,7 @@
 package br.univel.telas;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -25,6 +26,7 @@ public class Principal extends JFrame {
 
 	private JPanel contentPane;
 	private JTabbedPane tabbedPane;
+	private BlockPanel glass;
 
 	/**
 	 * Launch the application.
@@ -46,6 +48,8 @@ public class Principal extends JFrame {
 	 * Create the frame.
 	 */
 	public Principal() {
+		
+		blockLogin():
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		
@@ -70,6 +74,14 @@ public class Principal extends JFrame {
 		JMenuItem mntmUsurio = new JMenuItem("Usu\u00E1rio");
 		mnCadastros.add(mntmUsurio);
 		
+		JMenuItem mntmBloquear = new JMenuItem("Bloquear");
+		mntmBloquear.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				block();
+			}
+		});
+		mnCadastros.add(mntmBloquear);
+		
 		JMenu mnVendas = new JMenu("Vendas");
 		menuBar.add(mnVendas);
 		
@@ -79,6 +91,46 @@ public class Principal extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
+	}
+
+	/**
+	 * @Author Jane Z.
+	 * 01/11/2015  10:29:53
+	 */
+	private void blockLogin() {
+		Runnable acaoOk = () -> {
+			glass.setVisible(false);
+			glass = new BlockPanel();
+		};
+		
+	}
+
+	/**
+	 * @Author Jane Z.
+	 * 01/11/2015  10:25:04
+	 */
+	protected void block() {
+		setGlassPane(glass);
+		glass.setVisible(true);
+		new Thread(new Runnable() {
+			
+			public void run() {
+					for (int i =0; i < 5; i++) {
+						try {
+							Thread.sleep(1000);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+					}
+					glass.setVisible(false);
+				}
+			}).start();
+				
+			}
+		
+		
+		// TODO Auto-generated method stub
+		
 	}
 
 	protected void cadCliente() {
