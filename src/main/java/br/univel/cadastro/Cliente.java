@@ -64,6 +64,26 @@ public class Cliente {
 	public int getId() {
 		return id;
 	}
-	
+	/**
+	 * @Author Jane Z
+	 * 02/11/2015 12:08:13
+	 */
+
+	/**
+	 * @Author Jane Z.
+	 * 02/11/2015  12:09:28
+	 */
+	public Cliente(int id, String nome, String telefone, String endereco,
+			String cidade, UF uf, String email, Genero genero) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.telefone = telefone;
+		this.endereco = endereco;
+		this.cidade = cidade;
+		this.uf = uf;
+		this.email = email;
+		this.genero = genero;
+	}
 	
 }

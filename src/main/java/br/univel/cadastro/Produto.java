@@ -52,5 +52,29 @@ public class Produto {
 	private Unidade unidade;
 	private BigDecimal custo;
 	private BigDecimal margemLucro;
+	/**
+	 * @Author Jane Z.
+	 * 02/11/2015  12:49:26
+	 */
+	public Produto(int id, String descricao, int codBar, Categoria categoria,
+			Unidade unidade, BigDecimal custo, BigDecimal margemLucro) {
+		super();
+		this.id = id;
+		this.descricao = descricao;
+		this.codBar = codBar;
+		this.categoria = categoria;
+		this.unidade = unidade;
+		this.custo = custo;
+		this.margemLucro = margemLucro;
+	}
 
+	/**
+	 * @Author Jane Z.
+	 * 02/11/2015  12:49:17
+	 */
+	
+
+	
+	
 }
+

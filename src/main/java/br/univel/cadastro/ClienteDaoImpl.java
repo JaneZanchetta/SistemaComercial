@@ -6,11 +6,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JOptionPane;
 
-import br.univel.RA140649.Contato;
+
 
 /**
  * 
@@ -22,7 +23,10 @@ import br.univel.RA140649.Contato;
 public class ClienteDaoImpl implements ClienteDao {
 
 	
-	public void create(Cliente c) {
+	private Cliente c = null;
+	private ArrayList<Cliente> lista;
+
+	public void create(Cliente c) throws SQLException {
 		Connection con = abrirConexao();
 		PreparedStatement ps;
 		ps = con.prepareStatement("INSERT INTO CONTATO "
@@ -71,7 +75,7 @@ public class ClienteDaoImpl implements ClienteDao {
 		}	
 	}
 
-	public void delete(Cliente c) {
+	public void delete(Cliente c) throws SQLException {
 		Connection con = abrirConexao();
 		PreparedStatement ps;
 		ps = con.prepareStatement("DELETE FROM CONTATO WHERE ID = ?");
@@ -99,14 +103,15 @@ public class ClienteDaoImpl implements ClienteDao {
 			try {
 				st = con.createStatement();
 				result = st.executeQuery("SELECT nome, telefone, endereco, "
-						+ "cidade, Uf, genero"
-						+ "  FROM CONTATO WHERE ID = ?");
+						+ "cidade, Uf, email, genero"
+						+ "  FROM CLIENTE WHERE ID = ?");
 				c.setId(result.getInt(1));
 				c.setNome(result.getString("Nome"));
 				c.setTelefone(result.getString("Telefone"));
 				c.setEndereco(result.getString("Endereco"));
 				c.setCidade(result.getString("Cidade"));
 				UF.valueOf(UF.class, result.getString("UF"));
+				c.setEmail(result.getString("Email"));
 				Genero.valueOf(Genero.class, result.getString("Genero"));
 
 			} finally {
@@ -122,10 +127,47 @@ public class ClienteDaoImpl implements ClienteDao {
 		}
 
 	}
-
+/**
+ * @Author Jane Z. 02/11/2015 11:15:09
+ */
 	public List<Cliente> liste() {
-		// TODO Auto-generated method stub
-		return null;
+		lista = new ArrayList<Cliente>();
+		Statement st = null;
+		ResultSet result = null;
+		try {
+			try {
+			st = con.createStatement();
+			result = st.executeQuery("SELECT nome, telefone, endereco, "
+					+ "cidade, Uf, email, genero"
+					+ "  FROM CLIENTE ");
+			result.next();
+			if (result.getString("ID") != null) {
+				lista.add(c = new Cliente
+						(result.getInt("Id"), 
+				         result.getString("Nome"),
+				         result.getString("Telefone"),
+				result.getString("Endereco"),
+				result.getString("Cidade"),
+				UF.valueOf(UF.class, result.getString("UF")),
+				result.getString("Email"),
+				Genero.valueOf(Genero.class, result.getString("Genero")))); 
+			}
+			
+			} finally {
+				if (st != null)
+					st.close();
+				if (result != null)
+					result.close();
+				return lista;
+			}
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+
 	}
 	
 	private static Connection con;
