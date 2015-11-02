@@ -15,13 +15,12 @@ import java.awt.Button;
 public abstract class MolduraAbstrata extends JPanel {
 	private JPanel panel;
 	private Button btnSair;
-	
+
 	protected abstract void configuraMiolo();
-	
+
 	public void setCloseAction(ActionListener action) {
 		btnSair.addActionListener(action);
 	}
-	
 
 	/**
 	 * Create the panel.
@@ -29,20 +28,21 @@ public abstract class MolduraAbstrata extends JPanel {
 	public MolduraAbstrata() {
 		setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		setLayout(new BorderLayout(0, 0));
-		
-		 panel = new JPanel();
-		 panel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		 panel.setBackground(Color.WHITE);
+
+		panel = new JPanel();
+		panel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null,
+				null));
+		panel.setBackground(Color.WHITE);
 		add(panel, BorderLayout.NORTH);
-		
+
 		JLabel lblNewLabel = new JLabel("Sistema Comercial");
 		lblNewLabel.setFont(new Font("Times New Roman", Font.BOLD, 16));
 		panel.add(lblNewLabel);
-		
+
 		Panel panel_1 = new Panel();
 		panel_1.setBackground(Color.WHITE);
 		add(panel_1, BorderLayout.SOUTH);
-		
+
 		btnSair = new Button("Sair");
 		btnSair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -50,7 +50,7 @@ public abstract class MolduraAbstrata extends JPanel {
 		});
 		btnSair.setFont(new Font("Dialog", Font.BOLD, 12));
 		panel_1.add(btnSair);
-		
+
 		configuraMiolo();
 
 	}

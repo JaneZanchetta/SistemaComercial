@@ -2,6 +2,7 @@ package br.univel.telas;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Event;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -48,32 +49,36 @@ public class Principal extends JFrame {
 	 * Create the frame.
 	 */
 	public Principal() {
-		
-		blockLogin():
+
+		blockLogin();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
-		
+
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setFont(new Font("Arial Black", Font.BOLD, 12));
 		setJMenuBar(menuBar);
-		
+
 		JMenu mnCadastros = new JMenu("Cadastros");
 		menuBar.add(mnCadastros);
-		
+
 		JMenuItem mntmCliente = new JMenuItem("Cliente");
 		mntmCliente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				cadCliente();
+				try {
+					cadCliente();
+				} catch (Exception e){
+					e.printStackTrace();
+				}
 			}
 		});
 		mnCadastros.add(mntmCliente);
-		
+
 		JMenuItem mntmProduto = new JMenuItem("Produto");
 		mnCadastros.add(mntmProduto);
-		
+
 		JMenuItem mntmUsurio = new JMenuItem("Usu\u00E1rio");
 		mnCadastros.add(mntmUsurio);
-		
+
 		JMenuItem mntmBloquear = new JMenuItem("Bloquear");
 		mntmBloquear.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -81,10 +86,10 @@ public class Principal extends JFrame {
 			}
 		});
 		mnCadastros.add(mntmBloquear);
-		
+
 		JMenu mnVendas = new JMenu("Vendas");
 		menuBar.add(mnVendas);
-		
+
 		JMenuItem mntmVenda = new JMenuItem("Venda");
 		mnVendas.add(mntmVenda);
 		contentPane = new JPanel();
@@ -94,48 +99,55 @@ public class Principal extends JFrame {
 	}
 
 	/**
-	 * @Author Jane Z.
-	 * 01/11/2015  10:29:53
+	 * @Author Jane Z. 01/11/2015 10:29:53
 	 */
 	private void blockLogin() {
 		Runnable acaoOk = () -> {
 			glass.setVisible(false);
 			glass = new BlockPanel();
 		};
-		
+		TelaLogin telaLogin = new TelaLogin(acaoOk);
+		glass = new BlockPanel(telaLogin);
+		setGlassPane(glass);
+		glass.setVisible(true);
+
 	}
 
 	/**
-	 * @Author Jane Z.
-	 * 01/11/2015  10:25:04
+	 * @Author Jane Z. 01/11/2015 10:25:04
 	 */
 	protected void block() {
 		setGlassPane(glass);
 		glass.setVisible(true);
 		new Thread(new Runnable() {
-			
+
 			public void run() {
-					for (int i =0; i < 5; i++) {
-						try {
-							Thread.sleep(1000);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
+				for (int i = 0; i < 5; i++) {
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
 					}
-					glass.setVisible(false);
 				}
-			}).start();
-				
+				glass.setVisible(false);
 			}
-		
-		
-		// TODO Auto-generated method stub
-		
+		}).start();
+
 	}
 
 	protected void cadCliente() {
-		// TODO Auto-generated method stub
-		
+		final TelaCliente telaCliente = new TelaCliente();
+		ActionListener action = new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				tabbedPane.remove(telaCliente);
+
+			}
+
+		};
+		telaCliente.setCloseAction(action);
+		tabbedPane.addTab("Tela", telaCliente);
+
 	}
 
 }

@@ -3,6 +3,7 @@
  */
 package br.univel.telas;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 
@@ -27,7 +28,7 @@ import java.awt.Color;
  */
 public class TelaLogin extends JPanel {
 	private JTextField txtUsuario;
-	private JPasswordField txtSenha;
+	private JPasswordField passField;
 	private JButton btnEntrar;
 
 	/**
@@ -36,12 +37,14 @@ public class TelaLogin extends JPanel {
 	public TelaLogin() {
 		setBackground(new Color(240, 248, 255));
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0};
-		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.columnWidths = new int[] { 0, 0, 0, 0 };
+		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0 };
+		gridBagLayout.columnWeights = new double[] { 0.0, 0.0, 0.0,
+				Double.MIN_VALUE };
+		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+				Double.MIN_VALUE };
 		setLayout(gridBagLayout);
-		
+
 		JLabel lblUsurio = new JLabel("Usu\u00E1rio");
 		lblUsurio.setFont(new Font("Tahoma", Font.BOLD, 11));
 		GridBagConstraints gbc_lblUsurio = new GridBagConstraints();
@@ -50,7 +53,7 @@ public class TelaLogin extends JPanel {
 		gbc_lblUsurio.gridx = 1;
 		gbc_lblUsurio.gridy = 1;
 		add(lblUsurio, gbc_lblUsurio);
-		
+
 		txtUsuario = new JTextField();
 		GridBagConstraints gbc_txtUsuario = new GridBagConstraints();
 		gbc_txtUsuario.insets = new Insets(0, 0, 5, 0);
@@ -59,7 +62,7 @@ public class TelaLogin extends JPanel {
 		gbc_txtUsuario.gridy = 1;
 		add(txtUsuario, gbc_txtUsuario);
 		txtUsuario.setColumns(10);
-		
+
 		JLabel lblSenha = new JLabel("Senha");
 		lblSenha.setFont(new Font("Tahoma", Font.BOLD, 11));
 		GridBagConstraints gbc_lblSenha = new GridBagConstraints();
@@ -68,17 +71,17 @@ public class TelaLogin extends JPanel {
 		gbc_lblSenha.gridx = 1;
 		gbc_lblSenha.gridy = 3;
 		add(lblSenha, gbc_lblSenha);
-		
-		txtSenha = new JPasswordField();
-		txtSenha.setEditable(false);
+
+		passField = new JPasswordField();
+		passField.setEditable(false);
 		GridBagConstraints gbc_txtSenha = new GridBagConstraints();
 		gbc_txtSenha.insets = new Insets(0, 0, 5, 0);
 		gbc_txtSenha.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtSenha.gridx = 2;
 		gbc_txtSenha.gridy = 3;
-		add(txtSenha, gbc_txtSenha);
-		txtSenha.setColumns(10);
-		
+		add(passField, gbc_txtSenha);
+		passField.setColumns(10);
+
 		btnEntrar = new JButton("LOGIN");
 		btnEntrar.setFont(new Font("Tahoma", Font.BOLD, 11));
 		GridBagConstraints gbc_btnEntrar = new GridBagConstraints();
@@ -88,18 +91,18 @@ public class TelaLogin extends JPanel {
 		add(btnEntrar, gbc_btnEntrar);
 
 	}
-	
+
 	public TelaLogin(Runnable acaoOk) {
 		this();
 		btnEntrar.addActionListener(e -> {
-			if (textField.getText().trim().equals("1")
-					&& new String(passwordField.getPassword()).equals("1")) {
+			if (txtUsuario.getText().trim().equals("1")
+					&& new String(passField.getPassword()).equals("1")) {
 				acaoOk.run();
 			} else {
-				JOptionPane.showMessageDialog(PainelLogin.this,
+				JOptionPane.showMessageDialog(TelaLogin.this,
 						"Usuário e/ou senha inválidos!");
 			}
 		});
 
-
+	}
 }

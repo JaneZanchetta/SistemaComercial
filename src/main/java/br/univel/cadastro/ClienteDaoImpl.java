@@ -23,14 +23,19 @@ public class ClienteDaoImpl implements ClienteDao {
 
 	
 	public void create(Cliente c) {
-//		Contato c = (Contato) o;
 		Connection con = abrirConexao();
 		PreparedStatement ps;
-		ps = con.prepareStatement("INSERT INTO CONTATO (ID, NOME, FONE, ENDERECO) VALUES (?,?,?,?)");
+		ps = con.prepareStatement("INSERT INTO CONTATO "
+				+ "(ID, NOME, TELEFONE, ENDERECO, CIDADE, UF, EMAIL, GENERO) "
+				+ "VALUES (?,?,?,?,?,?,?,?)");
 		ps.setInt(1, c.getId());
 		ps.setString(2, c.getNome());
-		ps.setString(3, c.getFone());
+		ps.setString(3, c.getTelefone());
 		ps.setString(4, c.getEndereco());
+		ps.setString(5, c.getCidade());
+		ps.setString(6, c.getUf().getNome());
+		ps.setString(7, c.getEmail());
+		ps.setString(8, c.getGenero().getDescricao());
 		int res = ps.executeUpdate();
 		ps.close();
 		con.close();		
@@ -43,16 +48,22 @@ public class ClienteDaoImpl implements ClienteDao {
 
 	public void update(Cliente c) {
 		Connection con = abrirConexao();
-		Contato c = (Contato) o;
-		String sql = "UPDATE CONTATO SET ID = ?, NOME = ?, FONE = ?, ENDERECO = ? WHERE ID = ?";
+		String sql = "UPDATE CONTATO SET ID = ?, NOME = ?, TELEFONE = ?, ENDERECO = ?, "
+				+ "CIDADE = ?, UF = ?, EMAIL = ?, GENERO = ?"
+				+ " WHERE ID = ?";
 		PreparedStatement ps;
 		try {
 			ps = con.prepareStatement(sql);
+
 			ps.setInt(1, c.getId());
 			ps.setString(2, c.getNome());
-			ps.setString(3, c.getFone());
+			ps.setString(3, c.getTelefone());
 			ps.setString(4, c.getEndereco());
-			ps.setInt(5, c.getId());
+			ps.setString(5, c.getCidade());
+			ps.setString(6, c.getUf().getNome());
+			ps.setString(7, c.getEmail());
+			ps.setString(8, c.getGenero().getDescricao());
+			ps.setInt(9, c.getId());
 			int res = ps.executeUpdate();
 			ps.close();
 		} catch (SQLException e) {
@@ -64,7 +75,7 @@ public class ClienteDaoImpl implements ClienteDao {
 		Connection con = abrirConexao();
 		PreparedStatement ps;
 		ps = con.prepareStatement("DELETE FROM CONTATO WHERE ID = ?");
-		ps.setInt(1, id);
+		ps.setInt(1, c.getId());
 		int res = ps.executeUpdate();
 		if (res != 0) {
 			JOptionPane.showMessageDialog(null,
@@ -77,19 +88,26 @@ public class ClienteDaoImpl implements ClienteDao {
 		con.close();	
 	}
 
+	/**
+	 * @Author Jane Z. 02/11/2015 11:04:51
+	 */
 	public Cliente search(Cliente c) {
 		Connection con = abrirConexao();
 		Statement st = null;
 		ResultSet result = null;
-		Contato c = new Contato();
 		try {
 			try {
 				st = con.createStatement();
-				result = st.executeQuery("SELECT * FROM CONTATO WHERE ID = ?");
+				result = st.executeQuery("SELECT nome, telefone, endereco, "
+						+ "cidade, Uf, genero"
+						+ "  FROM CONTATO WHERE ID = ?");
 				c.setId(result.getInt(1));
 				c.setNome(result.getString("Nome"));
-				c.setFone(result.getString("Fone"));
+				c.setTelefone(result.getString("Telefone"));
 				c.setEndereco(result.getString("Endereco"));
+				c.setCidade(result.getString("Cidade"));
+				UF.valueOf(UF.class, result.getString("UF"));
+				Genero.valueOf(Genero.class, result.getString("Genero"));
 
 			} finally {
 				if (st != null)
@@ -103,8 +121,6 @@ public class ClienteDaoImpl implements ClienteDao {
 			return null;
 		}
 
-	}
-	return null;
 	}
 
 	public List<Cliente> liste() {
