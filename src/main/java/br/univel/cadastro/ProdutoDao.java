@@ -17,9 +17,6 @@ import java.util.List;
 
 
 public interface ProdutoDao {
-
-	Produto p = null;
-	ArrayList<Produto> lista;
 	
 	
 	public void create (Produto p) throws SQLException;

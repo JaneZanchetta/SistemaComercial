@@ -25,10 +25,9 @@ public class ClienteDaoImpl implements ClienteDao {
 	
 	private Cliente c = null;
 	private ArrayList<Cliente> lista;
-	private Connection con = Conexao.g
+	private Connection con = Conexao.getInstance().abrirConexao();
 
 	public void create(Cliente c) throws SQLException {
-//		Connection con = abrirConexao();
 		PreparedStatement ps;
 		ps = con.prepareStatement("INSERT INTO cliente "
 				+ "(ID, NOME, TELEFONE, ENDERECO, CIDADE, UF, EMAIL, GENERO) "
@@ -52,7 +51,6 @@ public class ClienteDaoImpl implements ClienteDao {
 	}
 
 	public void update(Cliente c) {
-//		Connection con = abrirConexao();
 		String sql = "UPDATE cliente SET ID = ?, NOME = ?, TELEFONE = ?, ENDERECO = ?, "
 				+ "CIDADE = ?, UF = ?, EMAIL = ?, GENERO = ?"
 				+ " WHERE ID = ?";
@@ -77,7 +75,6 @@ public class ClienteDaoImpl implements ClienteDao {
 	}
 
 	public void delete(Cliente c) throws SQLException {
-//		Connection con = abrirConexao();
 		PreparedStatement ps;
 		ps = con.prepareStatement("DELETE FROM cliente WHERE ID = ?");
 		ps.setInt(1, c.getId());
@@ -97,7 +94,6 @@ public class ClienteDaoImpl implements ClienteDao {
 	 * @Author Jane Z. 02/11/2015 11:04:51
 	 */
 	public Cliente search(Cliente c) {
-//		Connection con = abrirConexao();
 		Statement st = null;
 		ResultSet result = null;
 		try {
