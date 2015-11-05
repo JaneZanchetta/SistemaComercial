@@ -26,8 +26,8 @@ import java.awt.event.ActionEvent;
 public class Principal extends JFrame {
 
 	private JPanel contentPane;
-	private JTabbedPane tabbedPane;
 	private BlockPanel glass;
+	private JTabbedPane tabbedPane;
 
 	/**
 	 * Launch the application.
@@ -105,6 +105,9 @@ public class Principal extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
+		
+		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		contentPane.add(tabbedPane, BorderLayout.CENTER);
 	}
 
 	/**
@@ -122,7 +125,7 @@ public class Principal extends JFrame {
 		};
 		telaProduto.setCloseAction(action);
 		System.out.println( " vai fazer o tabbedPane");
-		tabbedPane.addTab("Cadastro de Produtos", telaProduto);
+		tabbedPane.addTab("Cadastro", telaProduto);
 		System.out.println( " PASSOU do tabbedPane");
 		
 	}
@@ -165,8 +168,8 @@ public class Principal extends JFrame {
 	}
 
 	protected void cadCliente() {
-//		TelaCliente telaCliente = new TelaCliente();
-		JPanel telaCliente = new JPanel();
+		TelaCliente telaCliente = new TelaCliente();
+//		JPanel telaCliente = new JPanel();
 		System.out.println(telaCliente);
 		ActionListener action = new ActionListener() {
 
