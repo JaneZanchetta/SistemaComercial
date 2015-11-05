@@ -1,11 +1,16 @@
 package br.univel.telas;
 
 import javax.swing.JPanel;
+
 import java.awt.BorderLayout;
+
 import javax.swing.JButton;
+
 import java.awt.Color;
+
 import javax.swing.border.BevelBorder;
 import javax.swing.JLabel;
+
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -19,7 +24,9 @@ public abstract class MolduraAbstrata extends JPanel {
 	protected abstract void configuraMiolo();
 
 	public void setCloseAction(ActionListener action) {
+
 		btnSair.addActionListener(action);
+
 	}
 
 	/**

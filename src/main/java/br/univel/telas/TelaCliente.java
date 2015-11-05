@@ -26,7 +26,6 @@ public class TelaCliente extends MolduraAbstrata {
 	@Override
 	protected void configuraMiolo() {
 		super.add(new MioloCadCliente(), BorderLayout.CENTER);
-		// TODO Auto-generated method stub
 
 	}
 

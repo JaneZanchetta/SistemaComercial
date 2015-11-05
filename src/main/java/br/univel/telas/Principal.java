@@ -74,6 +74,15 @@ public class Principal extends JFrame {
 		mnCadastros.add(mntmCliente);
 
 		JMenuItem mntmProduto = new JMenuItem("Produto");
+		mntmProduto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					cadProduto();
+				} catch (Exception f){
+					f.printStackTrace();
+				}
+			}
+		});
 		mnCadastros.add(mntmProduto);
 
 		JMenuItem mntmUsurio = new JMenuItem("Usu\u00E1rio");
@@ -96,6 +105,26 @@ public class Principal extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
+	}
+
+	/**
+	 * @Author
+	 */
+	protected void cadProduto() {
+		TelaProduto telaProduto = new TelaProduto();
+		ActionListener action = new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				tabbedPane.remove(telaCliente);
+
+			}
+
+		};
+		telaCliente.setCloseAction(action);
+		System.out.println( " vai fazer o tabbedPane");
+		tabbedPane.addTab("Cadastro de Clientes", telaCliente);
+		System.out.println( " PASSOU do tabbedPane");
+		
 	}
 
 	/**
@@ -136,7 +165,8 @@ public class Principal extends JFrame {
 	}
 
 	protected void cadCliente() {
-		final TelaCliente telaCliente = new TelaCliente();
+		System.out.println( " CadCliente");
+		TelaCliente telaCliente = new TelaCliente();
 		ActionListener action = new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
@@ -146,7 +176,9 @@ public class Principal extends JFrame {
 
 		};
 		telaCliente.setCloseAction(action);
-		tabbedPane.addTab("Tela", telaCliente);
+		System.out.println( " vai fazer o tabbedPane");
+		tabbedPane.addTab("Cadastro de Clientes", telaCliente);
+		System.out.println( " PASSOU do tabbedPane");
 
 	}
 
