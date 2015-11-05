@@ -115,14 +115,14 @@ public class Principal extends JFrame {
 		ActionListener action = new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				tabbedPane.remove(telaCliente);
+				tabbedPane.remove(telaProduto);
 
 			}
 
 		};
-		telaCliente.setCloseAction(action);
+		telaProduto.setCloseAction(action);
 		System.out.println( " vai fazer o tabbedPane");
-		tabbedPane.addTab("Cadastro de Clientes", telaCliente);
+		tabbedPane.addTab("Cadastro de Produtos", telaProduto);
 		System.out.println( " PASSOU do tabbedPane");
 		
 	}

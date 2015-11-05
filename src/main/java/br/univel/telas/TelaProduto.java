@@ -10,7 +10,7 @@ import java.awt.BorderLayout;
  * @author Jane
  * 05/11/2015 00:15:57
  */
-public class telaProduto extends MolduraAbstrata {
+public class TelaProduto extends MolduraAbstrata {
 
 	/* (non-Javadoc)
 	 * @see br.univel.telas.MolduraAbstrata#configuraMiolo()
