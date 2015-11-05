@@ -165,8 +165,9 @@ public class Principal extends JFrame {
 	}
 
 	protected void cadCliente() {
-		System.out.println( " CadCliente");
-		TelaCliente telaCliente = new TelaCliente();
+//		TelaCliente telaCliente = new TelaCliente();
+		JPanel telaCliente = new JPanel();
+		System.out.println(telaCliente);
 		ActionListener action = new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
@@ -175,7 +176,7 @@ public class Principal extends JFrame {
 			}
 
 		};
-		telaCliente.setCloseAction(action);
+//		telaCliente.setCloseAction(action);
 		System.out.println( " vai fazer o tabbedPane");
 		tabbedPane.addTab("Cadastro de Clientes", telaCliente);
 		System.out.println( " PASSOU do tabbedPane");
