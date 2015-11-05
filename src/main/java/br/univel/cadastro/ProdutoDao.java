@@ -5,14 +5,22 @@
 package br.univel.cadastro;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author Jane
  * 02/11/2015 11:07:13
- * Interface para fazer o CRUD da classe Produto
+ * Implementação da Interface para fazer o CRUD da classe Produto
+ * no Banco de Dados
  */
+
+
 public interface ProdutoDao {
+
+	Produto p = null;
+	ArrayList<Produto> lista;
+	
 	
 	public void create (Produto p) throws SQLException;
 

@@ -25,11 +25,12 @@ public class ClienteDaoImpl implements ClienteDao {
 	
 	private Cliente c = null;
 	private ArrayList<Cliente> lista;
+	private Connection con = Conexao.g
 
 	public void create(Cliente c) throws SQLException {
-		Connection con = abrirConexao();
+//		Connection con = abrirConexao();
 		PreparedStatement ps;
-		ps = con.prepareStatement("INSERT INTO CONTATO "
+		ps = con.prepareStatement("INSERT INTO cliente "
 				+ "(ID, NOME, TELEFONE, ENDERECO, CIDADE, UF, EMAIL, GENERO) "
 				+ "VALUES (?,?,?,?,?,?,?,?)");
 		ps.setInt(1, c.getId());
@@ -51,8 +52,8 @@ public class ClienteDaoImpl implements ClienteDao {
 	}
 
 	public void update(Cliente c) {
-		Connection con = abrirConexao();
-		String sql = "UPDATE CONTATO SET ID = ?, NOME = ?, TELEFONE = ?, ENDERECO = ?, "
+//		Connection con = abrirConexao();
+		String sql = "UPDATE cliente SET ID = ?, NOME = ?, TELEFONE = ?, ENDERECO = ?, "
 				+ "CIDADE = ?, UF = ?, EMAIL = ?, GENERO = ?"
 				+ " WHERE ID = ?";
 		PreparedStatement ps;
@@ -76,9 +77,9 @@ public class ClienteDaoImpl implements ClienteDao {
 	}
 
 	public void delete(Cliente c) throws SQLException {
-		Connection con = abrirConexao();
+//		Connection con = abrirConexao();
 		PreparedStatement ps;
-		ps = con.prepareStatement("DELETE FROM CONTATO WHERE ID = ?");
+		ps = con.prepareStatement("DELETE FROM cliente WHERE ID = ?");
 		ps.setInt(1, c.getId());
 		int res = ps.executeUpdate();
 		if (res != 0) {
@@ -86,7 +87,7 @@ public class ClienteDaoImpl implements ClienteDao {
 					"Operação realizada com sucesso!");
 		} else {
 			JOptionPane.showMessageDialog(null,
-					"Ocorreu um erro e o contato não foi excluído!");
+					"Ocorreu um erro e o cliente não foi excluído!");
 		}
 		ps.close();
 		con.close();	
@@ -96,7 +97,7 @@ public class ClienteDaoImpl implements ClienteDao {
 	 * @Author Jane Z. 02/11/2015 11:04:51
 	 */
 	public Cliente search(Cliente c) {
-		Connection con = abrirConexao();
+//		Connection con = abrirConexao();
 		Statement st = null;
 		ResultSet result = null;
 		try {
@@ -170,29 +171,6 @@ public class ClienteDaoImpl implements ClienteDao {
 
 	}
 	
-	private static Connection con;
-	
-	private Connection getConnection() {
-		
-	}
-	
-	private Connection abrirConexao() {
-		synchronized (con) {
-			if (con == null) {
-				try {
-					String url = "jdbc:h2:.\\lib\\trab140649";
-					String user = "sa";
-					String pass = "sa";
-
-					return DriverManager.getConnection(url, user, pass);
-
-				} catch (SQLException e) {
-					throw new RuntimeException(e);
-				}
-			}
-			return con;
-		}
-	}
 	
 
 }

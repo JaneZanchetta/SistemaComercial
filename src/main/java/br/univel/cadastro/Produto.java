@@ -5,6 +5,15 @@ import java.math.BigDecimal;
 public class Produto {
 	private int id;
 	private String descricao;
+	private int codBar;
+	private Categoria categoria;
+	private Unidade unidade;
+	private BigDecimal custo;
+	private BigDecimal margemLucro;
+	
+	
+	
+	
 	public int getId() {
 		return id;
 	}
@@ -47,11 +56,7 @@ public class Produto {
 	public void setMargemLucro(BigDecimal margemLucro) {
 		this.margemLucro = margemLucro;
 	}
-	private int codBar;
-	private Categoria categoria;
-	private Unidade unidade;
-	private BigDecimal custo;
-	private BigDecimal margemLucro;
+	
 	/**
 	 * @Author Jane Z.
 	 * 02/11/2015  12:49:26
@@ -68,13 +73,5 @@ public class Produto {
 		this.margemLucro = margemLucro;
 	}
 
-	/**
-	 * @Author Jane Z.
-	 * 02/11/2015  12:49:17
-	 */
-	
-
-	
-	
 }
 

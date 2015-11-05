@@ -73,13 +73,13 @@ public class TelaLogin extends JPanel {
 		add(lblSenha, gbc_lblSenha);
 
 		passField = new JPasswordField();
-		passField.setEditable(false);
-		GridBagConstraints gbc_txtSenha = new GridBagConstraints();
-		gbc_txtSenha.insets = new Insets(0, 0, 5, 0);
-		gbc_txtSenha.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtSenha.gridx = 2;
-		gbc_txtSenha.gridy = 3;
-		add(passField, gbc_txtSenha);
+//		passField.setEditable(false);
+		GridBagConstraints gbc_passField = new GridBagConstraints();
+		gbc_passField.insets = new Insets(0, 0, 5, 0);
+		gbc_passField.fill = GridBagConstraints.HORIZONTAL;
+		gbc_passField.gridx = 2;
+		gbc_passField.gridy = 3;
+		add(passField, gbc_passField);
 		passField.setColumns(10);
 
 		btnEntrar = new JButton("LOGIN");
