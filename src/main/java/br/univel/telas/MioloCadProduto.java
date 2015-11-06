@@ -29,9 +29,9 @@ public class MioloCadProduto extends JPanel {
 	 */
 	public MioloCadProduto() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{0, 0, 0};
+		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
@@ -46,7 +46,7 @@ public class MioloCadProduto extends JPanel {
 		txtId = new JTextField();
 		GridBagConstraints gbc_txtId = new GridBagConstraints();
 		gbc_txtId.anchor = GridBagConstraints.WEST;
-		gbc_txtId.insets = new Insets(0, 0, 5, 0);
+		gbc_txtId.insets = new Insets(0, 0, 5, 5);
 		gbc_txtId.gridx = 1;
 		gbc_txtId.gridy = 0;
 		add(txtId, gbc_txtId);
@@ -56,16 +56,16 @@ public class MioloCadProduto extends JPanel {
 		GridBagConstraints gbc_lblDescrio = new GridBagConstraints();
 		gbc_lblDescrio.anchor = GridBagConstraints.EAST;
 		gbc_lblDescrio.insets = new Insets(0, 0, 5, 5);
-		gbc_lblDescrio.gridx = 0;
-		gbc_lblDescrio.gridy = 1;
+		gbc_lblDescrio.gridx = 3;
+		gbc_lblDescrio.gridy = 0;
 		add(lblDescrio, gbc_lblDescrio);
 		
 		txtDescricao = new JTextField();
 		GridBagConstraints gbc_txtDescricao = new GridBagConstraints();
 		gbc_txtDescricao.anchor = GridBagConstraints.NORTHWEST;
 		gbc_txtDescricao.insets = new Insets(0, 0, 5, 0);
-		gbc_txtDescricao.gridx = 1;
-		gbc_txtDescricao.gridy = 1;
+		gbc_txtDescricao.gridx = 4;
+		gbc_txtDescricao.gridy = 0;
 		add(txtDescricao, gbc_txtDescricao);
 		txtDescricao.setColumns(10);
 		
@@ -74,15 +74,15 @@ public class MioloCadProduto extends JPanel {
 		gbc_lblCdigoDeBarra.anchor = GridBagConstraints.EAST;
 		gbc_lblCdigoDeBarra.insets = new Insets(0, 0, 5, 5);
 		gbc_lblCdigoDeBarra.gridx = 0;
-		gbc_lblCdigoDeBarra.gridy = 2;
+		gbc_lblCdigoDeBarra.gridy = 1;
 		add(lblCdigoDeBarra, gbc_lblCdigoDeBarra);
 		
 		txtCodBar = new JTextField();
 		GridBagConstraints gbc_txtCodBar = new GridBagConstraints();
 		gbc_txtCodBar.anchor = GridBagConstraints.WEST;
-		gbc_txtCodBar.insets = new Insets(0, 0, 5, 0);
+		gbc_txtCodBar.insets = new Insets(0, 0, 5, 5);
 		gbc_txtCodBar.gridx = 1;
-		gbc_txtCodBar.gridy = 2;
+		gbc_txtCodBar.gridy = 1;
 		add(txtCodBar, gbc_txtCodBar);
 		txtCodBar.setColumns(10);
 		
@@ -91,31 +91,31 @@ public class MioloCadProduto extends JPanel {
 		gbc_lblCategoria.anchor = GridBagConstraints.EAST;
 		gbc_lblCategoria.insets = new Insets(0, 0, 5, 5);
 		gbc_lblCategoria.gridx = 0;
-		gbc_lblCategoria.gridy = 3;
+		gbc_lblCategoria.gridy = 2;
 		add(lblCategoria, gbc_lblCategoria);
 		
 		JComboBox cbCategoria = new JComboBox();
 		GridBagConstraints gbc_cbCategoria = new GridBagConstraints();
-		gbc_cbCategoria.insets = new Insets(0, 0, 5, 0);
+		gbc_cbCategoria.insets = new Insets(0, 0, 5, 5);
 		gbc_cbCategoria.fill = GridBagConstraints.HORIZONTAL;
 		gbc_cbCategoria.gridx = 1;
-		gbc_cbCategoria.gridy = 3;
+		gbc_cbCategoria.gridy = 2;
 		add(cbCategoria, gbc_cbCategoria);
 		
 		JLabel lblUnidadeDeMedida = new JLabel("Unidade de Medida");
 		GridBagConstraints gbc_lblUnidadeDeMedida = new GridBagConstraints();
 		gbc_lblUnidadeDeMedida.anchor = GridBagConstraints.EAST;
 		gbc_lblUnidadeDeMedida.insets = new Insets(0, 0, 5, 5);
-		gbc_lblUnidadeDeMedida.gridx = 0;
-		gbc_lblUnidadeDeMedida.gridy = 4;
+		gbc_lblUnidadeDeMedida.gridx = 3;
+		gbc_lblUnidadeDeMedida.gridy = 2;
 		add(lblUnidadeDeMedida, gbc_lblUnidadeDeMedida);
 		
 		JComboBox cbUnidade = new JComboBox();
 		GridBagConstraints gbc_cbUnidade = new GridBagConstraints();
 		gbc_cbUnidade.insets = new Insets(0, 0, 5, 0);
 		gbc_cbUnidade.fill = GridBagConstraints.HORIZONTAL;
-		gbc_cbUnidade.gridx = 1;
-		gbc_cbUnidade.gridy = 4;
+		gbc_cbUnidade.gridx = 4;
+		gbc_cbUnidade.gridy = 2;
 		add(cbUnidade, gbc_cbUnidade);
 		
 		JLabel lblCusto = new JLabel("Custo");
@@ -123,32 +123,33 @@ public class MioloCadProduto extends JPanel {
 		gbc_lblCusto.anchor = GridBagConstraints.EAST;
 		gbc_lblCusto.insets = new Insets(0, 0, 5, 5);
 		gbc_lblCusto.gridx = 0;
-		gbc_lblCusto.gridy = 5;
+		gbc_lblCusto.gridy = 3;
 		add(lblCusto, gbc_lblCusto);
 		
 		txtCusto = new JTextField();
 		GridBagConstraints gbc_txtCusto = new GridBagConstraints();
 		gbc_txtCusto.anchor = GridBagConstraints.NORTH;
-		gbc_txtCusto.insets = new Insets(0, 0, 5, 0);
+		gbc_txtCusto.insets = new Insets(0, 0, 5, 5);
 		gbc_txtCusto.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtCusto.gridx = 1;
-		gbc_txtCusto.gridy = 5;
+		gbc_txtCusto.gridy = 3;
 		add(txtCusto, gbc_txtCusto);
 		txtCusto.setColumns(10);
 		
 		JLabel lblMargemDeLucro = new JLabel("Margem de Lucro");
 		GridBagConstraints gbc_lblMargemDeLucro = new GridBagConstraints();
 		gbc_lblMargemDeLucro.anchor = GridBagConstraints.EAST;
-		gbc_lblMargemDeLucro.insets = new Insets(0, 0, 0, 5);
-		gbc_lblMargemDeLucro.gridx = 0;
-		gbc_lblMargemDeLucro.gridy = 6;
+		gbc_lblMargemDeLucro.insets = new Insets(0, 0, 5, 5);
+		gbc_lblMargemDeLucro.gridx = 3;
+		gbc_lblMargemDeLucro.gridy = 3;
 		add(lblMargemDeLucro, gbc_lblMargemDeLucro);
 		
 		txtMargemLucro = new JTextField();
 		GridBagConstraints gbc_txtMargemLucro = new GridBagConstraints();
+		gbc_txtMargemLucro.insets = new Insets(0, 0, 5, 0);
 		gbc_txtMargemLucro.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtMargemLucro.gridx = 1;
-		gbc_txtMargemLucro.gridy = 6;
+		gbc_txtMargemLucro.gridx = 4;
+		gbc_txtMargemLucro.gridy = 3;
 		add(txtMargemLucro, gbc_txtMargemLucro);
 		txtMargemLucro.setColumns(10);
 		

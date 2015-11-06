@@ -41,30 +41,18 @@ public abstract class MolduraAbstrata extends JPanel {
 				null));
 		panel.setBackground(Color.WHITE);
 		add(panel, BorderLayout.NORTH);
+		
+				btnSair = new Button("Sair");
+				panel.add(btnSair);
+				btnSair.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+					}
+				});
+				btnSair.setFont(new Font("Dialog", Font.BOLD, 12));
 
 		Panel panel_1 = new Panel();
 		panel_1.setBackground(Color.WHITE);
 		add(panel_1, BorderLayout.SOUTH);
-
-		btnSair = new Button("Sair");
-		btnSair.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		
-		JButton button = new JButton("Editar");
-		button.setFont(new Font("Dialog", Font.BOLD, 12));
-		panel_1.add(button);
-		
-		JButton btnSalvar = new JButton("Salvar");
-		btnSalvar.setFont(new Font("Dialog", Font.BOLD, 12));
-		panel_1.add(btnSalvar);
-		
-		JButton btnExcluir = new JButton("Excluir");
-		btnExcluir.setFont(new Font("Dialog", Font.BOLD, 12));
-		panel_1.add(btnExcluir);
-		btnSair.setFont(new Font("Dialog", Font.BOLD, 12));
-		panel_1.add(btnSair);
 
 		configuraMiolo();
 
