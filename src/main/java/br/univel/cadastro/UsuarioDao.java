@@ -9,7 +9,7 @@ public interface UsuarioDao {
 
 	public void update (Usuario o);
 
-	public void delete (Usuario o) throws SQLException;
+	public void delete (int id) throws SQLException;
 
 	public Usuario search (Usuario o);
 

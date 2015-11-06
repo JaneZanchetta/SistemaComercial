@@ -74,10 +74,10 @@ public class ClienteDaoImpl implements ClienteDao {
 		}	
 	}
 
-	public void delete(Cliente c) throws SQLException {
+	public void delete(int id) throws SQLException {
 		PreparedStatement ps;
 		ps = con.prepareStatement("DELETE FROM cliente WHERE ID = ?");
-		ps.setInt(1, c.getId());
+		ps.setInt(1, id);
 		int res = ps.executeUpdate();
 		if (res != 0) {
 			JOptionPane.showMessageDialog(null,

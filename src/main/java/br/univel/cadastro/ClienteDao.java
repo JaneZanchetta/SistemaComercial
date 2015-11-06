@@ -17,7 +17,7 @@ public interface ClienteDao {
 
 	public void update (Cliente c);
 
-	public void delete (Cliente c) throws SQLException;
+	public void delete (int id) throws SQLException;
 
 	public Cliente search (Cliente c);
 

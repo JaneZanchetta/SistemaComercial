@@ -22,6 +22,15 @@ public class Cliente {
 		return nome;
 	}
 	
+	/**
+	 * @Author Jane Z.
+	 * 06/11/2015  00:56:39
+	 */
+	public Cliente() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	public void setNome(String nome) {
 		this.nome = nome;
 	}

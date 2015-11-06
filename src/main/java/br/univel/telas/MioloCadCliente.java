@@ -1,16 +1,34 @@
 package br.univel.telas;
 
 import javax.swing.JPanel;
+
 import java.awt.GridBagLayout;
+
 import javax.swing.JLabel;
+
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JScrollBar;
 import javax.swing.JComboBox;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JButton;
+import javax.swing.UIManager;
+
+import br.univel.cadastro.Cliente;
+import br.univel.cadastro.ClienteDaoImpl;
+
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.sql.SQLException;
 /**
  * 
- * @author Jane
+ * @author Jane Z.
  * 01/11/2015 00:39:16 
  */
 
@@ -21,6 +39,11 @@ public class MioloCadCliente extends JPanel {
 	private JTextField txtEndereco;
 	private JTextField txtCidade;
 	private JTextField txtEmail;
+	private JTable table;
+
+	private ClienteModel model;
+	private ClienteDaoImpl cd;
+	private boolean novo;
 
 	/**
 	 * Create the panel.
@@ -33,7 +56,7 @@ public class MioloCadCliente extends JPanel {
 		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0,
 				0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
 		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-				0.0, 0.0, 0.0, Double.MIN_VALUE };
+				0.0, 1.0, 0.0, Double.MIN_VALUE };
 		setLayout(gridBagLayout);
 								
 										JLabel lblId = new JLabel("ID");
@@ -46,7 +69,7 @@ public class MioloCadCliente extends JPanel {
 								
 										txtId = new JTextField();
 										GridBagConstraints gbc_txtId = new GridBagConstraints();
-										gbc_txtId.anchor = GridBagConstraints.WEST;
+										gbc_txtId.fill = GridBagConstraints.HORIZONTAL;
 										gbc_txtId.insets = new Insets(0, 0, 5, 5);
 										gbc_txtId.gridx = 1;
 										gbc_txtId.gridy = 1;
@@ -133,8 +156,8 @@ public class MioloCadCliente extends JPanel {
 		
 				txtCidade = new JTextField();
 				GridBagConstraints gbc_txtCidade = new GridBagConstraints();
-				gbc_txtCidade.fill = GridBagConstraints.VERTICAL;
-				gbc_txtCidade.anchor = GridBagConstraints.WEST;
+				gbc_txtCidade.gridwidth = 2;
+				gbc_txtCidade.fill = GridBagConstraints.BOTH;
 				gbc_txtCidade.insets = new Insets(0, 0, 5, 5);
 				gbc_txtCidade.gridx = 1;
 				gbc_txtCidade.gridy = 4;
@@ -174,7 +197,165 @@ public class MioloCadCliente extends JPanel {
 						gbc_comboGenero.gridx = 7;
 						gbc_comboGenero.gridy = 5;
 						add(comboGenero, gbc_comboGenero);
+						
+						JButton btnNovo = new JButton("Novo");
+						btnNovo.setBackground(UIManager.getColor("Button.light"));
+						GridBagConstraints gbc_btnNovo = new GridBagConstraints();
+						gbc_btnNovo.insets = new Insets(0, 0, 5, 5);
+						gbc_btnNovo.gridx = 1;
+						gbc_btnNovo.gridy = 6;
+						add(btnNovo, gbc_btnNovo);
+						
+						JButton btnExcluir = new JButton("Excluir");
+						btnExcluir.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent arg0) {
+								excluir();
+							}
+						});
+						btnExcluir.setBackground(UIManager.getColor("Button.light"));
+						GridBagConstraints gbc_btnExcluir = new GridBagConstraints();
+						gbc_btnExcluir.insets = new Insets(0, 0, 5, 5);
+						gbc_btnExcluir.gridx = 2;
+						gbc_btnExcluir.gridy = 6;
+						add(btnExcluir, gbc_btnExcluir);
+						
+						JButton btnSalvar = new JButton("Salvar");
+						btnSalvar.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent arg0) {
+								salvar();
+							}
+						});
+						btnSalvar.setBackground(UIManager.getColor("Button.light"));
+						GridBagConstraints gbc_btnSalvar = new GridBagConstraints();
+						gbc_btnSalvar.insets = new Insets(0, 0, 5, 5);
+						gbc_btnSalvar.gridx = 3;
+						gbc_btnSalvar.gridy = 6;
+						add(btnSalvar, gbc_btnSalvar);
+						
+						JScrollPane scrollPane = new JScrollPane();
+						scrollPane.addMouseListener(new MouseAdapter() {
+							@Override
+							public void mouseClicked(MouseEvent arg0) {
+								seleciona();
+							}
+						});
+						GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+						gbc_scrollPane.gridwidth = 12;
+						gbc_scrollPane.insets = new Insets(0, 0, 5, 0);
+						gbc_scrollPane.fill = GridBagConstraints.BOTH;
+						gbc_scrollPane.gridx = 0;
+						gbc_scrollPane.gridy = 7;
+						add(scrollPane, gbc_scrollPane);
+						
+						table = new JTable();
+						scrollPane.setRowHeaderView(table);
+						cd = new ClienteDaoImpl();
+						model = new ClienteModel(cd.liste());
+						table.setModel(model);
+						
+						
 
+	}
+
+	/**
+	 * @Author Jane Z.
+	 * 06/11/2015 01:08:49
+	 */
+	protected void excluir() {
+		int id = table.getSelectedRow();
+		if (id < 0) {
+			JOptionPane
+					.showMessageDialog(this, "Nenhum dado selecionado!!!");
+		} else {
+			id = model.getLista().get(id).getId();
+			int resposta = JOptionPane.showConfirmDialog(null,
+					"Confirma exclusão ?");
+			if (resposta == JOptionPane.YES_OPTION) {
+				cd.delete(id);
+			}
+			limparCampos();
+			model = new ClienteModel(cd.liste();
+			table.setModel(model);
+
+		}
+	}
+
+	
+
+	/**
+	 * @throws SQLException 
+	 * @Author Jane Z.
+	 * 06/11/2015 00:54:41 
+	 */
+	protected void salvar() throws SQLException {
+		int id = 0;
+		if (novo) {
+			if (txtId.getText().equals("")) {
+				id = -1;
+			} else {
+				id = Integer.parseInt(txtId.getText().trim());
+			}
+		} else {
+			id = ((model.getLista().get(table.getSelectedRow()).getId()));
+		}
+		if (id < 0) {
+			JOptionPane.showMessageDialog(this, "ID inválido");
+		} else {
+			Cliente c = new Cliente();
+			String nome = txtNome.getText().trim();
+			String fone = txtTelefone.getText().trim();
+			String endereco = txtEndereco.getText().trim();
+			int resposta = JOptionPane.showConfirmDialog(null,
+					"Confirma informações?");
+			if (resposta == JOptionPane.YES_OPTION) {
+				c.setId(id);
+				c.setEndereco(endereco);
+				c.setTelefone(fone);
+				c.setNome(nome);
+				if (novo) {
+					id = Integer.parseInt(txtId.getText().trim());
+					cd.create(c);
+				} else {
+					id = ((model.getLista().get(table.getSelectedRow()).getId()));
+					cd.update(c);
+				}
+				JOptionPane.showMessageDialog(this,
+						"Operação realizada com sucesso!");
+			}
+			limparCampos();
+			model = new ClienteModel(cd.listar());
+			table.setModel(model);
+		}
+		
+	}
+
+	/**
+	 * @Author Jane Z.
+	 * 06/11/2015 01:03:23
+	 */
+	private void limparCampos() {
+			txtId.setText("");
+			txtNome.setText("");
+			txtTelefone.setText("");
+			txtEndereco.setText("");
+		
+	}
+
+	/**
+	 * @Author Jane Z.
+	 * 06/11/2015 00:52:16 
+	 */
+	protected void seleciona() {
+		int id = table.getSelectedRow();
+		txtId.setText(Integer.toString(model.getLista().get(id).getId()));
+		txtNome.setText((model.getLista().get(id).getNome()));
+		txtEndereco.setText((model.getLista().get(id).getEndereco()));
+		txtTelefone.setText((model.getLista().get(id).getTelefone()));
+		txtCidade.setText(model.getLista().get(id).getCidade());
+		txtEmail.setText(model.getLista().get(id).getEmail());
+//		txtUF.setText(model.getLista().get(id).getUF());
+		novo = false;
+		
 	}
 
 }
