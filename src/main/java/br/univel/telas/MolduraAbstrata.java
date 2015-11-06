@@ -42,10 +42,6 @@ public abstract class MolduraAbstrata extends JPanel {
 		panel.setBackground(Color.WHITE);
 		add(panel, BorderLayout.NORTH);
 
-		JLabel lblNewLabel = new JLabel("Sistema Comercial");
-		lblNewLabel.setFont(new Font("Times New Roman", Font.BOLD, 16));
-		panel.add(lblNewLabel);
-
 		Panel panel_1 = new Panel();
 		panel_1.setBackground(Color.WHITE);
 		add(panel_1, BorderLayout.SOUTH);
@@ -55,6 +51,18 @@ public abstract class MolduraAbstrata extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
+		
+		JButton button = new JButton("Editar");
+		button.setFont(new Font("Dialog", Font.BOLD, 12));
+		panel_1.add(button);
+		
+		JButton btnSalvar = new JButton("Salvar");
+		btnSalvar.setFont(new Font("Dialog", Font.BOLD, 12));
+		panel_1.add(btnSalvar);
+		
+		JButton btnExcluir = new JButton("Excluir");
+		btnExcluir.setFont(new Font("Dialog", Font.BOLD, 12));
+		panel_1.add(btnExcluir);
 		btnSair.setFont(new Font("Dialog", Font.BOLD, 12));
 		panel_1.add(btnSair);
 
