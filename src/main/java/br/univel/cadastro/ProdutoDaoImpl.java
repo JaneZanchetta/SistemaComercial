@@ -41,8 +41,15 @@ public class ProdutoDaoImpl  implements ProdutoDao {
 		ps.setInt(1, p.getId());
 		ps.setString(2, p.getDescricao());
 		ps.setInt(3, p.getCodBar());
-		ps.setString(4, p.getCategoria());
-		ps.setString(5, p.getUnidade());
+		/*
+		 * Essa é uma maneira de converter o valor da enum para String,
+		 * Desse modo a string tera o mesmo texto que o valor selecionado da enum,
+		 * Outra forma é voce adicionar valores para as opcoes da enum
+		 * exemplo:
+		 * Na classe da enum
+		 */
+		ps.setString(4, p.getCategoria().toString());
+		ps.setString(5, p.getUnidade().toString());
 		ps.setBigDecimal(6, p.getCusto());
 		ps.setBigDecimal(7, p.getMargemLucro());
 		int res = ps.executeUpdate();
@@ -79,8 +86,8 @@ public class ProdutoDaoImpl  implements ProdutoDao {
 			ps.setInt(1, p.getId());
 			ps.setString(2, p.getDescricao());
 			ps.setInt(3, p.getCodBar());
-			ps.setString(4, p.getCategoria());
-			ps.setString(5, p.getUnidade());
+			ps.setString(4, p.getCategoria().toString());
+			ps.setString(5, p.getUnidade().toString());
 			ps.setBigDecimal(6, p.getCusto());
 			ps.setBigDecimal(7, p.getMargemLucro());
 			ps.setInt(8, p.getId());
@@ -134,8 +141,12 @@ public class ProdutoDaoImpl  implements ProdutoDao {
 						+ "  FROM produto WHERE ID = ?");
 				p.setDescricao(result.getString("Descricao"));
 				p.setCodBar(result.getInt("CodBar"));
-				p.setCategoria(result.getString("Categoria"));
-				p.setUnidade(result.getString("Unidade"));
+				/*
+				 * Neste caso e um pouco mais complexo, pois voce precisa saber qual valor corresponde a qual opcao da enum
+				 */
+				
+				p.setCategoria(Categoria.getEnumValue(result.getString("Categoria")));
+				p.setUnidade(Unidade.getEnumValue(result.getString("Unidade")));
 				p.setCusto(result.getBigDecimal("Custo"));
 				p.setMargemLucro(result.getBigDecimal("MargemLucro"));
 				p.setId(result.getInt("ID"));
