@@ -66,6 +66,7 @@ public class UsuarioModel extends AbstractTableModel {
 		case 1:
 			return u.getIdCliente();
 		case 2:
+// getNome de que cliente ????
 			return c.getNome();
 
 		default:

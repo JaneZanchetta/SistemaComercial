@@ -1,192 +1,335 @@
 /**
  * @Author
- * 07/11/2015  02:27:16
+ * 07/11/2015  12:03:07
  */
 package br.univel.telas;
 
 import javax.swing.JPanel;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
 import java.awt.GridBagConstraints;
 import javax.swing.JTextField;
 import java.awt.Insets;
+import java.awt.Font;
+import javax.swing.JComboBox;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import java.awt.Color;
+import java.awt.SystemColor;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 /**
- * @author Jane Z.
- * 07/11/2015 02:27:16
+ * @author Jane
+ *
  */
 public class MioloVenda extends JPanel {
+	private JTextField txtNroCompra;
+	private JTextField txtData;
+	private JTextField txtVlrTotal;
+	private JTextField txtIdProduto;
+	private JTable tbFitaCompra;
 	private JTextField txtIdCliente;
-	private JTextField txtNomeCliente;
-	private JTextField txtNroVenda;
-	private JLabel lblData;
-	private JTextField txtDataCompra;
-	private JTextField textField;
-	private JTextField txtDescricao;
+	private JTextField txtVlrPago;
+	private JTextField txtTroco;
 	private JTextField txtQtde;
-	private JTextField txtValorUnitario;
-	private JLabel lblIdproduto;
-	private JLabel lblDescrio;
-	private JLabel lblQtde;
-	private JLabel lblValorUnitário;
-	private JLabel lblValortotal;
-	private JTextField txtValorTotal;
+	private JTextField txtUnitProduto;
+	private JTextField txtTotalProduto;
 
 	/**
 	 * Create the panel.
 	 */
 	public MioloVenda() {
-		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{0, 92, 0, 182, 0, 0, 0};
-		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0};
-		gridBagLayout.columnWeights = new double[]{1.0, 1.0, 1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		setLayout(gridBagLayout);
 		
-		lblData = new JLabel("Data");
-		GridBagConstraints gbc_lblData = new GridBagConstraints();
-		gbc_lblData.anchor = GridBagConstraints.EAST;
-		gbc_lblData.insets = new Insets(0, 0, 5, 5);
-		gbc_lblData.gridx = 0;
-		gbc_lblData.gridy = 0;
-		add(lblData, gbc_lblData);
+		JPanel painelCliente = new JPanel();
 		
-		txtDataCompra = new JTextField();
-		txtDataCompra.setEditable(false);
-		GridBagConstraints gbc_txtDataCompra = new GridBagConstraints();
-		gbc_txtDataCompra.insets = new Insets(0, 0, 5, 5);
-		gbc_txtDataCompra.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtDataCompra.gridx = 1;
-		gbc_txtDataCompra.gridy = 0;
-		add(txtDataCompra, gbc_txtDataCompra);
-		txtDataCompra.setColumns(10);
+		JPanel painelGeral = new JPanel();
 		
-		JLabel lblVenda = new JLabel("Venda");
-		GridBagConstraints gbc_lblVenda = new GridBagConstraints();
-		gbc_lblVenda.insets = new Insets(0, 0, 5, 5);
-		gbc_lblVenda.anchor = GridBagConstraints.EAST;
-		gbc_lblVenda.gridx = 4;
-		gbc_lblVenda.gridy = 0;
-		add(lblVenda, gbc_lblVenda);
+		JPanel painelProduto = new JPanel();
+		painelProduto.setBackground(SystemColor.window);
 		
-		txtNroVenda = new JTextField();
-		txtNroVenda.setEditable(false);
-		GridBagConstraints gbc_txtNroVenda = new GridBagConstraints();
-		gbc_txtNroVenda.insets = new Insets(0, 0, 5, 0);
-		gbc_txtNroVenda.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtNroVenda.gridx = 5;
-		gbc_txtNroVenda.gridy = 0;
-		add(txtNroVenda, gbc_txtNroVenda);
-		txtNroVenda.setColumns(10);
+		JButton btnSair = new JButton("Sair");
+		btnSair.setFont(new Font("Tahoma", Font.BOLD, 11));
+		GroupLayout groupLayout = new GroupLayout(this);
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(painelCliente, GroupLayout.DEFAULT_SIZE, 678, Short.MAX_VALUE)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(painelGeral, GroupLayout.PREFERRED_SIZE, 251, GroupLayout.PREFERRED_SIZE)
+								.addGroup(groupLayout.createSequentialGroup()
+									.addGap(78)
+									.addComponent(btnSair)))
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(painelProduto, GroupLayout.DEFAULT_SIZE, 417, Short.MAX_VALUE)))
+					.addContainerGap())
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(painelCliente, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(painelGeral, GroupLayout.PREFERRED_SIZE, 290, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(btnSair))
+						.addComponent(painelProduto, GroupLayout.DEFAULT_SIZE, 332, Short.MAX_VALUE))
+					.addContainerGap())
+		);
+		GridBagLayout gbl_painelCliente = new GridBagLayout();
+		gbl_painelCliente.columnWidths = new int[]{0, 0, 0, 0};
+		gbl_painelCliente.rowHeights = new int[]{0, 0};
+		gbl_painelCliente.columnWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_painelCliente.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+		painelCliente.setLayout(gbl_painelCliente);
 		
-		JLabel lblIdCliente = new JLabel("Id Cliente");
-		GridBagConstraints gbc_lblIdCliente = new GridBagConstraints();
-		gbc_lblIdCliente.insets = new Insets(0, 0, 5, 5);
-		gbc_lblIdCliente.anchor = GridBagConstraints.WEST;
-		gbc_lblIdCliente.gridx = 0;
-		gbc_lblIdCliente.gridy = 1;
-		add(lblIdCliente, gbc_lblIdCliente);
+		JLabel lblCliente = new JLabel("Cliente");
+		lblCliente.setFont(new Font("Tahoma", Font.BOLD, 13));
+		GridBagConstraints gbc_lblCliente = new GridBagConstraints();
+		gbc_lblCliente.insets = new Insets(0, 0, 0, 5);
+		gbc_lblCliente.anchor = GridBagConstraints.EAST;
+		gbc_lblCliente.gridx = 0;
+		gbc_lblCliente.gridy = 0;
+		painelCliente.add(lblCliente, gbc_lblCliente);
 		
 		txtIdCliente = new JTextField();
 		GridBagConstraints gbc_txtIdCliente = new GridBagConstraints();
-		gbc_txtIdCliente.insets = new Insets(0, 0, 5, 5);
+		gbc_txtIdCliente.insets = new Insets(0, 0, 0, 5);
+		gbc_txtIdCliente.anchor = GridBagConstraints.NORTH;
 		gbc_txtIdCliente.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtIdCliente.gridx = 1;
-		gbc_txtIdCliente.gridy = 1;
-		add(txtIdCliente, gbc_txtIdCliente);
+		gbc_txtIdCliente.gridy = 0;
+		painelCliente.add(txtIdCliente, gbc_txtIdCliente);
 		txtIdCliente.setColumns(10);
 		
-		txtNomeCliente = new JTextField();
-		GridBagConstraints gbc_txtNomeCliente = new GridBagConstraints();
-		gbc_txtNomeCliente.insets = new Insets(0, 0, 5, 5);
-		gbc_txtNomeCliente.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtNomeCliente.gridx = 3;
-		gbc_txtNomeCliente.gridy = 1;
-		add(txtNomeCliente, gbc_txtNomeCliente);
-		txtNomeCliente.setColumns(10);
+		JComboBox cnCliente = new JComboBox();
+		GridBagConstraints gbc_cnCliente = new GridBagConstraints();
+		gbc_cnCliente.fill = GridBagConstraints.HORIZONTAL;
+		gbc_cnCliente.gridx = 2;
+		gbc_cnCliente.gridy = 0;
+		painelCliente.add(cnCliente, gbc_cnCliente);
+		GridBagLayout gbl_painelProduto = new GridBagLayout();
+		gbl_painelProduto.columnWidths = new int[]{0, 0, 0};
+		gbl_painelProduto.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_painelProduto.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
+		gbl_painelProduto.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		painelProduto.setLayout(gbl_painelProduto);
 		
-		lblIdproduto = new JLabel("IdProduto");
-		GridBagConstraints gbc_lblIdproduto = new GridBagConstraints();
-		gbc_lblIdproduto.insets = new Insets(0, 0, 5, 5);
-		gbc_lblIdproduto.gridx = 0;
-		gbc_lblIdproduto.gridy = 2;
-		add(lblIdproduto, gbc_lblIdproduto);
+		JLabel lblProdutos = new JLabel("Produtos");
+		lblProdutos.setFont(new Font("Tahoma", Font.BOLD, 13));
+		GridBagConstraints gbc_lblProdutos = new GridBagConstraints();
+		gbc_lblProdutos.insets = new Insets(0, 0, 5, 5);
+		gbc_lblProdutos.gridx = 0;
+		gbc_lblProdutos.gridy = 0;
+		painelProduto.add(lblProdutos, gbc_lblProdutos);
 		
-		lblDescrio = new JLabel("Descri\u00E7\u00E3o");
-		GridBagConstraints gbc_lblDescrio = new GridBagConstraints();
-		gbc_lblDescrio.insets = new Insets(0, 0, 5, 5);
-		gbc_lblDescrio.gridx = 1;
-		gbc_lblDescrio.gridy = 2;
-		add(lblDescrio, gbc_lblDescrio);
+		txtIdProduto = new JTextField();
+		GridBagConstraints gbc_txtIdProduto = new GridBagConstraints();
+		gbc_txtIdProduto.insets = new Insets(0, 0, 5, 5);
+		gbc_txtIdProduto.anchor = GridBagConstraints.NORTH;
+		gbc_txtIdProduto.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtIdProduto.gridx = 0;
+		gbc_txtIdProduto.gridy = 1;
+		painelProduto.add(txtIdProduto, gbc_txtIdProduto);
+		txtIdProduto.setColumns(10);
 		
-		lblQtde = new JLabel("Qtde");
-		GridBagConstraints gbc_lblQtde = new GridBagConstraints();
-		gbc_lblQtde.insets = new Insets(0, 0, 5, 5);
-		gbc_lblQtde.gridx = 2;
-		gbc_lblQtde.gridy = 2;
-		add(lblQtde, gbc_lblQtde);
+		JComboBox cbProduto = new JComboBox();
+		GridBagConstraints gbc_cbProduto = new GridBagConstraints();
+		gbc_cbProduto.insets = new Insets(0, 0, 5, 0);
+		gbc_cbProduto.fill = GridBagConstraints.HORIZONTAL;
+		gbc_cbProduto.gridx = 1;
+		gbc_cbProduto.gridy = 1;
+		painelProduto.add(cbProduto, gbc_cbProduto);
 		
-		lblValorUnitário = new JLabel("Valor Unir\u00E1rio");
-		GridBagConstraints gbc_lblValorUnitário = new GridBagConstraints();
-		gbc_lblValorUnitário.insets = new Insets(0, 0, 5, 5);
-		gbc_lblValorUnitário.gridx = 3;
-		gbc_lblValorUnitário.gridy = 2;
-		add(lblValorUnitário, gbc_lblValorUnitário);
-		
-		lblValortotal = new JLabel("ValorTotal");
-		GridBagConstraints gbc_lblValortotal = new GridBagConstraints();
-		gbc_lblValortotal.insets = new Insets(0, 0, 5, 5);
-		gbc_lblValortotal.gridx = 4;
-		gbc_lblValortotal.gridy = 2;
-		add(lblValortotal, gbc_lblValortotal);
-		
-		textField = new JTextField();
-		GridBagConstraints gbc_textField = new GridBagConstraints();
-		gbc_textField.insets = new Insets(0, 0, 0, 5);
-		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField.gridx = 0;
-		gbc_textField.gridy = 3;
-		add(textField, gbc_textField);
-		textField.setColumns(10);
-		
-		txtDescricao = new JTextField();
-		txtDescricao.setEditable(false);
-		GridBagConstraints gbc_txtDescricao = new GridBagConstraints();
-		gbc_txtDescricao.insets = new Insets(0, 0, 0, 5);
-		gbc_txtDescricao.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtDescricao.gridx = 1;
-		gbc_txtDescricao.gridy = 3;
-		add(txtDescricao, gbc_txtDescricao);
-		txtDescricao.setColumns(10);
+		JLabel lblQuantidade = new JLabel("Quantidade");
+		GridBagConstraints gbc_lblQuantidade = new GridBagConstraints();
+		gbc_lblQuantidade.anchor = GridBagConstraints.EAST;
+		gbc_lblQuantidade.insets = new Insets(0, 0, 5, 5);
+		gbc_lblQuantidade.gridx = 0;
+		gbc_lblQuantidade.gridy = 2;
+		painelProduto.add(lblQuantidade, gbc_lblQuantidade);
 		
 		txtQtde = new JTextField();
 		GridBagConstraints gbc_txtQtde = new GridBagConstraints();
-		gbc_txtQtde.insets = new Insets(0, 0, 0, 5);
+		gbc_txtQtde.insets = new Insets(0, 0, 5, 0);
 		gbc_txtQtde.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtQtde.gridx = 2;
-		gbc_txtQtde.gridy = 3;
-		add(txtQtde, gbc_txtQtde);
+		gbc_txtQtde.gridx = 1;
+		gbc_txtQtde.gridy = 2;
+		painelProduto.add(txtQtde, gbc_txtQtde);
 		txtQtde.setColumns(10);
 		
-		txtValorUnitario = new JTextField();
-		GridBagConstraints gbc_txtValorUnitario = new GridBagConstraints();
-		gbc_txtValorUnitario.insets = new Insets(0, 0, 0, 5);
-		gbc_txtValorUnitario.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtValorUnitario.gridx = 3;
-		gbc_txtValorUnitario.gridy = 3;
-		add(txtValorUnitario, gbc_txtValorUnitario);
-		txtValorUnitario.setColumns(10);
+		JLabel lblValorUnitrio = new JLabel("Valor Unit\u00E1rio");
+		GridBagConstraints gbc_lblValorUnitrio = new GridBagConstraints();
+		gbc_lblValorUnitrio.anchor = GridBagConstraints.EAST;
+		gbc_lblValorUnitrio.insets = new Insets(0, 0, 5, 5);
+		gbc_lblValorUnitrio.gridx = 0;
+		gbc_lblValorUnitrio.gridy = 3;
+		painelProduto.add(lblValorUnitrio, gbc_lblValorUnitrio);
 		
-		txtValorTotal = new JTextField();
-		txtValorTotal.setEditable(false);
-		GridBagConstraints gbc_txtValorTotal = new GridBagConstraints();
-		gbc_txtValorTotal.insets = new Insets(0, 0, 0, 5);
-		gbc_txtValorTotal.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtValorTotal.gridx = 4;
-		gbc_txtValorTotal.gridy = 3;
-		add(txtValorTotal, gbc_txtValorTotal);
-		txtValorTotal.setColumns(10);
+		txtUnitProduto = new JTextField();
+		GridBagConstraints gbc_txtUnitProduto = new GridBagConstraints();
+		gbc_txtUnitProduto.insets = new Insets(0, 0, 5, 0);
+		gbc_txtUnitProduto.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtUnitProduto.gridx = 1;
+		gbc_txtUnitProduto.gridy = 3;
+		painelProduto.add(txtUnitProduto, gbc_txtUnitProduto);
+		txtUnitProduto.setColumns(10);
+		
+		JButton btnRemovertem = new JButton("Remover \u00CDtem");
+		btnRemovertem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		
+		JLabel lblTotal = new JLabel("Total");
+		GridBagConstraints gbc_lblTotal = new GridBagConstraints();
+		gbc_lblTotal.anchor = GridBagConstraints.EAST;
+		gbc_lblTotal.insets = new Insets(0, 0, 5, 5);
+		gbc_lblTotal.gridx = 0;
+		gbc_lblTotal.gridy = 4;
+		painelProduto.add(lblTotal, gbc_lblTotal);
+		
+		txtTotalProduto = new JTextField();
+		GridBagConstraints gbc_txtTotalProduto = new GridBagConstraints();
+		gbc_txtTotalProduto.insets = new Insets(0, 0, 5, 0);
+		gbc_txtTotalProduto.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtTotalProduto.gridx = 1;
+		gbc_txtTotalProduto.gridy = 4;
+		painelProduto.add(txtTotalProduto, gbc_txtTotalProduto);
+		txtTotalProduto.setColumns(10);
+		GridBagConstraints gbc_btnRemovertem = new GridBagConstraints();
+		gbc_btnRemovertem.insets = new Insets(0, 0, 5, 5);
+		gbc_btnRemovertem.gridx = 0;
+		gbc_btnRemovertem.gridy = 5;
+		painelProduto.add(btnRemovertem, gbc_btnRemovertem);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+		gbc_scrollPane.insets = new Insets(30, 0, 0, 0);
+		gbc_scrollPane.gridwidth = 2;
+		gbc_scrollPane.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane.gridx = 0;
+		gbc_scrollPane.gridy = 6;
+		painelProduto.add(scrollPane, gbc_scrollPane);
+		
+		tbFitaCompra = new JTable();
+		tbFitaCompra.setBackground(Color.WHITE);
+		scrollPane.setColumnHeaderView(tbFitaCompra);
+		GridBagLayout gbl_painelGeral = new GridBagLayout();
+		gbl_painelGeral.columnWidths = new int[]{0, 0, 0};
+		gbl_painelGeral.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_painelGeral.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
+		gbl_painelGeral.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		painelGeral.setLayout(gbl_painelGeral);
+		
+		JLabel lblNroCompra = new JLabel("Nro Compra");
+		lblNroCompra.setFont(new Font("Tahoma", Font.BOLD, 13));
+		GridBagConstraints gbc_lblNroCompra = new GridBagConstraints();
+		gbc_lblNroCompra.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNroCompra.gridx = 0;
+		gbc_lblNroCompra.gridy = 0;
+		painelGeral.add(lblNroCompra, gbc_lblNroCompra);
+		
+		JLabel lblData = new JLabel("Data");
+		lblData.setFont(new Font("Tahoma", Font.BOLD, 13));
+		GridBagConstraints gbc_lblData = new GridBagConstraints();
+		gbc_lblData.insets = new Insets(0, 0, 5, 0);
+		gbc_lblData.gridx = 1;
+		gbc_lblData.gridy = 0;
+		painelGeral.add(lblData, gbc_lblData);
+		
+		txtNroCompra = new JTextField();
+		GridBagConstraints gbc_txtNroCompra = new GridBagConstraints();
+		gbc_txtNroCompra.insets = new Insets(0, 0, 5, 5);
+		gbc_txtNroCompra.anchor = GridBagConstraints.NORTH;
+		gbc_txtNroCompra.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtNroCompra.gridx = 0;
+		gbc_txtNroCompra.gridy = 1;
+		painelGeral.add(txtNroCompra, gbc_txtNroCompra);
+		txtNroCompra.setColumns(10);
+		
+		txtData = new JTextField();
+		GridBagConstraints gbc_txtData = new GridBagConstraints();
+		gbc_txtData.insets = new Insets(0, 0, 5, 0);
+		gbc_txtData.anchor = GridBagConstraints.NORTH;
+		gbc_txtData.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtData.gridx = 1;
+		gbc_txtData.gridy = 1;
+		painelGeral.add(txtData, gbc_txtData);
+		txtData.setColumns(10);
+		
+		JLabel lblValorTotal = new JLabel("Valor Total");
+		lblValorTotal.setFont(new Font("Tahoma", Font.BOLD, 13));
+		GridBagConstraints gbc_lblValorTotal = new GridBagConstraints();
+		gbc_lblValorTotal.insets = new Insets(0, 0, 5, 5);
+		gbc_lblValorTotal.gridx = 0;
+		gbc_lblValorTotal.gridy = 2;
+		painelGeral.add(lblValorTotal, gbc_lblValorTotal);
+		
+		JButton btnFinalizaCompra = new JButton("Finaliza Compra");
+		btnFinalizaCompra.setFont(new Font("Arial Black", Font.PLAIN, 12));
+		GridBagConstraints gbc_btnFinalizaCompra = new GridBagConstraints();
+		gbc_btnFinalizaCompra.insets = new Insets(0, 0, 5, 0);
+		gbc_btnFinalizaCompra.gridx = 1;
+		gbc_btnFinalizaCompra.gridy = 2;
+		painelGeral.add(btnFinalizaCompra, gbc_btnFinalizaCompra);
+		
+		txtVlrTotal = new JTextField();
+		txtVlrTotal.setEditable(false);
+		txtVlrTotal.setFont(new Font("Times New Roman", Font.BOLD, 18));
+		GridBagConstraints gbc_txtVlrTotal = new GridBagConstraints();
+		gbc_txtVlrTotal.insets = new Insets(0, 0, 5, 5);
+		gbc_txtVlrTotal.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtVlrTotal.gridx = 0;
+		gbc_txtVlrTotal.gridy = 3;
+		painelGeral.add(txtVlrTotal, gbc_txtVlrTotal);
+		txtVlrTotal.setColumns(10);
+		
+		JLabel lblPagamento = new JLabel("Pagamento");
+		lblPagamento.setFont(new Font("Tahoma", Font.BOLD, 13));
+		GridBagConstraints gbc_lblPagamento = new GridBagConstraints();
+		gbc_lblPagamento.anchor = GridBagConstraints.EAST;
+		gbc_lblPagamento.insets = new Insets(0, 0, 5, 5);
+		gbc_lblPagamento.gridx = 0;
+		gbc_lblPagamento.gridy = 4;
+		painelGeral.add(lblPagamento, gbc_lblPagamento);
+		
+		txtVlrPago = new JTextField();
+		GridBagConstraints gbc_txtVlrPago = new GridBagConstraints();
+		gbc_txtVlrPago.insets = new Insets(0, 0, 5, 0);
+		gbc_txtVlrPago.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtVlrPago.gridx = 1;
+		gbc_txtVlrPago.gridy = 4;
+		painelGeral.add(txtVlrPago, gbc_txtVlrPago);
+		txtVlrPago.setColumns(10);
+		
+		JLabel lblTroco = new JLabel("Troco");
+		lblTroco.setFont(new Font("Tahoma", Font.BOLD, 13));
+		GridBagConstraints gbc_lblTroco = new GridBagConstraints();
+		gbc_lblTroco.anchor = GridBagConstraints.EAST;
+		gbc_lblTroco.insets = new Insets(0, 0, 5, 5);
+		gbc_lblTroco.gridx = 0;
+		gbc_lblTroco.gridy = 5;
+		painelGeral.add(lblTroco, gbc_lblTroco);
+		
+		txtTroco = new JTextField();
+		GridBagConstraints gbc_txtTroco = new GridBagConstraints();
+		gbc_txtTroco.insets = new Insets(0, 0, 5, 0);
+		gbc_txtTroco.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtTroco.gridx = 1;
+		gbc_txtTroco.gridy = 5;
+		painelGeral.add(txtTroco, gbc_txtTroco);
+		txtTroco.setColumns(10);
+		setLayout(groupLayout);
 		
 	}
-
 }

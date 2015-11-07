@@ -22,6 +22,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import br.univel.cadastro.Cliente;
+import br.univel.cadastro.ClienteDaoImpl;
 import br.univel.cadastro.Usuario;
 import br.univel.cadastro.UsuarioDaoImpl;
 
@@ -196,6 +197,7 @@ public class MioloCadUsuario extends JPanel {
 			id = Integer.parseInt(txtId.getText().trim());
 		}
 		Cliente c = new Cliente();
+// buscar o nome do cliente para exibir na tela 
 		txtNomeCliente.setText(c.getNome(cd.read(id)));
 		if (txtNomeCliente == null) {
 			JOptionPane.showMessageDialog(this, "Cliente Inválido!!!");
