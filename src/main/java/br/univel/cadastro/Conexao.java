@@ -27,13 +27,19 @@ public class Conexao {
 	}
 	
 	public Connection abrirConexao() {
-		synchronized (conexao) {
+//		synchronized (conexao) {
 			if (conexao == null) {
+				String driverName = "org.postgresql.Driver";
+				String url = "jdbc:postgresql:\\localhost\\Siscom";
+				String user = "postgres";
+				String pass = "postgres";
 				try {
-					String url = "jdbc:h2:.\\lib\\trab140649";
-					String user = "sa";
-					String pass = "sa";
-
+					try {
+						Class.forName(driverName);
+					} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					return DriverManager.getConnection(url, user, pass);
 
 				} catch (SQLException e) {
@@ -43,7 +49,7 @@ public class Conexao {
 			return conexao;
 		}
 
-}
+//}
 	/**
 	 * @author Jane
 	 * 02/11/2015 14:24:01
