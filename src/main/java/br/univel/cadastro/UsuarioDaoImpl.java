@@ -7,6 +7,7 @@ package br.univel.cadastro;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Jane
@@ -61,6 +62,15 @@ public class UsuarioDaoImpl implements UsuarioDao {
 	 */
 	@Override
 	public Usuario search(Usuario o) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see br.univel.cadastro.UsuarioDao#liste()
+	 */
+	@Override
+	public List<Usuario> liste() {
 		// TODO Auto-generated method stub
 		return null;
 	}

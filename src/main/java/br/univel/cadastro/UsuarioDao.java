@@ -1,6 +1,7 @@
 package br.univel.cadastro;
 
 import java.sql.SQLException;
+import java.util.List;
 
 public interface UsuarioDao {
 	public void create (Usuario o) throws SQLException;
@@ -13,5 +14,6 @@ public interface UsuarioDao {
 
 	public Usuario search (Usuario o);
 
+	public List<Usuario> liste();
 
 }

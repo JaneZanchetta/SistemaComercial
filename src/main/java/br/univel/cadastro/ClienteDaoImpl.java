@@ -46,8 +46,36 @@ public class ClienteDaoImpl implements ClienteDao {
 	}
 
 	public Cliente read(int id) {
-		// TODO Auto-generated method stub
-		return null;
+
+		Statement st = null;
+		ResultSet result = null;
+		Cliente c = new Cliente();
+		try {
+			try {
+				st = con.createStatement();
+				result = st.executeQuery("SELECT * FROM CLIENTE WHERE ID = ?");
+				c.setId(result.getInt(1));
+				c.setNome(result.getString("Nome"));
+				c.setTelefone(result.getString("Telefone"));
+				c.setEndereco(result.getString("Endereco"));
+				c.setCidade(result.getString("Cidade"));
+				UF.valueOf(UF.class, result.getString("UF"));
+				c.setEmail(result.getString("Email"));
+				Genero.valueOf(Genero.class, result.getString("Genero"));
+
+			} finally {
+				if (st != null)
+					st.close();
+				if (result != null)
+					result.close();
+				return c;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+
+	
 	}
 
 	public void update(Cliente c) {

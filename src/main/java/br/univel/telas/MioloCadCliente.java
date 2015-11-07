@@ -200,6 +200,11 @@ public class MioloCadCliente extends JPanel {
 						add(comboGenero, gbc_comboGenero);
 						
 						JButton btnNovo = new JButton("Novo");
+						btnNovo.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								acaoNovo();
+							}
+						});
 						btnNovo.setBackground(UIManager.getColor("Button.light"));
 						GridBagConstraints gbc_btnNovo = new GridBagConstraints();
 						gbc_btnNovo.insets = new Insets(0, 0, 5, 5);
@@ -211,7 +216,7 @@ public class MioloCadCliente extends JPanel {
 						btnExcluir.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent arg0) {
 								try {
-									excluir();
+									acaoExcluir();
 								} catch (SQLException e) {
 									// TODO Auto-generated catch block
 									e.printStackTrace();
@@ -229,7 +234,7 @@ public class MioloCadCliente extends JPanel {
 						btnSalvar.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent arg0) {
 								try {
-									salvar();
+									acaoSalvar();
 								} catch (SQLException e) {
 									// TODO Auto-generated catch block
 									e.printStackTrace();
@@ -247,7 +252,7 @@ public class MioloCadCliente extends JPanel {
 						scrollPane.addMouseListener(new MouseAdapter() {
 							@Override
 							public void mouseClicked(MouseEvent arg0) {
-								seleciona();
+								acaoSelecionar();
 							}
 						});
 						GridBagConstraints gbc_scrollPane = new GridBagConstraints();
@@ -269,11 +274,22 @@ public class MioloCadCliente extends JPanel {
 	}
 
 	/**
+	 * @Author Jane Z.
+	 * 07/11/2015 01:30:51
+	 */
+	protected void acaoNovo() {
+		txtId.requestFocus();
+		limparCampos();
+		novo = true;
+		
+	}
+
+	/**
 	 * @throws SQLException 
 	 * @Author Jane Z.
 	 * 06/11/2015 01:08:49
 	 */
-	protected void excluir() throws SQLException {
+	protected void acaoExcluir() throws SQLException {
 		int id = table.getSelectedRow();
 		if (id < 0) {
 			JOptionPane
@@ -299,7 +315,7 @@ public class MioloCadCliente extends JPanel {
 	 * @Author Jane Z.
 	 * 06/11/2015 00:54:41 
 	 */
-	protected void salvar() throws SQLException {
+	protected void acaoSalvar() throws SQLException {
 		int id = 0;
 		if (novo) {
 			if (txtId.getText().equals("")) {
@@ -357,7 +373,7 @@ public class MioloCadCliente extends JPanel {
 	 * @Author Jane Z.
 	 * 06/11/2015 00:52:16 
 	 */
-	protected void seleciona() {
+	protected void acaoSelecionar() {
 		int id = table.getSelectedRow();
 		txtId.setText(Integer.toString(model.getLista().get(id).getId()));
 		txtNome.setText((model.getLista().get(id).getNome()));

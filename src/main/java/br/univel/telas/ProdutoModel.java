@@ -2,12 +2,14 @@
  * @Author
  * 07/11/2015  00:00:39
  */
-package br.univel.cadastro;
+package br.univel.telas;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
+
+import br.univel.cadastro.Produto;
 
 /**
  * @author Jane 07/11/2015 00:00:39

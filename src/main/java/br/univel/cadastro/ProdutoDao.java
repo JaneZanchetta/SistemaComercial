@@ -30,5 +30,6 @@ public interface ProdutoDao {
 	public Produto search (Produto p);
 
 	public List<Produto> liste();
+	
 
 }

@@ -4,7 +4,6 @@ public class Usuario {
 	
 	private int id;
 	private int idCliente;
-	private String nome;
 	private String senha;
 	
 	
@@ -19,12 +18,6 @@ public class Usuario {
 	}
 	public void setIdCliente(int idCliente) {
 		this.idCliente = idCliente;
-	}
-	public String getNome() {
-		return nome;
-	}
-	public void setNome(String nome) {
-		this.nome = nome;
 	}
 	/**
 	 * @return the senha
