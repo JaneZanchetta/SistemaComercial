@@ -26,6 +26,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.sql.SQLException;
+import java.util.ArrayList;
 /**
  * 
  * @author Jane Z.
@@ -43,7 +44,7 @@ public class MioloCadCliente extends JPanel {
 
 	private ClienteModel model;
 	private ClienteDaoImpl cd;
-	private boolean novo;
+	private boolean novo = true;
 
 	/**
 	 * Create the panel.
@@ -209,7 +210,12 @@ public class MioloCadCliente extends JPanel {
 						JButton btnExcluir = new JButton("Excluir");
 						btnExcluir.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent arg0) {
-								excluir();
+								try {
+									excluir();
+								} catch (SQLException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
 							}
 						});
 						btnExcluir.setBackground(UIManager.getColor("Button.light"));
@@ -222,7 +228,12 @@ public class MioloCadCliente extends JPanel {
 						JButton btnSalvar = new JButton("Salvar");
 						btnSalvar.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent arg0) {
-								salvar();
+								try {
+									salvar();
+								} catch (SQLException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
 							}
 						});
 						btnSalvar.setBackground(UIManager.getColor("Button.light"));
@@ -250,7 +261,7 @@ public class MioloCadCliente extends JPanel {
 						table = new JTable();
 						scrollPane.setRowHeaderView(table);
 						cd = new ClienteDaoImpl();
-						model = new ClienteModel(cd.liste());
+						model = new ClienteModel((ArrayList<Cliente>) cd.liste());
 						table.setModel(model);
 						
 						
@@ -258,10 +269,11 @@ public class MioloCadCliente extends JPanel {
 	}
 
 	/**
+	 * @throws SQLException 
 	 * @Author Jane Z.
 	 * 06/11/2015 01:08:49
 	 */
-	protected void excluir() {
+	protected void excluir() throws SQLException {
 		int id = table.getSelectedRow();
 		if (id < 0) {
 			JOptionPane
@@ -274,7 +286,7 @@ public class MioloCadCliente extends JPanel {
 				cd.delete(id);
 			}
 			limparCampos();
-			model = new ClienteModel(cd.liste();
+			model = new ClienteModel((ArrayList<Cliente>) cd.liste());
 			table.setModel(model);
 
 		}
@@ -323,7 +335,7 @@ public class MioloCadCliente extends JPanel {
 						"Operação realizada com sucesso!");
 			}
 			limparCampos();
-			model = new ClienteModel(cd.listar());
+			model = new ClienteModel((ArrayList<Cliente>) cd.liste());
 			table.setModel(model);
 		}
 		

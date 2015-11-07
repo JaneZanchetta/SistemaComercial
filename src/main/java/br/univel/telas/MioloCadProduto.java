@@ -12,6 +12,9 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
+import javax.swing.JButton;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
 /**
  * @author Jane
@@ -23,21 +26,22 @@ public class MioloCadProduto extends JPanel {
 	private JTextField txtCodBar;
 	private JTextField txtCusto;
 	private JTextField txtMargemLucro;
+	private JTable table;
 
 	/**
 	 * Create the panel.
 	 */
 	public MioloCadProduto() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0};
-		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.columnWidths = new int[]{113, 0, 0, 0, 0, 0};
+		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gridBagLayout.columnWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
 		JLabel lblId = new JLabel("ID");
 		GridBagConstraints gbc_lblId = new GridBagConstraints();
-		gbc_lblId.anchor = GridBagConstraints.EAST;
+		gbc_lblId.anchor = GridBagConstraints.WEST;
 		gbc_lblId.insets = new Insets(0, 0, 5, 5);
 		gbc_lblId.gridx = 0;
 		gbc_lblId.gridy = 0;
@@ -45,7 +49,7 @@ public class MioloCadProduto extends JPanel {
 		
 		txtId = new JTextField();
 		GridBagConstraints gbc_txtId = new GridBagConstraints();
-		gbc_txtId.anchor = GridBagConstraints.WEST;
+		gbc_txtId.fill = GridBagConstraints.BOTH;
 		gbc_txtId.insets = new Insets(0, 0, 5, 5);
 		gbc_txtId.gridx = 1;
 		gbc_txtId.gridy = 0;
@@ -62,7 +66,8 @@ public class MioloCadProduto extends JPanel {
 		
 		txtDescricao = new JTextField();
 		GridBagConstraints gbc_txtDescricao = new GridBagConstraints();
-		gbc_txtDescricao.anchor = GridBagConstraints.NORTHWEST;
+		gbc_txtDescricao.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtDescricao.anchor = GridBagConstraints.NORTH;
 		gbc_txtDescricao.insets = new Insets(0, 0, 5, 0);
 		gbc_txtDescricao.gridx = 4;
 		gbc_txtDescricao.gridy = 0;
@@ -71,7 +76,7 @@ public class MioloCadProduto extends JPanel {
 		
 		JLabel lblCdigoDeBarra = new JLabel("C\u00F3digo de Barra");
 		GridBagConstraints gbc_lblCdigoDeBarra = new GridBagConstraints();
-		gbc_lblCdigoDeBarra.anchor = GridBagConstraints.EAST;
+		gbc_lblCdigoDeBarra.anchor = GridBagConstraints.WEST;
 		gbc_lblCdigoDeBarra.insets = new Insets(0, 0, 5, 5);
 		gbc_lblCdigoDeBarra.gridx = 0;
 		gbc_lblCdigoDeBarra.gridy = 1;
@@ -79,7 +84,7 @@ public class MioloCadProduto extends JPanel {
 		
 		txtCodBar = new JTextField();
 		GridBagConstraints gbc_txtCodBar = new GridBagConstraints();
-		gbc_txtCodBar.anchor = GridBagConstraints.WEST;
+		gbc_txtCodBar.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtCodBar.insets = new Insets(0, 0, 5, 5);
 		gbc_txtCodBar.gridx = 1;
 		gbc_txtCodBar.gridy = 1;
@@ -88,7 +93,7 @@ public class MioloCadProduto extends JPanel {
 		
 		JLabel lblCategoria = new JLabel("Categoria");
 		GridBagConstraints gbc_lblCategoria = new GridBagConstraints();
-		gbc_lblCategoria.anchor = GridBagConstraints.EAST;
+		gbc_lblCategoria.anchor = GridBagConstraints.WEST;
 		gbc_lblCategoria.insets = new Insets(0, 0, 5, 5);
 		gbc_lblCategoria.gridx = 0;
 		gbc_lblCategoria.gridy = 2;
@@ -120,7 +125,7 @@ public class MioloCadProduto extends JPanel {
 		
 		JLabel lblCusto = new JLabel("Custo");
 		GridBagConstraints gbc_lblCusto = new GridBagConstraints();
-		gbc_lblCusto.anchor = GridBagConstraints.EAST;
+		gbc_lblCusto.anchor = GridBagConstraints.WEST;
 		gbc_lblCusto.insets = new Insets(0, 0, 5, 5);
 		gbc_lblCusto.gridx = 0;
 		gbc_lblCusto.gridy = 3;
@@ -152,6 +157,39 @@ public class MioloCadProduto extends JPanel {
 		gbc_txtMargemLucro.gridy = 3;
 		add(txtMargemLucro, gbc_txtMargemLucro);
 		txtMargemLucro.setColumns(10);
+		
+		JButton btnNovo = new JButton("Novo");
+		GridBagConstraints gbc_btnNovo = new GridBagConstraints();
+		gbc_btnNovo.insets = new Insets(0, 0, 5, 5);
+		gbc_btnNovo.gridx = 1;
+		gbc_btnNovo.gridy = 5;
+		add(btnNovo, gbc_btnNovo);
+		
+		JButton btnExcluir = new JButton("Excluir");
+		GridBagConstraints gbc_btnExcluir = new GridBagConstraints();
+		gbc_btnExcluir.insets = new Insets(0, 0, 5, 5);
+		gbc_btnExcluir.gridx = 2;
+		gbc_btnExcluir.gridy = 5;
+		add(btnExcluir, gbc_btnExcluir);
+		
+		JButton btnSalvar = new JButton("Salvar");
+		GridBagConstraints gbc_btnSalvar = new GridBagConstraints();
+		gbc_btnSalvar.insets = new Insets(0, 0, 5, 5);
+		gbc_btnSalvar.gridx = 3;
+		gbc_btnSalvar.gridy = 5;
+		add(btnSalvar, gbc_btnSalvar);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+		gbc_scrollPane.gridwidth = 5;
+		gbc_scrollPane.insets = new Insets(0, 0, 0, 5);
+		gbc_scrollPane.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane.gridx = 0;
+		gbc_scrollPane.gridy = 7;
+		add(scrollPane, gbc_scrollPane);
+		
+		table = new JTable();
+		scrollPane.setRowHeaderView(table);
 		
 	}
 
