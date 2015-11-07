@@ -7,9 +7,12 @@ package br.univel.cadastro;
  */
 
 public class Cliente {
+	
+	private static int sequence = 0;  
+	
 	private int id;
 	public void setId(int id) {
-		this.id = id;
+		this.id = sequence++;
 	}
 	private String nome;
 	private String telefone;

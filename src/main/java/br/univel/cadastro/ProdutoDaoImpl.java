@@ -134,13 +134,8 @@ public class ProdutoDaoImpl  implements ProdutoDao {
 						+ "  FROM produto WHERE ID = ?");
 				p.setDescricao(result.getString("Descricao"));
 				p.setCodBar(result.getInt("CodBar"));
-/*				p.setCategoria(Categoria.valueOf(categoria));
-				
-				 ps.setString(cliente.getUnidade().'toString()') --> 
-				 Adicione o to String, ele vai converter o valor da enum para String (KG -> "KG") 				
-				p.setCategoria(result.getString("Categoria"));
-				p.setUnidade(result.getString("Unidade"));
-*/
+				p.setCategoria(Categoria.getEnumValue(result.getString("Categoria")));
+				p.setUnidade(Unidade.getEnumValue(result.getString("Unidade")));
 				p.setCusto(result.getBigDecimal("Custo"));
 				p.setMargemLucro(result.getBigDecimal("MargemLucro"));
 				p.setId(result.getInt("ID"));
