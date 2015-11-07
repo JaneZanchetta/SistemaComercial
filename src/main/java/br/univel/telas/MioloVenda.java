@@ -111,12 +111,12 @@ public class MioloVenda extends JPanel {
 		painelCliente.add(txtIdCliente, gbc_txtIdCliente);
 		txtIdCliente.setColumns(10);
 		
-		JComboBox cnCliente = new JComboBox();
-		GridBagConstraints gbc_cnCliente = new GridBagConstraints();
-		gbc_cnCliente.fill = GridBagConstraints.HORIZONTAL;
-		gbc_cnCliente.gridx = 2;
-		gbc_cnCliente.gridy = 0;
-		painelCliente.add(cnCliente, gbc_cnCliente);
+		JComboBox cbCliente = new JComboBox();
+		GridBagConstraints gbc_cbCliente = new GridBagConstraints();
+		gbc_cbCliente.fill = GridBagConstraints.HORIZONTAL;
+		gbc_cbCliente.gridx = 2;
+		gbc_cbCliente.gridy = 0;
+		painelCliente.add(cbCliente, gbc_cbCliente);
 		GridBagLayout gbl_painelProduto = new GridBagLayout();
 		gbl_painelProduto.columnWidths = new int[]{0, 0, 0};
 		gbl_painelProduto.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0};

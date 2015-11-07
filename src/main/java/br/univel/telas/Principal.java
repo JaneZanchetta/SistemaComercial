@@ -106,11 +106,23 @@ public class Principal extends JFrame {
 		});
 		mnCadastros.add(mntmBloquear);
 
-		JMenu mnVendas = new JMenu("Vendas");
+		JMenu mnVendas = new JMenu("Movimento");
 		menuBar.add(mnVendas);
 
 		JMenuItem mntmVenda = new JMenuItem("Venda");
 		mnVendas.add(mntmVenda);
+		
+		JMenu mnRelatrios = new JMenu("Relat\u00F3rios");
+		menuBar.add(mnRelatrios);
+		
+		JMenuItem mntmClientes = new JMenuItem("Clientes");
+		mnRelatrios.add(mntmClientes);
+		
+		JMenuItem mntmProdutos = new JMenuItem("Produtos");
+		mnRelatrios.add(mntmProdutos);
+		
+		JMenuItem mntmVendas = new JMenuItem("Vendas");
+		mnRelatrios.add(mntmVendas);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
