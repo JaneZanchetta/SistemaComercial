@@ -198,7 +198,7 @@ public class MioloCadUsuario extends JPanel {
 		}
 		Cliente c = new Cliente();
 // buscar o nome do cliente para exibir na tela 
-		txtNomeCliente.setText(c.getNome(cd.read(id)));
+//		txtNomeCliente.setText(c.getNome(cd.read(id)));
 		if (txtNomeCliente == null) {
 			JOptionPane.showMessageDialog(this, "Cliente Inválido!!!");
 			txtId.setFocusable(true);
