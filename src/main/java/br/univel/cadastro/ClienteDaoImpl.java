@@ -37,7 +37,7 @@ public class ClienteDaoImpl implements ClienteDao {
 		ps.setString(3, c.getTelefone());
 		ps.setString(4, c.getEndereco());
 		ps.setString(5, c.getCidade());
-		ps.setString(6, c.getUf().getNome());
+		ps.setString(6, c.getUf().toString());
 		ps.setString(7, c.getEmail());
 		ps.setString(8, c.getGenero().getDescricao());
 		int res = ps.executeUpdate();
@@ -91,7 +91,7 @@ public class ClienteDaoImpl implements ClienteDao {
 			ps.setString(3, c.getTelefone());
 			ps.setString(4, c.getEndereco());
 			ps.setString(5, c.getCidade());
-			ps.setString(6, c.getUf().getNome());
+			ps.setString(6, c.getUf().toString());
 			ps.setString(7, c.getEmail());
 			ps.setString(8, c.getGenero().getDescricao());
 			ps.setInt(9, c.getId());

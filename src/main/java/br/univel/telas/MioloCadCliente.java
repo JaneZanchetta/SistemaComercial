@@ -326,7 +326,6 @@ public class MioloCadCliente extends JPanel {
 			c.setTelefone(fone);
 			c.setNome(nome);
 			if (novo) {
-				id = Integer.parseInt(txtId.getText().trim());
 				cd.create(c);
 			} else {
 				id = ((model.getLista().get(table.getSelectedRow()).getId()));
