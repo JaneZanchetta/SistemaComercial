@@ -26,28 +26,38 @@ public class Conexao {
 		
 	}
 	
-	public Connection abrirConexao() {
+	public static Connection abrirConexao()  {
 //		synchronized (conexao) {
 			if (conexao == null) {
+				
+				try {
+					 conexao = DriverManager.getConnection("jdbc:postgresql://localhost:5433/SisCom", "postgres",
+							"postgres");
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+				
+/*				
+				
+				
 				String driverName = "org.postgresql.Driver";
-				String url = "jdbc:postgresql:\\localhost\\Siscom";
-				String user = "postgres";
+//				String url = "jdbc:postgresql://localhost:5433//SisCom";
+				String url = "jdbc:postgresql://localhost:5433//postgres";
+			String user = "postgres";
 				String pass = "postgres";
 				try {
-					try {
-						Class.forName(driverName);
-					} catch (ClassNotFoundException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					return DriverManager.getConnection(url, user, pass);
+					return conexao = DriverManager.getConnection(url, user, pass);
 
 				} catch (SQLException e) {
 					throw new RuntimeException(e);
 				}
 			}
-			return conexao;
+*/
 		}
+			return conexao;
+	}
 
 //}
 	/**

@@ -9,7 +9,13 @@ package br.univel.cadastro;
 public class Cliente {
 	
 	private static int sequence = 0;  
-	
+/*	
+	public static int getSequence() {
+		return sequence;
+	}
+	/*
+	 * 
+	 */
 	private int id;
 	public void setId(int id) {
 		this.id = sequence++;

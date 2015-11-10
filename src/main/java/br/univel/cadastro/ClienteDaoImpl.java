@@ -25,7 +25,7 @@ public class ClienteDaoImpl implements ClienteDao {
 	
 	private Cliente c = null;
 	private ArrayList<Cliente> lista;
-	private Connection con = Conexao.getInstance().abrirConexao();
+	private Connection con = Conexao.abrirConexao();
 
 	public void create(Cliente c) throws SQLException {
 		PreparedStatement ps;
@@ -54,7 +54,7 @@ public class ClienteDaoImpl implements ClienteDao {
 			try {
 				st = con.createStatement();
 				result = st.executeQuery("SELECT * FROM CLIENTE WHERE ID = ?");
-				c.setId(result.getInt(1));
+				c.setId(result.getInt("Id"));
 				c.setNome(result.getString("Nome"));
 				c.setTelefone(result.getString("Telefone"));
 				c.setEndereco(result.getString("Endereco"));
