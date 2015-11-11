@@ -44,6 +44,16 @@ public class MioloCadCliente extends JPanel {
 	private JTextField txtCidade;
 	private JTextField txtEmail;
 	private JTable table;
+	private JComboBox comboUF;
+	private JComboBox comboGenero;
+	private JButton btnNovo;
+	private JButton btnExcluir;
+	private JButton btnSalvar;
+
+
+
+
+
 
 	private ClienteModel model;
 	private ClienteDaoImpl cd;
@@ -140,7 +150,7 @@ public class MioloCadCliente extends JPanel {
 		gbc_lblUf.gridy = 3;
 		add(lblUf, gbc_lblUf);
 
-		JComboBox comboUF = new JComboBox();
+		comboUF = new JComboBox();
 		comboUF.setModel(new DefaultComboBoxModel(UF.values()));
 		GridBagConstraints gbc_comboUF = new GridBagConstraints();
 		gbc_comboUF.gridwidth = 4;
@@ -193,7 +203,7 @@ public class MioloCadCliente extends JPanel {
 		gbc_lblGenero.gridy = 5;
 		add(lblGenero, gbc_lblGenero);
 
-		JComboBox comboGenero = new JComboBox();
+		comboGenero = new JComboBox();
 		comboGenero.setModel(new DefaultComboBoxModel(Genero.values()));
 		GridBagConstraints gbc_comboGenero = new GridBagConstraints();
 		gbc_comboGenero.gridwidth = 4;
@@ -203,7 +213,7 @@ public class MioloCadCliente extends JPanel {
 		gbc_comboGenero.gridy = 5;
 		add(comboGenero, gbc_comboGenero);
 
-		JButton btnNovo = new JButton("Novo");
+		btnNovo = new JButton("Novo");
 		btnNovo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				acaoNovo();
@@ -216,7 +226,7 @@ public class MioloCadCliente extends JPanel {
 		gbc_btnNovo.gridy = 6;
 		add(btnNovo, gbc_btnNovo);
 
-		JButton btnExcluir = new JButton("Excluir");
+		btnExcluir = new JButton("Excluir");
 		btnExcluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
@@ -234,7 +244,7 @@ public class MioloCadCliente extends JPanel {
 		gbc_btnExcluir.gridy = 6;
 		add(btnExcluir, gbc_btnExcluir);
 
-		JButton btnSalvar = new JButton("Salvar");
+		btnSalvar = new JButton("Salvar");
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
@@ -279,9 +289,11 @@ public class MioloCadCliente extends JPanel {
 	 * @Author Jane Z. 07/11/2015 01:30:51
 	 */
 	protected void acaoNovo() {
-		txtId.requestFocus();
+		txtNome.requestFocus();
 		limparCampos();
 		novo = true;
+		btnExcluir.setEnabled(false);
+		
 
 	}
 
@@ -325,6 +337,8 @@ public class MioloCadCliente extends JPanel {
 			c.setEndereco(endereco);
 			c.setTelefone(fone);
 			c.setNome(nome);
+			c.setUf((UF) comboUF.getSelectedItem());
+			c.setGenero((Genero) comboGenero.getSelectedItem());
 			if (novo) {
 				cd.create(c);
 			} else {
@@ -364,6 +378,8 @@ public class MioloCadCliente extends JPanel {
 		txtEmail.setText(model.getLista().get(id).getEmail());
 		// txtUF.setText(model.getLista().get(id).getUF());
 		novo = false;
+		btnExcluir.setEnabled(true);
+
 
 	}
 
