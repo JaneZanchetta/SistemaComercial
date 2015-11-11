@@ -259,12 +259,6 @@ public class MioloCadCliente extends JPanel {
 		add(btnSalvar, gbc_btnSalvar);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				acaoSelecionar();
-			}
-		});
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
 		gbc_scrollPane.gridwidth = 12;
 		gbc_scrollPane.insets = new Insets(0, 0, 5, 0);
@@ -274,7 +268,14 @@ public class MioloCadCliente extends JPanel {
 		add(scrollPane, gbc_scrollPane);
 
 		table = new JTable();
-		scrollPane.setRowHeaderView(table);
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				System.out.println("vai acao");
+				acaoSelecionar();
+			}
+		});
+		scrollPane.setViewportView(table);
 		cd = new ClienteDaoImpl();
 		model = new ClienteModel((ArrayList<Cliente>) cd.liste());
 		table.setModel(model);
@@ -285,10 +286,11 @@ public class MioloCadCliente extends JPanel {
 	 * @Author Jane Z. 07/11/2015 01:30:51
 	 */
 	protected void acaoNovo() {
-		txtNome.requestFocus();
 		limparCampos();
 		novo = true;
 		btnExcluir.setEnabled(false);
+		btnNovo.setEnabled(false);
+		txtNome.requestFocus();
 		
 
 	}
@@ -319,6 +321,7 @@ public class MioloCadCliente extends JPanel {
 	 * @Author Jane Z. 06/11/2015 00:54:41
 	 */
 	protected void acaoSalvar() throws SQLException {
+		btnNovo.setEnabled(true);
 		int id = 0;
 		Cliente c = new Cliente();
 		if (!novo) {
@@ -327,11 +330,15 @@ public class MioloCadCliente extends JPanel {
 		String nome = txtNome.getText().trim();
 		String fone = txtTelefone.getText().trim();
 		String endereco = txtEndereco.getText().trim();
+		String cidade = txtCidade.getText().trim();
+		String email = txtEmail.getText().trim();
 		int resposta = JOptionPane.showConfirmDialog(null, "Confirma informações?");
 		if (resposta == JOptionPane.YES_OPTION) {
 			c.setEndereco(endereco);
 			c.setTelefone(fone);
 			c.setNome(nome);
+			c.setCidade(cidade);
+			c.setEmail(email);
 			c.setUf((UF) comboUF.getSelectedItem());
 			c.setGenero((Genero) comboGenero.getSelectedItem());
 			if (novo) {
@@ -343,7 +350,8 @@ public class MioloCadCliente extends JPanel {
 			JOptionPane.showMessageDialog(this, "Operação realizada com sucesso!");
 		}
 		limparCampos();
-		model = new ClienteModel((ArrayList<Cliente>) cd.liste());
+//		model = new ClienteModel((ArrayList<Cliente>) cd.liste());
+		model.incluir(c);
 		table.setModel(model);
 	}
 
@@ -365,7 +373,8 @@ public class MioloCadCliente extends JPanel {
 	 */
 	protected void acaoSelecionar() {
 		int id = table.getSelectedRow();
-		if (id > 1) {
+		System.out.println(id);
+		if (id > 0) {
 
 			txtId.setText(Integer.toString(model.getLista().get(id).getId()));
 			txtNome.setText((model.getLista().get(id).getNome()));

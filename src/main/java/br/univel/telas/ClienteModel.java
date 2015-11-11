@@ -97,4 +97,15 @@ public class ClienteModel extends AbstractTableModel {
 		}
 
 	}
+	
+/**
+ * @author Jane Z.
+ * 11 de nov de 2015 20:37:40
+ * Acrescenta o cliente à lista da tabela e reexibe
+ */
+	public void incluir(Cliente c) {
+		lista.add(c);
+		super.fireTableDataChanged();
+	}
+
 }

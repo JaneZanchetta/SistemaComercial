@@ -7,9 +7,9 @@ package br.univel.cadastro;
  */
 
 public class Cliente {
-	
-	private static int sequence = 0;  
 /*	
+	private static int sequence = 0;  
+	
 	public static int getSequence() {
 		return sequence;
 	}
@@ -17,9 +17,11 @@ public class Cliente {
 	 * 
 	 */
 	private int id;
+	
 	public void setId(int id) {
-		this.id = sequence++;
+		this.id = id;
 	}
+
 	private String nome;
 	private String telefone;
 	private String endereco;

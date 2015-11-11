@@ -30,8 +30,8 @@ public class ClienteDaoImpl implements ClienteDao {
 	public void create(Cliente c) throws SQLException {
 		PreparedStatement ps;
 		ps = con.prepareStatement("INSERT INTO cliente "
-				+ "(NOME, TELEFONE, ENDERECO, CIDADE, UF, EMAIL, GENERO) "
-				+ "VALUES (?,?,?,?,?,?,?)");
+				+ "(ID,NOME, TELEFONE, ENDERECO, CIDADE, UF, EMAIL, GENERO) "
+				+ "VALUES (default,?,?,?,?,?,?,?)");
 		ps.setString(1, c.getNome());
 		ps.setString(2, c.getTelefone());
 		ps.setString(3, c.getEndereco());
@@ -160,8 +160,37 @@ public class ClienteDaoImpl implements ClienteDao {
 		ResultSet result = null;
 		try {
 			try {
+				st = con.createStatement();
+				result = st.executeQuery("SELECT id, nome, telefone, endereco, "
+						+ "cidade, Uf, email, genero"
+						+ "  FROM CLIENTE ");
+				while (result.next()) {
+					Cliente c = new Cliente();
+					c.setId(result.getInt(1));
+					c.setNome(result.getString("Nome"));
+					c.setTelefone(result.getString("Telefone"));
+					c.setEndereco(result.getString("Endereco"));
+					c.setCidade(result.getString("Cidade"));
+					lista.add(c);
+
+				}
+			} finally {
+				if (st != null)
+					st.close();
+				if (result != null)
+					result.close();
+				return lista;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+
+		/*
+		try {
+			try {
 			st = con.createStatement();
-			result = st.executeQuery("SELECT nome, telefone, endereco, "
+			result = st.executeQuery("SELECT id, nome, telefone, endereco, "
 					+ "cidade, Uf, email, genero"
 					+ "  FROM CLIENTE ");
 			result.next();
@@ -175,6 +204,7 @@ public class ClienteDaoImpl implements ClienteDao {
 				UF.valueOf(UF.class, result.getString("UF")),
 				result.getString("Email"),
 				Genero.valueOf(Genero.class, result.getString("Genero")))); 
+				System.out.println();
 			}
 			
 			} finally {
@@ -193,7 +223,9 @@ public class ClienteDaoImpl implements ClienteDao {
 		
 
 	}
+	*/
+		
 	
-	
+	}	
 
 }

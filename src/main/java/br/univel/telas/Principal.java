@@ -147,9 +147,7 @@ public class Principal extends JFrame {
 			}
 		};
 			telaUsuario.setCloseAction(action);
-			System.out.println( " antes tabbePane Usuario");
 			tabbedPane.addTab("Cadastro de Usuários", telaUsuario);
-			System.out.println( " fez o tabbePane Usuario");
 		
 	}
 
