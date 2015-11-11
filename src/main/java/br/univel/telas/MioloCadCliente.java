@@ -51,10 +51,6 @@ public class MioloCadCliente extends JPanel {
 	private JButton btnSalvar;
 
 
-
-
-
-
 	private ClienteModel model;
 	private ClienteDaoImpl cd;
 	private boolean novo = true;
@@ -333,7 +329,6 @@ public class MioloCadCliente extends JPanel {
 		String endereco = txtEndereco.getText().trim();
 		int resposta = JOptionPane.showConfirmDialog(null, "Confirma informações?");
 		if (resposta == JOptionPane.YES_OPTION) {
-			c.setId(id);
 			c.setEndereco(endereco);
 			c.setTelefone(fone);
 			c.setNome(nome);
@@ -370,16 +365,18 @@ public class MioloCadCliente extends JPanel {
 	 */
 	protected void acaoSelecionar() {
 		int id = table.getSelectedRow();
-		txtId.setText(Integer.toString(model.getLista().get(id).getId()));
-		txtNome.setText((model.getLista().get(id).getNome()));
-		txtEndereco.setText((model.getLista().get(id).getEndereco()));
-		txtTelefone.setText((model.getLista().get(id).getTelefone()));
-		txtCidade.setText(model.getLista().get(id).getCidade());
-		txtEmail.setText(model.getLista().get(id).getEmail());
-		// txtUF.setText(model.getLista().get(id).getUF());
-		novo = false;
-		btnExcluir.setEnabled(true);
+		if (id > 1) {
 
+			txtId.setText(Integer.toString(model.getLista().get(id).getId()));
+			txtNome.setText((model.getLista().get(id).getNome()));
+			txtEndereco.setText((model.getLista().get(id).getEndereco()));
+			txtTelefone.setText((model.getLista().get(id).getTelefone()));
+			txtCidade.setText(model.getLista().get(id).getCidade());
+			txtEmail.setText(model.getLista().get(id).getEmail());
+			// txtUF.setText(model.getLista().get(id).getUF());
+			novo = false;
+			btnExcluir.setEnabled(true);
+		}
 
 	}
 

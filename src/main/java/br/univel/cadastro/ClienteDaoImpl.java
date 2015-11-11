@@ -30,16 +30,15 @@ public class ClienteDaoImpl implements ClienteDao {
 	public void create(Cliente c) throws SQLException {
 		PreparedStatement ps;
 		ps = con.prepareStatement("INSERT INTO cliente "
-				+ "(ID, NOME, TELEFONE, ENDERECO, CIDADE, UF, EMAIL, GENERO) "
-				+ "VALUES (?,?,?,?,?,?,?,?)");
-		ps.setInt(1, c.getId());
-		ps.setString(2, c.getNome());
-		ps.setString(3, c.getTelefone());
-		ps.setString(4, c.getEndereco());
-		ps.setString(5, c.getCidade());
-		ps.setString(6, c.getUf().toString());
-		ps.setString(7, c.getEmail());
-		ps.setString(8, c.getGenero().getDescricao());
+				+ "(NOME, TELEFONE, ENDERECO, CIDADE, UF, EMAIL, GENERO) "
+				+ "VALUES (?,?,?,?,?,?,?)");
+		ps.setString(1, c.getNome());
+		ps.setString(2, c.getTelefone());
+		ps.setString(3, c.getEndereco());
+		ps.setString(4, c.getCidade());
+		ps.setString(5, c.getUf().toString());
+		ps.setString(6, c.getEmail());
+		ps.setString(7, c.getGenero().getDescricao());
 		int res = ps.executeUpdate();
 		ps.close();
 		con.close();		
