@@ -93,4 +93,9 @@ public class UsuarioModel extends AbstractTableModel {
 			return super.getColumnName(col);
 		}
 	}
+	public void incluir(Usuario u) {
+		lista.add(u);
+		super.fireTableDataChanged();
+	}
+
 }

@@ -32,6 +32,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 /**
  * @author Jane 05/11/2015 22:53:50
@@ -46,6 +48,9 @@ public class MioloCadUsuario extends JPanel {
 	private UsuarioDaoImpl ud;
 	private ClienteDaoImpl cd;
 	private boolean novo = true;
+	private JButton btnExcluir;
+	private JButton btnSalvar;
+	private JButton btnNovo;
 
 	/**
 	 * Create the panel.
@@ -54,10 +59,8 @@ public class MioloCadUsuario extends JPanel {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 0, 119, 0, 0, 188, 0 };
 		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0 };
-		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, 0.0, 0.0,
-				Double.MIN_VALUE };
-		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-				1.0, Double.MIN_VALUE };
+		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
 		setLayout(gridBagLayout);
 
 		JLabel lblId = new JLabel("Id");
@@ -89,7 +92,7 @@ public class MioloCadUsuario extends JPanel {
 		txtIdCliente.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusLost(FocusEvent arg0) {
-				validaCliente();
+				validaUsuario();
 			}
 		});
 		GridBagConstraints gbc_txtIdCliente = new GridBagConstraints();
@@ -109,6 +112,8 @@ public class MioloCadUsuario extends JPanel {
 		add(lblNome, gbc_lblNome);
 
 		txtNomeCliente = new JTextField();
+		txtNomeCliente.setEnabled(false);
+		txtNomeCliente.setEditable(false);
 		GridBagConstraints gbc_txtNomeCliente = new GridBagConstraints();
 		gbc_txtNomeCliente.anchor = GridBagConstraints.NORTH;
 		gbc_txtNomeCliente.insets = new Insets(0, 0, 5, 0);
@@ -134,7 +139,14 @@ public class MioloCadUsuario extends JPanel {
 		gbc_passUsuario.gridy = 3;
 		add(passUsuario, gbc_passUsuario);
 
-		JButton btnNovo = new JButton("Novo");
+		btnExcluir = new JButton("Excluir");
+		btnExcluir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				acaoExcluir();
+			}
+		});
+		
+		btnNovo = new JButton("Novo");
 		btnNovo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				acaoNovo();
@@ -145,20 +157,13 @@ public class MioloCadUsuario extends JPanel {
 		gbc_btnNovo.gridx = 1;
 		gbc_btnNovo.gridy = 5;
 		add(btnNovo, gbc_btnNovo);
-
-		JButton btnExcluir = new JButton("Excluir");
-		btnExcluir.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				acaoExcluir();
-			}
-		});
 		GridBagConstraints gbc_btnExcluir = new GridBagConstraints();
 		gbc_btnExcluir.insets = new Insets(0, 0, 5, 5);
 		gbc_btnExcluir.gridx = 2;
 		gbc_btnExcluir.gridy = 5;
 		add(btnExcluir, gbc_btnExcluir);
 
-		JButton btnSalvar = new JButton("Salvar");
+		btnSalvar = new JButton("Salvar");
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				acaoSalvar();
@@ -174,22 +179,54 @@ public class MioloCadUsuario extends JPanel {
 		JScrollPane scrollPane = new JScrollPane();
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
 		gbc_scrollPane.gridwidth = 4;
-		gbc_scrollPane.insets = new Insets(0, 0, 0, 5);
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane.gridx = 1;
 		gbc_scrollPane.gridy = 6;
 		add(scrollPane, gbc_scrollPane);
 
 		table = new JTable();
-		scrollPane.setRowHeaderView(table);
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				acaoSelecionar();
+			}
+		});
+		scrollPane.setViewportView(table);
+		ud = new UsuarioDaoImpl();
+		model = new UsuarioModel((ArrayList<Usuario>) ud.liste());
+		table.setModel(model);
+
+	}
+
+	protected void acaoNovo() {
+		novo = true;
+		limparCampos();
+		btnExcluir.setEnabled(false);
+		btnNovo.setEnabled(false);
+		txtIdCliente.requestFocus();
+		
+		
+	}
+
+	/**
+	 * @author Jane Z. 11 de nov de 2015 22:42:55
+	 */
+	protected void acaoSelecionar() {
+		int id = table.getSelectedRow();
+		if (id > 0) {
+			txtId.setText(Integer.toString(model.getLista().get(id).getId()));
+			txtIdCliente.setText(Integer.toString(model.getLista().get(id).getIdCliente()));
+			passUsuario.setText((model.getLista().get(id).getSenha()));
+			novo = false;
+			btnExcluir.setEnabled(true);
+		}
 
 	}
 
 	/**
-	 * @Author Jane Z. 
-	 * 07/11/2015 01:47:04
+	 * @Author Jane Z. 07/11/2015 01:47:04
 	 */
-	protected void validaCliente() {
+	protected void validaUsuario() {
 		int id = 0;
 		if (txtId.getText().equals("")) {
 			id = -1;
@@ -197,12 +234,13 @@ public class MioloCadUsuario extends JPanel {
 			id = Integer.parseInt(txtId.getText().trim());
 		}
 		Cliente c = new Cliente();
-// buscar o nome do cliente para exibir na tela 
-//		txtNomeCliente.setText(c.getNome(cd.read(id)));
+		// buscar o nome do cliente para exibir na tela
+		// txtNomeCliente.setText(c.getNome(cd.read(id)));
 		if (txtNomeCliente == null) {
 			JOptionPane.showMessageDialog(this, "Cliente Inválido!!!");
 			txtId.setFocusable(true);
-		};
+		}
+		;
 	}
 
 	/**
@@ -214,8 +252,7 @@ public class MioloCadUsuario extends JPanel {
 			JOptionPane.showMessageDialog(this, "Nenhum dado selecionado!!!");
 		} else {
 			id = model.getLista().get(id).getId();
-			int resposta = JOptionPane.showConfirmDialog(null,
-					"Confirma exclusão ?");
+			int resposta = JOptionPane.showConfirmDialog(null, "Confirma exclusão ?");
 			if (resposta == JOptionPane.YES_OPTION) {
 				try {
 					ud.delete(id);
@@ -233,74 +270,54 @@ public class MioloCadUsuario extends JPanel {
 	}
 
 	/**
-	 * @Author Jane Z. 
-	 * 07/11/2015 01:02:41
+	 * @Author Jane Z. 07/11/2015 01:02:41
 	 */
 	private void limparCampos() {
 		txtId.setText("");
 		txtIdCliente.setText("");
 		txtNomeCliente.setText("");
+		passUsuario.setText("");
 
 	}
 
 	/**
-	 * @Author Jane Z. 
-	 * 07/11/2015 01:04:11
+	 * @Author Jane Z. 07/11/2015 01:04:11
 	 */
 	protected void acaoSalvar() {
-		
+		btnNovo.setEnabled(true);
 		int id = 0;
-		if (novo) {
-			if (txtId.getText().equals("")) {
-				id = -1;
-			} else {
-				id = Integer.parseInt(txtId.getText().trim());
-			}
-		} else {
-			id = ((model.getLista().get(table.getSelectedRow()).getId()));
+		if (!novo) {
+			id = Integer.parseInt(txtId.getText().trim());
 		}
-		if (id < 0) {
-			JOptionPane.showMessageDialog(this, "ID inválido");
-		} else {
-			Usuario u = new Usuario();
-			int idCliente = Integer.parseInt(txtIdCliente.getText().trim());
-			int resposta = JOptionPane.showConfirmDialog(null,
-					"Confirma informações?");
-			if (resposta == JOptionPane.YES_OPTION) {
-				u.setId(id);
-				u.setIdCliente(idCliente);
-				if (novo) {
-					id = Integer.parseInt(txtId.getText().trim());
+
+		Usuario u = new Usuario();
+		int idCliente = Integer.parseInt(txtIdCliente.getText().trim());
+		validaCliente(idCliente);
+		int resposta = JOptionPane.showConfirmDialog(null, "Confirma informações?");
+		if (resposta == JOptionPane.YES_OPTION) {
+			u.setId(id);
+			u.setIdCliente(idCliente);
+			if (novo) {
 					try {
 						ud.create(u);
 					} catch (SQLException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-				} else {
-					id = ((model.getLista().get(table.getSelectedRow()).getId()));
-					ud.update(u);
-				}
-				JOptionPane.showMessageDialog(this,
-						"Operação realizada com sucesso!");
+			} else {
+				id = ((model.getLista().get(table.getSelectedRow()).getId()));
+				ud.update(u);
 			}
-			limparCampos();
-			model = new UsuarioModel((ArrayList<Usuario>) ud.liste());
-			table.setModel(model);
+			JOptionPane.showMessageDialog(this, "Operação realizada com sucesso!");
 		}
-
+		limparCampos();
+		model = new UsuarioModel((ArrayList<Usuario>) ud.liste());
+		table.setModel(model);
 	}
 
-
-
-	/**
-	 * @Author Jane Z. 
-	 * 07/11/2015 01:40:53
-	 */
-	protected void acaoNovo() {
-		txtId.requestFocus();
-		limparCampos();
-		novo = true;
+	private void validaCliente(int id) {
+		Cliente c = new Cliente();
+		
 		
 	}
 

@@ -271,7 +271,6 @@ public class MioloCadCliente extends JPanel {
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				System.out.println("vai acao");
 				acaoSelecionar();
 			}
 		});

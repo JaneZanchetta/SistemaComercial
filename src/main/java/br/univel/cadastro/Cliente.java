@@ -29,9 +29,6 @@ public class Cliente {
 	private UF uf;
 	private String email;
 	private Genero genero;
-	public String getNome() {
-		return nome;
-	}
 	
 	/**
 	 * @Author Jane Z.
@@ -45,6 +42,10 @@ public class Cliente {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
+	public String getNome() {
+		return nome;
+	}
+
 	public String getTelefone() {
 		return telefone;
 	}
