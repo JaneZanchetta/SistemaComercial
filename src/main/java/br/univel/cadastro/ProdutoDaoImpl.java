@@ -29,7 +29,7 @@ public class ProdutoDaoImpl  implements ProdutoDao {
 		PreparedStatement ps;
 		ps = con.prepareStatement("INSERT INTO PRODUTO "
 				+ "(ID, DESCRICAO, CODBAR, CATEGORIA, UNIDADE, CUSTO, MARGEMLUCRO) "
-				+ "VALUES (?,?,?,?,?,?,?)");
+				+ "VALUES (default,?,?,?,?,?,?)");
 /*
 		private int codBar;
 		private Categoria categoria;

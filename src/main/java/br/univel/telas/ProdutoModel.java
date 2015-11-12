@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
+import br.univel.cadastro.Cliente;
 import br.univel.cadastro.Produto;
 
 /**
@@ -101,5 +102,16 @@ public class ProdutoModel extends AbstractTableModel {
 			return super.getColumnName(col);
 		}
 	}
+	public void incluir(Produto p) {
+		lista.add(p);
+		super.fireTableDataChanged();
+	}
+
+	
+	public void excluir(Produto p) {
+		lista.remove(p);
+		super.fireTableDataChanged();
+	}
+
 
 }

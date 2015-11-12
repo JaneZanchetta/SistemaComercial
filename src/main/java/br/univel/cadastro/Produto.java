@@ -75,6 +75,12 @@ public class Produto {
 		this.custo = custo;
 		this.margemLucro = margemLucro;
 	}
+	public Produto() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	
+	
 
 }
 

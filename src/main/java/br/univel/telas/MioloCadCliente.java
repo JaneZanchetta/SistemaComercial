@@ -316,7 +316,6 @@ public class MioloCadCliente extends JPanel {
 				cd.delete(c.getId());
 			}
 			limparCampos();
-//			model = new ClienteModel((ArrayList<Cliente>) cd.liste());
 			model.excluir(c);
 //			table.setModel(model);
 			model.fireTableDataChanged();

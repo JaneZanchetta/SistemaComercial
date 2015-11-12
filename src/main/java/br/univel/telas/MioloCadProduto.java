@@ -8,13 +8,28 @@ import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.JTextField;
+
+import br.univel.cadastro.Categoria;
+import br.univel.cadastro.Cliente;
+import br.univel.cadastro.ClienteDaoImpl;
+import br.univel.cadastro.Genero;
+import br.univel.cadastro.Produto;
+import br.univel.cadastro.ProdutoDaoImpl;
+import br.univel.cadastro.UF;
+import br.univel.cadastro.Unidade;
+
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.awt.event.ActionEvent;
 
 /**
  * @author Jane
@@ -27,6 +42,15 @@ public class MioloCadProduto extends JPanel {
 	private JTextField txtCusto;
 	private JTextField txtMargemLucro;
 	private JTable table;
+	JButton btnNovo;
+	JButton btnExcluir;
+	JButton btnSalvar;
+	
+	private ProdutoModel model;
+	private ProdutoDaoImpl pd;
+	private boolean novo = true;
+	JComboBox comboUnidade;
+	JComboBox comboCategoria;
 
 	/**
 	 * Create the panel.
@@ -99,13 +123,13 @@ public class MioloCadProduto extends JPanel {
 		gbc_lblCategoria.gridy = 2;
 		add(lblCategoria, gbc_lblCategoria);
 		
-		JComboBox cbCategoria = new JComboBox();
-		GridBagConstraints gbc_cbCategoria = new GridBagConstraints();
-		gbc_cbCategoria.insets = new Insets(0, 0, 5, 5);
-		gbc_cbCategoria.fill = GridBagConstraints.HORIZONTAL;
-		gbc_cbCategoria.gridx = 1;
-		gbc_cbCategoria.gridy = 2;
-		add(cbCategoria, gbc_cbCategoria);
+		comboCategoria = new JComboBox();
+		GridBagConstraints gbc_comboCategoria = new GridBagConstraints();
+		gbc_comboCategoria.insets = new Insets(0, 0, 5, 5);
+		gbc_comboCategoria.fill = GridBagConstraints.HORIZONTAL;
+		gbc_comboCategoria.gridx = 1;
+		gbc_comboCategoria.gridy = 2;
+		add(comboCategoria, gbc_comboCategoria);
 		
 		JLabel lblUnidadeDeMedida = new JLabel("Unidade de Medida");
 		GridBagConstraints gbc_lblUnidadeDeMedida = new GridBagConstraints();
@@ -115,13 +139,13 @@ public class MioloCadProduto extends JPanel {
 		gbc_lblUnidadeDeMedida.gridy = 2;
 		add(lblUnidadeDeMedida, gbc_lblUnidadeDeMedida);
 		
-		JComboBox cbUnidade = new JComboBox();
-		GridBagConstraints gbc_cbUnidade = new GridBagConstraints();
-		gbc_cbUnidade.insets = new Insets(0, 0, 5, 0);
-		gbc_cbUnidade.fill = GridBagConstraints.HORIZONTAL;
-		gbc_cbUnidade.gridx = 4;
-		gbc_cbUnidade.gridy = 2;
-		add(cbUnidade, gbc_cbUnidade);
+		comboUnidade = new JComboBox();
+		GridBagConstraints gbc_comboUnidade = new GridBagConstraints();
+		gbc_comboUnidade.insets = new Insets(0, 0, 5, 0);
+		gbc_comboUnidade.fill = GridBagConstraints.HORIZONTAL;
+		gbc_comboUnidade.gridx = 4;
+		gbc_comboUnidade.gridy = 2;
+		add(comboUnidade, gbc_comboUnidade);
 		
 		JLabel lblCusto = new JLabel("Custo");
 		GridBagConstraints gbc_lblCusto = new GridBagConstraints();
@@ -158,21 +182,36 @@ public class MioloCadProduto extends JPanel {
 		add(txtMargemLucro, gbc_txtMargemLucro);
 		txtMargemLucro.setColumns(10);
 		
-		JButton btnNovo = new JButton("Novo");
+		btnNovo = new JButton("Novo");
+		btnNovo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				acaoNovo();
+			}
+		});
 		GridBagConstraints gbc_btnNovo = new GridBagConstraints();
 		gbc_btnNovo.insets = new Insets(0, 0, 5, 5);
 		gbc_btnNovo.gridx = 1;
 		gbc_btnNovo.gridy = 5;
 		add(btnNovo, gbc_btnNovo);
 		
-		JButton btnExcluir = new JButton("Excluir");
+		btnExcluir = new JButton("Excluir");
+		btnExcluir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				acaoExcluir();
+			}
+		});
 		GridBagConstraints gbc_btnExcluir = new GridBagConstraints();
 		gbc_btnExcluir.insets = new Insets(0, 0, 5, 5);
 		gbc_btnExcluir.gridx = 2;
 		gbc_btnExcluir.gridy = 5;
 		add(btnExcluir, gbc_btnExcluir);
 		
-		JButton btnSalvar = new JButton("Salvar");
+		btnSalvar = new JButton("Salvar");
+		btnSalvar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				acaoSalvar();
+			}
+		});
 		GridBagConstraints gbc_btnSalvar = new GridBagConstraints();
 		gbc_btnSalvar.insets = new Insets(0, 0, 5, 5);
 		gbc_btnSalvar.gridx = 3;
@@ -190,6 +229,96 @@ public class MioloCadProduto extends JPanel {
 		
 		table = new JTable();
 		scrollPane.setRowHeaderView(table);
+		
+	}
+	
+	/**
+	 * @author Jane Z.
+	 * 12 de nov de 2015 20:09:50
+	 * Método a ser executado quando usuário clicar no botão "Salvar".
+	 * 
+	 */
+	
+	protected void acaoSalvar() {
+		btnNovo.setEnabled(true);
+		int id = 0;
+		Produto p = new Produto();
+		if (!novo) {
+			id = Integer.parseInt(txtId.getText().trim());
+		}
+		
+		int resposta = JOptionPane.showConfirmDialog(null, "Confirma informações?");
+		if (resposta == JOptionPane.YES_OPTION) {
+			p.setCategoria((Categoria)comboCategoria.getSelectedItem());
+			p.setCodBar(Integer.parseInt(txtCodBar.getText()));
+//			p.setCusto(txtCusto.getText());
+//		    p.setMargemLucro(margemLucro);
+			p.setUnidade((Unidade) comboUnidade.getSelectedItem());
+			p.setDescricao(txtDescricao.getText());
+			if (novo) {
+				try {
+					pd.create(p);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			} else {
+				id = ((model.getLista().get(table.getSelectedRow()).getId()));
+				pd.update(p);
+			}
+			JOptionPane.showMessageDialog(this, "Operação realizada com sucesso!");
+		}
+		limparCampos();
+//		model = new ClienteModel((ArrayList<Cliente>) cd.liste());
+		model.incluir(p);
+		table.setModel(model);
+	}
+		
+	
+
+	/**
+	 * @author Jane Z.
+     * 12 de nov de 2015 20:01:24
+     * Método a ser executado qdo usuário clica no botão "Excluir":
+     * 
+	 */
+protected void acaoExcluir() {
+	int id = table.getSelectedRow();
+	Produto p = model.getLista().get(table.getSelectedRow());
+
+	if (id < 0) {
+		JOptionPane.showMessageDialog(this, "Nenhum dado selecionado!!!");
+	} else {
+		id = model.getLista().get(id).getId();
+		int resposta = JOptionPane.showConfirmDialog(null, "Confirma exclusão ?");
+		if (resposta == JOptionPane.YES_OPTION) {
+			pd.delete(p);
+		}
+		limparCampos();
+		model.excluir(p);
+//		table.setModel(model);
+		model.fireTableDataChanged();
+	}
+	}
+/**
+ * @author Jane Z.
+ * 12 de nov de 2015 19:56:25
+ * Método a ser executado qdo usuário clica no botão "Novo" e também ao carregar a tela
+ * a primeira vez. Vai limpar os campos, setar variável que indica que se trata de produto novo,
+ * desabilitar o botão de exclusão e setar o foco na descrição.
+ */
+	
+	protected void acaoNovo() {
+		limparCampos();
+		novo = true;
+		btnExcluir.setEnabled(false);
+		btnNovo.setEnabled(false);
+		txtDescricao.requestFocus();
+		
+	}
+
+	private void limparCampos() {
+		
 		
 	}
 
