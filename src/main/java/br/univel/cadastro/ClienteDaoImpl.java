@@ -41,7 +41,6 @@ public class ClienteDaoImpl implements ClienteDao {
 		ps.setString(7, c.getGenero().getDescricao());
 		int res = ps.executeUpdate();
 		ps.close();
-		con.close();		
 	}
 
 	public Cliente read(int id) {
@@ -114,7 +113,6 @@ public class ClienteDaoImpl implements ClienteDao {
 					"Ocorreu um erro e o cliente não foi excluído!");
 		}
 		ps.close();
-		con.close();	
 	}
 
 	/**

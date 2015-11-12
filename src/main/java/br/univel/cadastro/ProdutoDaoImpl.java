@@ -30,24 +30,15 @@ public class ProdutoDaoImpl  implements ProdutoDao {
 		ps = con.prepareStatement("INSERT INTO PRODUTO "
 				+ "(ID, DESCRICAO, CODBAR, CATEGORIA, UNIDADE, CUSTO, MARGEMLUCRO) "
 				+ "VALUES (default,?,?,?,?,?,?)");
-/*
-		private int codBar;
-		private Categoria categoria;
-		private Unidade unidade;
-		private BigDecimal custo;
-		private BigDecimal margemLucro;
-	*/	
 		
-		ps.setInt(1, p.getId());
-		ps.setString(2, p.getDescricao());
-		ps.setInt(3, p.getCodBar());
-		ps.setString(4, p.getCategoria().toString());
-		ps.setString(5, p.getUnidade().toString());
-		ps.setBigDecimal(6, p.getCusto());
-		ps.setBigDecimal(7, p.getMargemLucro());
+		ps.setString(1, p.getDescricao());
+		ps.setInt(2, p.getCodBar());
+		ps.setString(3, p.getCategoria().toString());
+		ps.setString(4, p.getUnidade().toString());
+		ps.setBigDecimal(5, p.getCusto());
+		ps.setBigDecimal(6, p.getMargemLucro());
 		int res = ps.executeUpdate();
 		ps.close();
-		con.close();		
 		
 	}
 
@@ -114,8 +105,6 @@ public class ProdutoDaoImpl  implements ProdutoDao {
 					"Ocorreu um erro e o produto não foi excluído!");
 		}
 		ps.close();
-		con.close();	
-		// TODO Auto-generated method stub
 		
 	}
 
