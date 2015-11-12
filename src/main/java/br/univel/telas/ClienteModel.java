@@ -108,4 +108,9 @@ public class ClienteModel extends AbstractTableModel {
 		super.fireTableDataChanged();
 	}
 
+	public void excluir(Cliente c) {
+		lista.remove(c);
+		super.fireTableDataChanged();
+	}
+
 }

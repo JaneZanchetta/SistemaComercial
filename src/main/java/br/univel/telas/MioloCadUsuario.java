@@ -144,6 +144,7 @@ public class MioloCadUsuario extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				acaoExcluir();
 			}
+
 		});
 		
 		btnNovo = new JButton("Novo");
@@ -195,6 +196,8 @@ public class MioloCadUsuario extends JPanel {
 		ud = new UsuarioDaoImpl();
 		model = new UsuarioModel((ArrayList<Usuario>) ud.liste());
 		table.setModel(model);
+		acaoNovo();
+
 
 	}
 

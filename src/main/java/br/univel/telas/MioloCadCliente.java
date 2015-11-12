@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 import br.univel.cadastro.UF;
 import br.univel.cadastro.Genero;
+import java.awt.Dimension;
 
 /**
  * 
@@ -59,6 +60,8 @@ public class MioloCadCliente extends JPanel {
 	 * Create the panel.
 	 */
 	public MioloCadCliente() {
+		setMinimumSize(new Dimension(500, 500));
+		setPreferredSize(new Dimension(500, 500));
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 0, 84, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
@@ -278,6 +281,8 @@ public class MioloCadCliente extends JPanel {
 		cd = new ClienteDaoImpl();
 		model = new ClienteModel((ArrayList<Cliente>) cd.liste());
 		table.setModel(model);
+		acaoNovo();
+
 
 	}
 
@@ -295,22 +300,26 @@ public class MioloCadCliente extends JPanel {
 	}
 
 	/**
-	 * @throws SQLException
+	 * @throws SQLException.
 	 * @Author Jane Z. 06/11/2015 01:08:49
 	 */
 	protected void acaoExcluir() throws SQLException {
 		int id = table.getSelectedRow();
+		Cliente c = model.getLista().get(table.getSelectedRow());
+	
 		if (id < 0) {
 			JOptionPane.showMessageDialog(this, "Nenhum dado selecionado!!!");
 		} else {
 			id = model.getLista().get(id).getId();
 			int resposta = JOptionPane.showConfirmDialog(null, "Confirma exclusão ?");
 			if (resposta == JOptionPane.YES_OPTION) {
-				cd.delete(id);
+				cd.delete(c.getId());
 			}
 			limparCampos();
-			model = new ClienteModel((ArrayList<Cliente>) cd.liste());
-			table.setModel(model);
+//			model = new ClienteModel((ArrayList<Cliente>) cd.liste());
+			model.excluir(c);
+//			table.setModel(model);
+			model.fireTableDataChanged();
 
 		}
 	}

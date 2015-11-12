@@ -18,6 +18,7 @@ import javax.swing.JMenuItem;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Dimension;
 /**
  * 
  * @author Jane
@@ -49,6 +50,8 @@ public class Principal extends JFrame {
 	 * Create the frame.
 	 */
 	public Principal() {
+		setPreferredSize(new Dimension(500, 500));
+		setMinimumSize(new Dimension(500, 500));
 
 		blockLogin();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
