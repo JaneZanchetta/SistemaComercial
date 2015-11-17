@@ -16,11 +16,13 @@ import java.awt.GridBagConstraints;
 import javax.swing.JTextField;
 
 import java.awt.Insets;
+import java.awt.event.KeyAdapter;
 import java.awt.Font;
 
 import javax.swing.JButton;
 
 import java.awt.Color;
+import java.awt.event.KeyEvent;
 
 /**
  * @author jamzanchetta
@@ -30,6 +32,7 @@ public class TelaLogin extends JPanel {
 	private JTextField txtUsuario;
 	private JPasswordField passField;
 	private JButton btnEntrar;
+	private Runnable acaoOk;
 
 	/**
 	 * Create the panel.
@@ -39,10 +42,8 @@ public class TelaLogin extends JPanel {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 0, 0, 0, 0 };
 		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0 };
-		gridBagLayout.columnWeights = new double[] { 0.0, 0.0, 0.0,
-				Double.MIN_VALUE };
-		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-				Double.MIN_VALUE };
+		gridBagLayout.columnWeights = new double[] { 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		setLayout(gridBagLayout);
 
 		JLabel lblUsurio = new JLabel("Usu\u00E1rio");
@@ -55,6 +56,7 @@ public class TelaLogin extends JPanel {
 		add(lblUsurio, gbc_lblUsurio);
 
 		txtUsuario = new JTextField();
+
 		GridBagConstraints gbc_txtUsuario = new GridBagConstraints();
 		gbc_txtUsuario.insets = new Insets(0, 0, 5, 0);
 		gbc_txtUsuario.fill = GridBagConstraints.HORIZONTAL;
@@ -73,7 +75,7 @@ public class TelaLogin extends JPanel {
 		add(lblSenha, gbc_lblSenha);
 
 		passField = new JPasswordField();
-//		passField.setEditable(false);
+		// passField.setEditable(false);
 		GridBagConstraints gbc_passField = new GridBagConstraints();
 		gbc_passField.insets = new Insets(0, 0, 5, 0);
 		gbc_passField.fill = GridBagConstraints.HORIZONTAL;
@@ -89,20 +91,47 @@ public class TelaLogin extends JPanel {
 		gbc_btnEntrar.gridx = 2;
 		gbc_btnEntrar.gridy = 5;
 		add(btnEntrar, gbc_btnEntrar);
+		configuraListeners();
 
+	}
+
+	private void configuraListeners() {
+		txtUsuario.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					txtUsuario.transferFocus();
+				}
+			}
+		});
+		passField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					logar();
+				}
+
+			}
+
+		});
 	}
 
 	public TelaLogin(Runnable acaoOk) {
 		this();
+
+		this.acaoOk = acaoOk;
 		btnEntrar.addActionListener(e -> {
-			if (txtUsuario.getText().trim().equals("1")
-					&& new String(passField.getPassword()).equals("1")) {
-				acaoOk.run();
-			} else {
-				JOptionPane.showMessageDialog(TelaLogin.this,
-						"Usuário e/ou senha inválidos!");
-			}
+			logar();
 		});
+	}
+
+	private void logar() {
+		if (txtUsuario.getText().trim().equals("1") && new String(passField.getPassword()).equals("1")) {
+			acaoOk.run();
+		} else {
+			JOptionPane.showMessageDialog(TelaLogin.this, "Usuário e/ou senha inválidos!");
+		}
 
 	}
+
 }

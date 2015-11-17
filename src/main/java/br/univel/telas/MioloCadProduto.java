@@ -292,7 +292,12 @@ protected void acaoExcluir() {
 		id = model.getLista().get(id).getId();
 		int resposta = JOptionPane.showConfirmDialog(null, "Confirma exclusão ?");
 		if (resposta == JOptionPane.YES_OPTION) {
-			pd.delete(p);
+			try {
+				pd.delete(p);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		limparCampos();
 		model.excluir(p);

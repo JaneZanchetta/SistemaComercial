@@ -27,6 +27,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.DefaultComboBoxModel;
 import br.univel.cadastro.UF;
 import br.univel.cadastro.Genero;
@@ -278,12 +280,19 @@ public class MioloCadCliente extends JPanel {
 			}
 		});
 		scrollPane.setViewportView(table);
-		cd = new ClienteDaoImpl();
-		model = new ClienteModel((ArrayList<Cliente>) cd.liste());
-		table.setModel(model);
+		
+		setModel();
 		acaoNovo();
 
 
+	}
+
+	private void setModel() {
+		cd = new ClienteDaoImpl();
+		List<Cliente> lista;
+		lista = cd.liste();
+		model = new ClienteModel(lista);
+		table.setModel(model);
 	}
 
 	/**
@@ -294,8 +303,7 @@ public class MioloCadCliente extends JPanel {
 		novo = true;
 		btnExcluir.setEnabled(false);
 		btnNovo.setEnabled(false);
-		txtNome.requestFocus();
-		
+		txtNome.requestFocusInWindow();
 
 	}
 
@@ -316,9 +324,10 @@ public class MioloCadCliente extends JPanel {
 				cd.delete(c.getId());
 			}
 			limparCampos();
-			model.excluir(c);
+			setModel();
+//			model.excluir(c);
 //			table.setModel(model);
-			model.fireTableDataChanged();
+//			model.fireTableDataChanged();
 
 		}
 	}
@@ -357,9 +366,11 @@ public class MioloCadCliente extends JPanel {
 			JOptionPane.showMessageDialog(this, "Operação realizada com sucesso!");
 		}
 		limparCampos();
+		setModel();
 //		model = new ClienteModel((ArrayList<Cliente>) cd.liste());
-		model.incluir(c);
-		table.setModel(model);
+//		c.setId(id);
+	//	model.incluir(c);
+		//table.setModel(model);
 	}
 
 	

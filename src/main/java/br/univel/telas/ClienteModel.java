@@ -21,10 +21,19 @@ public class ClienteModel extends AbstractTableModel {
 	 * @Author Jane Z.
 	 * 06/11/2015  23:45:49
 	 */
-	public ClienteModel(ArrayList<Cliente> l) {
-		this.lista = l;
+	public ClienteModel(List<Cliente> l) {
+		lista = l;
 
 	}
+	
+	
+
+	public ClienteModel() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+
 
 	private List<Cliente> lista = new ArrayList<>();
 

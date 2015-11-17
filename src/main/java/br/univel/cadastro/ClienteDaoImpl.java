@@ -40,6 +40,7 @@ public class ClienteDaoImpl implements ClienteDao {
 		ps.setString(6, c.getEmail());
 		ps.setString(7, c.getGenero().getDescricao());
 		int res = ps.executeUpdate();
+		
 		ps.close();
 	}
 
@@ -156,6 +157,8 @@ public class ClienteDaoImpl implements ClienteDao {
 		lista = new ArrayList<Cliente>();
 		Statement st = null;
 		ResultSet result = null;
+		
+		
 		try {
 			try {
 				st = con.createStatement();
@@ -184,44 +187,6 @@ public class ClienteDaoImpl implements ClienteDao {
 			return null;
 		}
 
-		/*
-		try {
-			try {
-			st = con.createStatement();
-			result = st.executeQuery("SELECT id, nome, telefone, endereco, "
-					+ "cidade, Uf, email, genero"
-					+ "  FROM CLIENTE ");
-			result.next();
-			if (result.getString("ID") != null) {
-				lista.add(c = new Cliente
-						(result.getInt("Id"), 
-				         result.getString("Nome"),
-				         result.getString("Telefone"),
-				result.getString("Endereco"),
-				result.getString("Cidade"),
-				UF.valueOf(UF.class, result.getString("UF")),
-				result.getString("Email"),
-				Genero.valueOf(Genero.class, result.getString("Genero")))); 
-				System.out.println();
-			}
-			
-			} finally {
-				if (st != null)
-					st.close();
-				if (result != null)
-					result.close();
-				return lista;
-			}
-			
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return null;
-		}
-		
-
-	}
-	*/
 		
 	
 	}	
