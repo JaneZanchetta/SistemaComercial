@@ -158,12 +158,13 @@ public class UsuarioDaoImpl implements UsuarioDao {
 		try {
 			try {
 				st = con.createStatement();
-				result = st.executeQuery("SELECT id, idcliente, senha, FROM CLIENTE ");
+				result = st.executeQuery("SELECT id, idcliente, senha FROM USUARIO ");
 				while (result.next()) {
 					Usuario o = new Usuario();
 					o.setId(result.getInt(1));
 					o.setIdCliente(result.getInt("IdCliente"));
 					o.setSenha(result.getString("Senha"));
+
 					lista.add(o);
 
 				}
@@ -172,6 +173,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
 					st.close();
 				if (result != null)
 					result.close();
+				System.out.println(" ERRO ");
 				return lista;
 			}
 		} catch (SQLException e) {

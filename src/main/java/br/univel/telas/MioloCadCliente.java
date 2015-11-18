@@ -287,6 +287,12 @@ public class MioloCadCliente extends JPanel {
 
 	}
 
+	/**
+	 * @author Jane Z.
+	 * 17 de nov de 2015 20:11:13
+	 * Carrega tabela com os clientes cadastrados no BD
+	 */
+	
 	private void setModel() {
 		cd = new ClienteDaoImpl();
 		List<Cliente> lista;

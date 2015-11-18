@@ -17,12 +17,14 @@ import java.awt.Insets;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import br.univel.cadastro.Cliente;
 import br.univel.cadastro.ClienteDaoImpl;
+import br.univel.cadastro.UF;
 import br.univel.cadastro.Usuario;
 import br.univel.cadastro.UsuarioDaoImpl;
 
@@ -30,19 +32,19 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.JComboBox;
 
 /**
  * @author Jane 05/11/2015 22:53:50
  */
 public class MioloCadUsuario extends JPanel {
 	private JTextField txtId;
-	private JTextField txtIdCliente;
 	private JPasswordField passUsuario;
-	private JTextField txtNomeCliente;
 	private JTable table;
 	private UsuarioModel model;
 	private UsuarioDaoImpl ud;
@@ -51,6 +53,7 @@ public class MioloCadUsuario extends JPanel {
 	private JButton btnExcluir;
 	private JButton btnSalvar;
 	private JButton btnNovo;
+	private JComboBox <Cliente>comboCliente;
 
 	/**
 	 * Create the panel.
@@ -72,6 +75,8 @@ public class MioloCadUsuario extends JPanel {
 		add(lblId, gbc_lblId);
 
 		txtId = new JTextField();
+		txtId.setEnabled(false);
+		txtId.setEditable(false);
 		GridBagConstraints gbc_txtId = new GridBagConstraints();
 		gbc_txtId.insets = new Insets(0, 0, 5, 5);
 		gbc_txtId.fill = GridBagConstraints.HORIZONTAL;
@@ -80,48 +85,21 @@ public class MioloCadUsuario extends JPanel {
 		add(txtId, gbc_txtId);
 		txtId.setColumns(10);
 
-		JLabel lblIdCliente = new JLabel("Id Cliente");
+		JLabel lblIdCliente = new JLabel("Cliente");
 		GridBagConstraints gbc_lblIdCliente = new GridBagConstraints();
 		gbc_lblIdCliente.anchor = GridBagConstraints.EAST;
 		gbc_lblIdCliente.insets = new Insets(0, 0, 5, 5);
 		gbc_lblIdCliente.gridx = 0;
 		gbc_lblIdCliente.gridy = 2;
 		add(lblIdCliente, gbc_lblIdCliente);
-
-		txtIdCliente = new JTextField();
-		txtIdCliente.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusLost(FocusEvent arg0) {
-				validaUsuario();
-			}
-		});
-		GridBagConstraints gbc_txtIdCliente = new GridBagConstraints();
-		gbc_txtIdCliente.insets = new Insets(0, 0, 5, 5);
-		gbc_txtIdCliente.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtIdCliente.gridx = 1;
-		gbc_txtIdCliente.gridy = 2;
-		add(txtIdCliente, gbc_txtIdCliente);
-		txtIdCliente.setColumns(10);
-
-		JLabel lblNome = new JLabel("Nome");
-		GridBagConstraints gbc_lblNome = new GridBagConstraints();
-		gbc_lblNome.anchor = GridBagConstraints.EAST;
-		gbc_lblNome.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNome.gridx = 3;
-		gbc_lblNome.gridy = 2;
-		add(lblNome, gbc_lblNome);
-
-		txtNomeCliente = new JTextField();
-		txtNomeCliente.setEnabled(false);
-		txtNomeCliente.setEditable(false);
-		GridBagConstraints gbc_txtNomeCliente = new GridBagConstraints();
-		gbc_txtNomeCliente.anchor = GridBagConstraints.NORTH;
-		gbc_txtNomeCliente.insets = new Insets(0, 0, 5, 0);
-		gbc_txtNomeCliente.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtNomeCliente.gridx = 4;
-		gbc_txtNomeCliente.gridy = 2;
-		add(txtNomeCliente, gbc_txtNomeCliente);
-		txtNomeCliente.setColumns(10);
+		
+		comboCliente = new JComboBox(new DefaultComboBoxModel());
+		GridBagConstraints gbc_comboCliente = new GridBagConstraints();
+		gbc_comboCliente.insets = new Insets(0, 0, 5, 5);
+		gbc_comboCliente.fill = GridBagConstraints.HORIZONTAL;
+		gbc_comboCliente.gridx = 1;
+		gbc_comboCliente.gridy = 2;
+		add(comboCliente, gbc_comboCliente);
 
 		JLabel lblSenha = new JLabel("Senha");
 		GridBagConstraints gbc_lblSenha = new GridBagConstraints();
@@ -193,20 +171,38 @@ public class MioloCadUsuario extends JPanel {
 			}
 		});
 		scrollPane.setViewportView(table);
-		ud = new UsuarioDaoImpl();
-		model = new UsuarioModel((ArrayList<Usuario>) ud.liste());
-		table.setModel(model);
+		cd = new ClienteDaoImpl();
+		preencheCombo();
+		setModel();
 		acaoNovo();
-
+	}
+	
+	private void preencheCombo() {
+		List<Cliente> lista =  cd.liste();
+		for (Cliente c: lista) {
+			comboCliente.addItem(c);
+		}
 
 	}
 
+	/**
+	 * @author Jane Z.
+	 * 17 de nov de 2015 20:46:58
+	 */
+
+	private void setModel() {
+		ud = new UsuarioDaoImpl();
+		List<Usuario> lista;
+		lista = ud.liste();
+		model = new UsuarioModel(lista);
+		table.setModel(model);
+	}
+
 	protected void acaoNovo() {
-		novo = true;
 		limparCampos();
+		novo = true;
 		btnExcluir.setEnabled(false);
 		btnNovo.setEnabled(false);
-		txtIdCliente.requestFocus();
 		
 		
 	}
@@ -218,32 +214,11 @@ public class MioloCadUsuario extends JPanel {
 		int id = table.getSelectedRow();
 		if (id > 0) {
 			txtId.setText(Integer.toString(model.getLista().get(id).getId()));
-			txtIdCliente.setText(Integer.toString(model.getLista().get(id).getIdCliente()));
 			passUsuario.setText((model.getLista().get(id).getSenha()));
 			novo = false;
 			btnExcluir.setEnabled(true);
 		}
 
-	}
-
-	/**
-	 * @Author Jane Z. 07/11/2015 01:47:04
-	 */
-	protected void validaUsuario() {
-		int id = 0;
-		if (txtId.getText().equals("")) {
-			id = -1;
-		} else {
-			id = Integer.parseInt(txtId.getText().trim());
-		}
-		Cliente c = new Cliente();
-		// buscar o nome do cliente para exibir na tela
-		// txtNomeCliente.setText(c.getNome(cd.read(id)));
-		if (txtNomeCliente == null) {
-			JOptionPane.showMessageDialog(this, "Cliente Inválido!!!");
-			txtId.setFocusable(true);
-		}
-		;
 	}
 
 	/**
@@ -277,8 +252,6 @@ public class MioloCadUsuario extends JPanel {
 	 */
 	private void limparCampos() {
 		txtId.setText("");
-		txtIdCliente.setText("");
-		txtNomeCliente.setText("");
 		passUsuario.setText("");
 
 	}
@@ -289,17 +262,15 @@ public class MioloCadUsuario extends JPanel {
 	protected void acaoSalvar() {
 		btnNovo.setEnabled(true);
 		int id = 0;
+		Usuario u = new Usuario();
 		if (!novo) {
 			id = Integer.parseInt(txtId.getText().trim());
 		}
 
-		Usuario u = new Usuario();
-		int idCliente = Integer.parseInt(txtIdCliente.getText().trim());
-		validaCliente(idCliente);
 		int resposta = JOptionPane.showConfirmDialog(null, "Confirma informações?");
 		if (resposta == JOptionPane.YES_OPTION) {
-			u.setId(id);
-			u.setIdCliente(idCliente);
+			Cliente c = (Cliente) comboCliente.getSelectedItem();
+			u.setIdCliente(c.getId());
 			if (novo) {
 					try {
 						ud.create(u);

@@ -10,6 +10,7 @@ import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 import br.univel.cadastro.Cliente;
+import br.univel.cadastro.ClienteDaoImpl;
 import br.univel.cadastro.Usuario;
 
 /**
@@ -18,12 +19,23 @@ import br.univel.cadastro.Usuario;
  */
 public class UsuarioModel extends AbstractTableModel {
 
-	public UsuarioModel(ArrayList<Usuario> l) {
-		this.lista = l;
+	public UsuarioModel(List<Usuario> l) {
+		lista = l;
 
 	}
 
+	
+	
+	public UsuarioModel() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+
+
 	private List<Usuario> lista = new ArrayList<>();
+	private ClienteDaoImpl cd;
+
 
 	public List<Usuario> getLista() {
 		return lista;
@@ -59,15 +71,21 @@ public class UsuarioModel extends AbstractTableModel {
 	@Override
 	public Object getValueAt(int row, int col) {
 		Usuario u = lista.get(row);
-        Cliente c = new Cliente();
+		int id = u.getIdCliente();		
+		String nome = " nome-do-cliente";
+//        Cliente c = cd.read(id);
+ //        nome = c.getNome();
+			
+       
+        
 		switch (col) {
 		case 0:
 			return u.getId();
 		case 1:
 			return u.getIdCliente();
 		case 2:
-// getNome de que cliente ????
-			return c.getNome();
+
+			return nome;
 
 		default:
 			return "erro";

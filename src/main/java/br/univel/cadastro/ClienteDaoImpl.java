@@ -52,7 +52,9 @@ public class ClienteDaoImpl implements ClienteDao {
 		try {
 			try {
 				st = con.createStatement();
+				System.out.println("aqui ");
 				result = st.executeQuery("SELECT * FROM CLIENTE WHERE ID = ?");
+				System.out.println(" passou ");
 				c.setId(result.getInt("Id"));
 				c.setNome(result.getString("Nome"));
 				c.setTelefone(result.getString("Telefone"));
@@ -61,6 +63,7 @@ public class ClienteDaoImpl implements ClienteDao {
 				UF.valueOf(UF.class, result.getString("UF"));
 				c.setEmail(result.getString("Email"));
 				Genero.valueOf(Genero.class, result.getString("Genero"));
+				return c;
 
 			} finally {
 				if (st != null)

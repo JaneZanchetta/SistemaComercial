@@ -106,5 +106,10 @@ public class Cliente {
 		this.email = email;
 		this.genero = genero;
 	}
+
+	@Override
+	public String toString() {
+		return nome;
+	}
 	
 }
