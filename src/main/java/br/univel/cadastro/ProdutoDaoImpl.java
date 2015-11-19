@@ -165,7 +165,6 @@ public class ProdutoDaoImpl  implements ProdutoDao {
 					p.setCusto(result.getBigDecimal("Custo"));
 					p.setMargemLucro(result.getBigDecimal("MargemLucro"));
 					p.setId(result.getInt("ID"));
-					System.out.println(" passou ");
 					lista.add(p);
 
 				}

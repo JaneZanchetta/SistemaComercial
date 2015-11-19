@@ -28,8 +28,14 @@ import java.awt.Color;
 import java.awt.SystemColor;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.Formatter.BigDecimalLayoutForm;
 import java.util.List;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.math.BigDecimal;
 
 /**
  * @author Jane
@@ -39,9 +45,7 @@ public class MioloVenda extends JPanel {
 	private JTextField txtNroCompra;
 	private JTextField txtData;
 	private JTextField txtVlrTotal;
-	private JTextField txtIdProduto;
 	private JTable tbFitaCompra;
-	private JTextField txtIdCliente;
 	private JTextField txtVlrPago;
 	private JTextField txtTroco;
 	private JTextField txtQtde;
@@ -51,6 +55,8 @@ public class MioloVenda extends JPanel {
 	private JComboBox <Produto>cbProduto;
 	private ClienteDaoImpl cd;
 	private ProdutoDaoImpl pd;
+//	private BigDecimal vlrTotal, totalGeral;
+	BigDecimal totalGeral = new BigDecimal(0);
 
 
 
@@ -59,8 +65,7 @@ public class MioloVenda extends JPanel {
 	 */
 	public MioloVenda() {
 		
-		JPanel painelCliente = new JPanel();
-		
+		JPanel painelCliente = new JPanel();		
 		JPanel painelGeral = new JPanel();
 		
 		JPanel painelProduto = new JPanel();
@@ -115,16 +120,6 @@ public class MioloVenda extends JPanel {
 		gbc_lblCliente.gridy = 0;
 		painelCliente.add(lblCliente, gbc_lblCliente);
 		
-		txtIdCliente = new JTextField();
-		GridBagConstraints gbc_txtIdCliente = new GridBagConstraints();
-		gbc_txtIdCliente.insets = new Insets(0, 0, 0, 5);
-		gbc_txtIdCliente.anchor = GridBagConstraints.NORTH;
-		gbc_txtIdCliente.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtIdCliente.gridx = 1;
-		gbc_txtIdCliente.gridy = 0;
-		painelCliente.add(txtIdCliente, gbc_txtIdCliente);
-		txtIdCliente.setColumns(10);
-		
 		cbCliente = new JComboBox(new DefaultComboBoxModel());
 		GridBagConstraints gbc_cbCliente = new GridBagConstraints();
 		gbc_cbCliente.fill = GridBagConstraints.HORIZONTAL;
@@ -146,17 +141,13 @@ public class MioloVenda extends JPanel {
 		gbc_lblProdutos.gridy = 0;
 		painelProduto.add(lblProdutos, gbc_lblProdutos);
 		
-		txtIdProduto = new JTextField();
-		GridBagConstraints gbc_txtIdProduto = new GridBagConstraints();
-		gbc_txtIdProduto.insets = new Insets(0, 0, 5, 5);
-		gbc_txtIdProduto.anchor = GridBagConstraints.NORTH;
-		gbc_txtIdProduto.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtIdProduto.gridx = 0;
-		gbc_txtIdProduto.gridy = 1;
-		painelProduto.add(txtIdProduto, gbc_txtIdProduto);
-		txtIdProduto.setColumns(10);
-		
 		cbProduto =new JComboBox(new DefaultComboBoxModel());
+		cbProduto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cbProduto.transferFocus();
+//				txtQtde.transferFocus();
+			}
+		});
 		GridBagConstraints gbc_cbProduto = new GridBagConstraints();
 		gbc_cbProduto.insets = new Insets(0, 0, 5, 0);
 		gbc_cbProduto.fill = GridBagConstraints.HORIZONTAL;
@@ -190,6 +181,11 @@ public class MioloVenda extends JPanel {
 		painelProduto.add(lblValorUnitrio, gbc_lblValorUnitrio);
 		
 		txtUnitProduto = new JTextField();
+		txtUnitProduto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				calcula();
+			}
+		});
 		GridBagConstraints gbc_txtUnitProduto = new GridBagConstraints();
 		gbc_txtUnitProduto.insets = new Insets(0, 0, 5, 0);
 		gbc_txtUnitProduto.fill = GridBagConstraints.HORIZONTAL;
@@ -344,10 +340,57 @@ public class MioloVenda extends JPanel {
 		painelGeral.add(txtTroco, gbc_txtTroco);
 		txtTroco.setColumns(10);
 		setLayout(groupLayout);
-
+		cd = new ClienteDaoImpl();
+		pd = new ProdutoDaoImpl();
 		preencheComboCliente();
 		preencheComboProduto();
+		acaoNovo();
 
+		
+	}
+	
+	/**
+	 * @author Jane Z. 
+	 * 19 de nov de 2015 19:52:06
+	 * Prepara formulário e variáveis para nova venda
+	 */
+	
+	private void acaoNovo() {
+		limparCampos();
+		//pegar data;
+		
+
+	}
+
+	/**
+	 * @author Jane Z. 
+	 * 19 de nov de 2015 19:53:23
+	 * Limpa os campos do formulário
+	 * 
+	 */
+	private void limparCampos() {
+	
+	}
+
+	/**
+	 * @author Jane Z.
+	 * 19 de nov de 2015 19:32:36
+	 * Calcula valor total do item e alimenta a lista geral de venda
+	 */
+
+protected void calcula() {
+		BigDecimal unitario = new BigDecimal (txtUnitProduto.getText());
+		
+		BigDecimal vlrTotal = new BigDecimal(0);
+		vlrTotal = new BigDecimal (txtQtde.getText()).multiply(unitario);
+  	    txtTotalProduto.setText(vlrTotal.toString()); 
+ 	    System.out.println(vlrTotal);
+  	    System.out.println(totalGeral);
+  	    totalGeral = totalGeral.add(totalGeral.add(vlrTotal));
+  	    System.out.println(totalGeral);
+  	    txtVlrTotal.setText(totalGeral.toString());
+  	    
+				
 		
 	}
 

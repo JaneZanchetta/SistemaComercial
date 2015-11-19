@@ -124,6 +124,11 @@ public class Principal extends JFrame {
 		menuBar.add(mnRelatrios);
 		
 		JMenuItem mntmClientes = new JMenuItem("Clientes");
+		mntmClientes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				RelCliente();
+			}
+		});
 		mnRelatrios.add(mntmClientes);
 		
 		JMenuItem mntmProdutos = new JMenuItem("Produtos");
@@ -136,8 +141,14 @@ public class Principal extends JFrame {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 		
-		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane = 
+				new JTabbedPane(JTabbedPane.TOP);
 		contentPane.add(tabbedPane, BorderLayout.CENTER);
+	}
+
+	protected void RelCliente() {
+		// TODO Auto-generated method stub
+		
 	}
 
 	protected void venda() {
