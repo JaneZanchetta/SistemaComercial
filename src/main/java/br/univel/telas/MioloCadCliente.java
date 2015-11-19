@@ -362,6 +362,7 @@ public class MioloCadCliente extends JPanel {
 			c.setCidade(cidade);
 			c.setEmail(email);
 			c.setUf((UF) comboUF.getSelectedItem());
+			System.out.println(comboUF.getSelectedItem().toString());
 			c.setGenero((Genero) comboGenero.getSelectedItem());
 			if (novo) {
 				cd.create(c);

@@ -183,7 +183,8 @@ public class MioloVenda extends JPanel {
 		txtUnitProduto = new JTextField();
 		txtUnitProduto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				calcula();
+				adicionaItem();
+				limpaItem();
 			}
 		});
 		GridBagConstraints gbc_txtUnitProduto = new GridBagConstraints();
@@ -197,6 +198,7 @@ public class MioloVenda extends JPanel {
 		JButton btnRemovertem = new JButton("Remover \u00CDtem");
 		btnRemovertem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				removeItem();
 			}
 		});
 		
@@ -349,6 +351,18 @@ public class MioloVenda extends JPanel {
 		
 	}
 	
+	protected void removeItem() {
+		System.out.println("remover");
+		
+	}
+
+	protected void limpaItem() {
+		txtQtde.setText("");
+		txtUnitProduto.setText("");
+		txtVlrTotal.setText("");
+		
+	}
+
 	/**
 	 * @author Jane Z. 
 	 * 19 de nov de 2015 19:52:06
@@ -356,7 +370,7 @@ public class MioloVenda extends JPanel {
 	 */
 	
 	private void acaoNovo() {
-		limparCampos();
+		limpaCampos();
 		//pegar data;
 		
 
@@ -368,7 +382,7 @@ public class MioloVenda extends JPanel {
 	 * Limpa os campos do formulário
 	 * 
 	 */
-	private void limparCampos() {
+	private void limpaCampos() {
 	
 	}
 
@@ -378,17 +392,16 @@ public class MioloVenda extends JPanel {
 	 * Calcula valor total do item e alimenta a lista geral de venda
 	 */
 
-protected void calcula() {
+protected void adicionaItem() {
 		BigDecimal unitario = new BigDecimal (txtUnitProduto.getText());
-		
 		BigDecimal vlrTotal = new BigDecimal(0);
 		vlrTotal = new BigDecimal (txtQtde.getText()).multiply(unitario);
   	    txtTotalProduto.setText(vlrTotal.toString()); 
- 	    System.out.println(vlrTotal);
-  	    System.out.println(totalGeral);
   	    totalGeral = totalGeral.add(totalGeral.add(vlrTotal));
-  	    System.out.println(totalGeral);
   	    txtVlrTotal.setText(totalGeral.toString());
+  	    System.out.println("ADICIONAR NO MODEL");
+  	    System.out.println("ADICIONAR NO array");
+  	    
   	    
 				
 		
