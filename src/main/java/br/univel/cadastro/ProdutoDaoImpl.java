@@ -149,15 +149,13 @@ public class ProdutoDaoImpl  implements ProdutoDao {
 	public List<Produto> liste() {
 		lista = new ArrayList<Produto>();
 		Statement st = null;
-		ResultSet result = null;
-		
+		ResultSet result = null;		
 		
 		try {
 			try {
 				st = con.createStatement();
-				result = st.executeQuery("SELECT descricao, codBar, categoria, "
-						+ "unidade, custo, margemLucro"
-						+ "  FROM produto");
+				result = st.executeQuery("SELECT id, descricao, codBar, categoria, "
+						+ "unidade, custo, margemLucro FROM produto");
 				while (result.next()) {
 					Produto p = new Produto();
 					p.setDescricao(result.getString("Descricao"));
@@ -167,6 +165,7 @@ public class ProdutoDaoImpl  implements ProdutoDao {
 					p.setCusto(result.getBigDecimal("Custo"));
 					p.setMargemLucro(result.getBigDecimal("MargemLucro"));
 					p.setId(result.getInt("ID"));
+					System.out.println(" passou ");
 					lista.add(p);
 
 				}

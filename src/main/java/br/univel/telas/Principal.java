@@ -113,6 +113,11 @@ public class Principal extends JFrame {
 		menuBar.add(mnVendas);
 
 		JMenuItem mntmVenda = new JMenuItem("Venda");
+		mntmVenda.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				venda();
+			}
+		});
 		mnVendas.add(mntmVenda);
 		
 		JMenu mnRelatrios = new JMenu("Relat\u00F3rios");
@@ -133,6 +138,20 @@ public class Principal extends JFrame {
 		
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		contentPane.add(tabbedPane, BorderLayout.CENTER);
+	}
+
+	protected void venda() {
+		TelaVenda telaVenda = new TelaVenda();
+		ActionListener action = new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				tabbedPane.remove(telaVenda);
+								
+			}
+		};
+		telaVenda.setCloseAction(action);
+		tabbedPane.addTab("Venda", telaVenda);
 	}
 
 	/**

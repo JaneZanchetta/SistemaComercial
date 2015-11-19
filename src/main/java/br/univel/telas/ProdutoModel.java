@@ -66,13 +66,13 @@ public class ProdutoModel extends AbstractTableModel {
 		case 2:
 			return p.getCodBar();
 		case 3:
-			return "CAtegria";
+			return "Categria";
 		case 4:
 			return p.getCusto();
 		case 5:
 			return p.getMargemLucro();
 		case 6:
-			return "UNIADE";
+			return "UNID. MEDIDA";
 
 		default:
 			return "erro";

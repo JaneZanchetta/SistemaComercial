@@ -5,9 +5,16 @@
 package br.univel.telas;
 
 import javax.swing.JPanel;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
+
+import br.univel.cadastro.Cliente;
+import br.univel.cadastro.ClienteDaoImpl;
+import br.univel.cadastro.Produto;
+import br.univel.cadastro.ProdutoDaoImpl;
+
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
 import java.awt.GridBagConstraints;
@@ -21,6 +28,7 @@ import java.awt.Color;
 import java.awt.SystemColor;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.awt.event.ActionEvent;
 
 /**
@@ -39,6 +47,12 @@ public class MioloVenda extends JPanel {
 	private JTextField txtQtde;
 	private JTextField txtUnitProduto;
 	private JTextField txtTotalProduto;
+	private JComboBox <Cliente>cbCliente;
+	private JComboBox <Produto>cbProduto;
+	private ClienteDaoImpl cd;
+	private ProdutoDaoImpl pd;
+
+
 
 	/**
 	 * Create the panel.
@@ -111,7 +125,7 @@ public class MioloVenda extends JPanel {
 		painelCliente.add(txtIdCliente, gbc_txtIdCliente);
 		txtIdCliente.setColumns(10);
 		
-		JComboBox cbCliente = new JComboBox();
+		cbCliente = new JComboBox(new DefaultComboBoxModel());
 		GridBagConstraints gbc_cbCliente = new GridBagConstraints();
 		gbc_cbCliente.fill = GridBagConstraints.HORIZONTAL;
 		gbc_cbCliente.gridx = 2;
@@ -142,7 +156,7 @@ public class MioloVenda extends JPanel {
 		painelProduto.add(txtIdProduto, gbc_txtIdProduto);
 		txtIdProduto.setColumns(10);
 		
-		JComboBox cbProduto = new JComboBox();
+		cbProduto =new JComboBox(new DefaultComboBoxModel());
 		GridBagConstraints gbc_cbProduto = new GridBagConstraints();
 		gbc_cbProduto.insets = new Insets(0, 0, 5, 0);
 		gbc_cbProduto.fill = GridBagConstraints.HORIZONTAL;
@@ -330,6 +344,37 @@ public class MioloVenda extends JPanel {
 		painelGeral.add(txtTroco, gbc_txtTroco);
 		txtTroco.setColumns(10);
 		setLayout(groupLayout);
+
+		preencheComboCliente();
+		preencheComboProduto();
+
+		
+	}
+
+/**
+ * @author Jane Z.
+ * 18 de nov de 2015 23:00:54
+ * Método para buscar os produtos cadastrados e colocá-los no Combo
+ */
+	private void preencheComboProduto() {
+		List<Produto> lista =  pd.liste();
+		for (Produto p: lista) {
+			cbProduto.addItem(p);
+		}
+		
+	}
+
+	/**
+	 * @author Jane Z.
+	 * 18 de nov de 2015 23:03:29
+	 * Método para buscar os clientes cadastrados e colocá-los no Combo
+	 */
+	
+	private void preencheComboCliente() {
+		List <Cliente> lista =  cd.liste();
+		for (Cliente c: lista) {
+			cbCliente.addItem(c);
+		}
 		
 	}
 }

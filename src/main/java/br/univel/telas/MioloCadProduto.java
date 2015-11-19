@@ -77,7 +77,6 @@ public class MioloCadProduto extends JPanel {
 		add(lblId, gbc_lblId);
 		
 		txtId = new JTextField();
-		txtId.setEditable(false);
 		GridBagConstraints gbc_txtId = new GridBagConstraints();
 		gbc_txtId.fill = GridBagConstraints.BOTH;
 		gbc_txtId.insets = new Insets(0, 0, 5, 5);
@@ -278,6 +277,7 @@ public class MioloCadProduto extends JPanel {
 		pd = new ProdutoDaoImpl();
 		List<Produto> lista;
 		lista = pd.liste();
+		System.out.println("voltou, vai pro model");
 		model = new ProdutoModel(lista);
 		table.setModel(model);
 		
@@ -303,10 +303,10 @@ public class MioloCadProduto extends JPanel {
 		int resposta = JOptionPane.showConfirmDialog(null, "Confirma informações?");
 		if (resposta == JOptionPane.YES_OPTION) {
 			p.setCategoria((Categoria) comboCategoria.getSelectedItem());
-			p.setCodBar(Integer.parseInt(txtCodBar.getText()));
+			p.setCodBar(Integer.parseInt(txtCodBar.getText().trim()));
 
-			BigDecimal.valueOf(Double.parseDouble(txtCusto.getText()));
-			BigDecimal.valueOf(Double.parseDouble(txtMargemLucro.getText()));
+			BigDecimal.valueOf(Double.parseDouble(txtCusto.getText().trim()));
+			BigDecimal.valueOf(Double.parseDouble(txtMargemLucro.getText().trim()));
 			p.setUnidade((Unidade) comboUnidade.getSelectedItem());
 			p.setDescricao(txtDescricao.getText());
 			if (novo) {
@@ -367,7 +367,8 @@ protected void acaoExcluir() {
 		novo = true;
 		btnExcluir.setEnabled(false);
 		btnNovo.setEnabled(false);
-		txtDescricao.requestFocus();
+		txtDescricao.grabFocus();
+//		txtDescricao.requestFocusInWindow();
 		
 	}
 
