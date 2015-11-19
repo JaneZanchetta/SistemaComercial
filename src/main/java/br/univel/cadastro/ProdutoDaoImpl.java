@@ -147,8 +147,41 @@ public class ProdutoDaoImpl  implements ProdutoDao {
 	 */
 	@Override
 	public List<Produto> liste() {
-		// TODO Auto-generated method stub
-		return null;
+		lista = new ArrayList<Produto>();
+		Statement st = null;
+		ResultSet result = null;
+		
+		
+		try {
+			try {
+				st = con.createStatement();
+				result = st.executeQuery("SELECT descricao, codBar, categoria, "
+						+ "unidade, custo, margemLucro"
+						+ "  FROM produto");
+				while (result.next()) {
+					Produto p = new Produto();
+					p.setDescricao(result.getString("Descricao"));
+					p.setCodBar(result.getInt("CodBar"));
+					p.setCategoria(Categoria.getEnumValue(result.getString("Categoria")));
+					p.setUnidade(Unidade.getEnumValue(result.getString("Unidade")));
+					p.setCusto(result.getBigDecimal("Custo"));
+					p.setMargemLucro(result.getBigDecimal("MargemLucro"));
+					p.setId(result.getInt("ID"));
+					lista.add(p);
+
+				}
+			} finally {
+				if (st != null)
+					st.close();
+				if (result != null)
+					result.close();
+				return lista;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+
 	}
 
 }

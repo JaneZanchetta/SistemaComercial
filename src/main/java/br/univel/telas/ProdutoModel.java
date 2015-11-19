@@ -19,6 +19,10 @@ public class ProdutoModel extends AbstractTableModel {
 
 	private List<Produto> lista = new ArrayList<>();
 
+	public ProdutoModel(List<Produto> lista2) {
+		// TODO Auto-generated constructor stub
+	}
+
 	public List<Produto> getLista() {
 		return lista;
 	}
@@ -96,22 +100,12 @@ public class ProdutoModel extends AbstractTableModel {
 		case 5:
 			return "MARGEM DE LUCRO";
 		case 6:
-			return "UNIADE";
+			return "UNID. MEDIDA";
 
 		default:
 			return super.getColumnName(col);
 		}
 	}
-	public void incluir(Produto p) {
-		lista.add(p);
-		super.fireTableDataChanged();
-	}
-
 	
-	public void excluir(Produto p) {
-		lista.remove(p);
-		super.fireTableDataChanged();
-	}
-
 
 }

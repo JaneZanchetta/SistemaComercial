@@ -331,9 +331,6 @@ public class MioloCadCliente extends JPanel {
 			}
 			limparCampos();
 			setModel();
-//			model.excluir(c);
-//			table.setModel(model);
-//			model.fireTableDataChanged();
 
 		}
 	}
@@ -341,6 +338,9 @@ public class MioloCadCliente extends JPanel {
 	/**
 	 * @throws SQLException
 	 * @Author Jane Z. 06/11/2015 00:54:41
+	 * Solicita ao usuário confirmação;se confirmado insere os dados no BD
+	 * através do método da classe DAO. Depois chama os métodos para limpar
+	 * formulário e atualizar a tabela de clientes exibida.
 	 */
 	protected void acaoSalvar() throws SQLException {
 		btnNovo.setEnabled(true);
@@ -373,16 +373,13 @@ public class MioloCadCliente extends JPanel {
 		}
 		limparCampos();
 		setModel();
-//		model = new ClienteModel((ArrayList<Cliente>) cd.liste());
-//		c.setId(id);
-	//	model.incluir(c);
-		//table.setModel(model);
 	}
 
 	
 
 	/**
 	 * @Author Jane Z. 06/11/2015 01:03:23
+	 * limpa o formulário
 	 */
 	private void limparCampos() {
 		txtId.setText("");

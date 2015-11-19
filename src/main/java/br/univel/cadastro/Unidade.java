@@ -2,7 +2,7 @@ package br.univel.cadastro;
 
 
 public enum Unidade {
-	KG,UNID,PCT,PEÇA,CAIXA;
+	KG, GRAMAS,UNID,PCT,PEÇA,CAIXA;
 	/**
 	 * Esse laço percorre cada ítem desta enum, comparando seu valor convertido
 	 * para String com o valor passado por parametro

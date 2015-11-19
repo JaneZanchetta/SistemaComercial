@@ -3,8 +3,6 @@ package br.univel.cadastro;
 import java.math.BigDecimal;
 
 public class Produto {
-	private static int sequence = 0;  
-
 	
 	private int id;
 	private String descricao;
@@ -21,7 +19,7 @@ public class Produto {
 		return id;
 	}
 	public void setId(int id) {
-		this.id = sequence++;
+		this.id = id;
 	}
 	public String getDescricao() {
 		return descricao;
