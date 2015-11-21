@@ -24,8 +24,7 @@ public class ClienteModel extends AbstractTableModel {
 	public ClienteModel(List<Cliente> l) {
 		lista = l;
 
-	}
-	
+	}	
 	
 
 	public ClienteModel() {
@@ -44,7 +43,7 @@ public class ClienteModel extends AbstractTableModel {
 	@Override
 	public int getColumnCount() {
 		// TODO Auto-generated method stub
-		return 5;
+		return 8;
 	}
 
 	/*
@@ -73,7 +72,13 @@ public class ClienteModel extends AbstractTableModel {
 		case 4:
 			return c.getCidade();
 		case 5:
+			return c.getUf();
+		case 6:
 			return c.getEmail();
+		case 7:
+			return c.getGenero();
+			
+			
 
 		default:
 			return "erro";
@@ -99,7 +104,11 @@ public class ClienteModel extends AbstractTableModel {
 		case 4:
 			return "Cidade";
 		case 5:
+			return "UF";
+		case 6:
 			return "Email";
+		case 7:
+			return "Genero";
 
 		default:
 			return super.getColumnName(col);
@@ -107,19 +116,5 @@ public class ClienteModel extends AbstractTableModel {
 
 	}
 	
-/**
- * @author Jane Z.
- * 11 de nov de 2015 20:37:40
- * Acrescenta o cliente à lista da tabela e reexibe
- */
-	public void incluir(Cliente c) {
-		lista.add(c);
-		super.fireTableDataChanged();
-	}
-
-	public void excluir(Cliente c) {
-		lista.remove(c);
-		super.fireTableDataChanged();
-	}
 
 }

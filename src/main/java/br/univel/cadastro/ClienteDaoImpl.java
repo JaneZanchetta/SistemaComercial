@@ -38,7 +38,8 @@ public class ClienteDaoImpl implements ClienteDao {
 		ps.setString(4, c.getCidade());
 		ps.setString(5, c.getUf().toString());
 		ps.setString(6, c.getEmail());
-		ps.setString(7, c.getGenero().getDescricao());
+//		ps.setString(7, c.getGenero().getDescricao());
+		ps.setString(7, c.getGenero().toString());
 		int res = ps.executeUpdate();
 		
 		ps.close();
@@ -52,9 +53,7 @@ public class ClienteDaoImpl implements ClienteDao {
 		try {
 			try {
 				st = con.createStatement();
-				System.out.println("aqui ");
 				result = st.executeQuery("SELECT * FROM CLIENTE WHERE ID = ?");
-				System.out.println(" passou ");
 				c.setId(result.getInt("Id"));
 				c.setNome(result.getString("Nome"));
 				c.setTelefone(result.getString("Telefone"));
@@ -81,23 +80,30 @@ public class ClienteDaoImpl implements ClienteDao {
 	}
 
 	public void update(Cliente c) {
-		String sql = "UPDATE cliente SET ID = ?, NOME = ?, TELEFONE = ?, ENDERECO = ?, "
+		String sql = "UPDATE cliente SET NOME = ?, TELEFONE = ?, ENDERECO = ?, "
 				+ "CIDADE = ?, UF = ?, EMAIL = ?, GENERO = ?"
 				+ " WHERE ID = ?";
 		PreparedStatement ps;
 		try {
 			ps = con.prepareStatement(sql);
 
-			ps.setInt(1, c.getId());
-			ps.setString(2, c.getNome());
-			ps.setString(3, c.getTelefone());
-			ps.setString(4, c.getEndereco());
-			ps.setString(5, c.getCidade());
-			ps.setString(6, c.getUf().toString());
-			ps.setString(7, c.getEmail());
-			ps.setString(8, c.getGenero().getDescricao());
-			ps.setInt(9, c.getId());
+//			ps.setInt(1, c.getId());
+			ps.setString(1, c.getNome());
+			ps.setString(2, c.getTelefone());
+			ps.setString(3, c.getEndereco());
+			ps.setString(4, c.getCidade());
+			ps.setString(5, c.getUf().toString());
+			ps.setString(6, c.getEmail());
+			ps.setString(7, c.getGenero().toString());
+			ps.setInt(8, c.getId());
+
 			int res = ps.executeUpdate();
+			if (res > 0) {
+				JOptionPane.showMessageDialog(null, "Operação realizada com sucesso!");
+			} else {
+				JOptionPane.showMessageDialog(null, "Operação não realizada!");
+				
+			}
 			ps.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -169,12 +175,41 @@ public class ClienteDaoImpl implements ClienteDao {
 						+ "cidade, Uf, email, genero"
 						+ "  FROM CLIENTE ");
 				while (result.next()) {
+	/*				
+					lista.add(c = new Cliente(
+							result.getInt("ID"),
+							result.getString("Nome"),
+							result.getString("Telefone"),
+							result.getString("Endereco"),
+							result.getString("Cidade"),
+							result.gets
+							UF.valueOf(UF.class, result.getString("UF")),
+							result.getString("Email"),
+							Genero.valueOf(Genero.class, result.getString("GENERO")
+							)
+						)
+							);
+					
+					
+					/*
+					 * 
+					 */
 					Cliente c = new Cliente();
 					c.setId(result.getInt(1));
 					c.setNome(result.getString("Nome"));
 					c.setTelefone(result.getString("Telefone"));
 					c.setEndereco(result.getString("Endereco"));
 					c.setCidade(result.getString("Cidade"));
+					c.setEmail(result.getString("Email"));
+					for (Genero g : Genero.values()) {
+						if (g.toString().equals(result.getString("Genero")))
+							c.setGenero(g);
+					}
+					for (UF uf : UF.values()) {
+						if (uf.toString().equals(result.getString("UF")))
+							c.setUf(uf); 
+					}
+					 
 					lista.add(c);
 
 				}

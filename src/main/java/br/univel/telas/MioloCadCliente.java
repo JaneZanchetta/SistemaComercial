@@ -62,8 +62,8 @@ public class MioloCadCliente extends JPanel {
 	 * Create the panel.
 	 */
 	public MioloCadCliente() {
-		setMinimumSize(new Dimension(500, 500));
-		setPreferredSize(new Dimension(500, 500));
+		setMinimumSize(new Dimension(1000, 800));
+		setPreferredSize(new Dimension(1000, 800));
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 0, 84, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
@@ -308,7 +308,7 @@ public class MioloCadCliente extends JPanel {
 		limparCampos();
 		novo = true;
 		btnExcluir.setEnabled(false);
-		btnNovo.setEnabled(false);
+//		btnNovo.setEnabled(false);
 		txtNome.requestFocusInWindow();
 
 	}
@@ -354,6 +354,8 @@ public class MioloCadCliente extends JPanel {
 		String endereco = txtEndereco.getText().trim();
 		String cidade = txtCidade.getText().trim();
 		String email = txtEmail.getText().trim();
+		UF uf = (UF) comboUF.getSelectedItem();
+		Genero g = (Genero) comboGenero.getSelectedItem();
 		int resposta = JOptionPane.showConfirmDialog(null, "Confirma informações?");
 		if (resposta == JOptionPane.YES_OPTION) {
 			c.setEndereco(endereco);
@@ -361,16 +363,18 @@ public class MioloCadCliente extends JPanel {
 			c.setNome(nome);
 			c.setCidade(cidade);
 			c.setEmail(email);
-			c.setUf((UF) comboUF.getSelectedItem());
-			System.out.println(comboUF.getSelectedItem().toString());
-			c.setGenero((Genero) comboGenero.getSelectedItem());
+			c.setUf((uf));
+			System.out.println("UF selecionado (367) "+ uf);
+			c.setGenero(g);
 			if (novo) {
 				cd.create(c);
 			} else {
 				id = ((model.getLista().get(table.getSelectedRow()).getId()));
+				c.setId(id);
+				System.out.println("ID a alterar (373) "+ id);
 				cd.update(c);
 			}
-			JOptionPane.showMessageDialog(this, "Operação realizada com sucesso!");
+			
 		}
 		limparCampos();
 		setModel();
@@ -387,6 +391,9 @@ public class MioloCadCliente extends JPanel {
 		txtNome.setText("");
 		txtTelefone.setText("");
 		txtEndereco.setText("");
+		txtEmail.setText("");
+		comboGenero.setSelectedIndex(0);
+		comboUF.setSelectedIndex(0);
 
 	}
 
@@ -397,7 +404,6 @@ public class MioloCadCliente extends JPanel {
 		int id = table.getSelectedRow();
 		System.out.println(id);
 		if (id > 0) {
-
 			txtId.setText(Integer.toString(model.getLista().get(id).getId()));
 			txtNome.setText((model.getLista().get(id).getNome()));
 			txtEndereco.setText((model.getLista().get(id).getEndereco()));

@@ -12,11 +12,14 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 
 import br.univel.cadastro.Cliente;
 import br.univel.cadastro.ClienteDaoImpl;
+import br.univel.cadastro.Item;
 import br.univel.cadastro.Produto;
 import br.univel.cadastro.ProdutoDaoImpl;
 
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.GridBagConstraints;
 import javax.swing.JTextField;
 import java.awt.Insets;
@@ -29,6 +32,8 @@ import java.awt.SystemColor;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.util.Formatter.BigDecimalLayoutForm;
+import java.util.GregorianCalendar;
+import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
@@ -36,6 +41,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.math.BigDecimal;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 
 /**
  * @author Jane
@@ -55,9 +62,11 @@ public class MioloVenda extends JPanel {
 	private JComboBox <Produto>cbProduto;
 	private ClienteDaoImpl cd;
 	private ProdutoDaoImpl pd;
-//	private BigDecimal vlrTotal, totalGeral;
 	BigDecimal totalGeral = new BigDecimal(0);
 
+	private VendaModel model;
+	private List<Item> lista = new ArrayList<>();
+	private JTable table;
 
 
 	/**
@@ -144,6 +153,7 @@ public class MioloVenda extends JPanel {
 		cbProduto =new JComboBox(new DefaultComboBoxModel());
 		cbProduto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				setaValor();
 				cbProduto.transferFocus();
 //				txtQtde.transferFocus();
 			}
@@ -185,6 +195,9 @@ public class MioloVenda extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				adicionaItem();
 				limpaItem();
+				setModel();
+				txtQtde.requestFocus();
+				
 			}
 		});
 		GridBagConstraints gbc_txtUnitProduto = new GridBagConstraints();
@@ -236,6 +249,9 @@ public class MioloVenda extends JPanel {
 		tbFitaCompra = new JTable();
 		tbFitaCompra.setBackground(Color.WHITE);
 		scrollPane.setColumnHeaderView(tbFitaCompra);
+		
+		table = new JTable();
+		scrollPane.setViewportView(table);
 		GridBagLayout gbl_painelGeral = new GridBagLayout();
 		gbl_painelGeral.columnWidths = new int[]{0, 0, 0};
 		gbl_painelGeral.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
@@ -351,6 +367,37 @@ public class MioloVenda extends JPanel {
 		
 	}
 	
+	/**
+	 * @author Jane Z.
+	 * 21 de nov de 2015 10:52:48
+	 * Calcula valor unitário do produto conforme custo/lucro do cadastro
+	 * e exibe na tela
+	 */
+//	protected BigDecimal setaValor() {
+		protected void setaValor() {
+		Produto p = new Produto();
+		BigDecimal unitario = new BigDecimal (0);
+		unitario = (p.getCusto().multiply(p.getMargemLucro().add(p.getCusto())));
+		txtUnitProduto.setText(unitario.toString());
+	}
+
+	/**
+	 * @author Jane Z. 
+	 * 20 de nov de 2015 00:26:28
+	 * Prepara tabela dos itens digitados 
+	 */
+	protected void setModel() {
+		/*
+		cd = new ClienteDaoImpl();
+		List<Cliente> lista;
+		lista = cd.liste();
+		model = new VendaModel(lista);
+		
+		table.setModel(model);
+		*/
+		
+	}
+
 	protected void removeItem() {
 		System.out.println("remover");
 		
@@ -359,7 +406,7 @@ public class MioloVenda extends JPanel {
 	protected void limpaItem() {
 		txtQtde.setText("");
 		txtUnitProduto.setText("");
-		txtVlrTotal.setText("");
+		txtTotalProduto.setText("");
 		
 	}
 
@@ -371,6 +418,10 @@ public class MioloVenda extends JPanel {
 	
 	private void acaoNovo() {
 		limpaCampos();
+	txtData.setText(new SimpleDateFormat("dd/MM/yyyy").format(new Date(System.currentTimeMillis())));
+	
+			    
+	 
 		//pegar data;
 		
 
@@ -383,7 +434,8 @@ public class MioloVenda extends JPanel {
 	 * 
 	 */
 	private void limpaCampos() {
-	
+	cbCliente.setSelectedIndex(0);
+	cbProduto.setSelectedIndex(0);
 	}
 
 	/**
@@ -395,16 +447,28 @@ public class MioloVenda extends JPanel {
 protected void adicionaItem() {
 		BigDecimal unitario = new BigDecimal (txtUnitProduto.getText());
 		BigDecimal vlrTotal = new BigDecimal(0);
+		int qtde;
+		if (txtQtde.getText().trim().equals("")) {
+			qtde = 0;
+		} else {
+		qtde = Integer.parseInt(txtQtde.getText());
+		}
+		 
+		
+	      if (qtde <= 0) {
+	    	  JOptionPane.showMessageDialog(null, "Quantidade inválida!");
+	      } else {
+
+		
 		vlrTotal = new BigDecimal (txtQtde.getText()).multiply(unitario);
   	    txtTotalProduto.setText(vlrTotal.toString()); 
   	    totalGeral = totalGeral.add(totalGeral.add(vlrTotal));
   	    txtVlrTotal.setText(totalGeral.toString());
   	    System.out.println("ADICIONAR NO MODEL");
   	    System.out.println("ADICIONAR NO array");
+	      }  	    
   	    
-  	    
-				
-		
+			
 	}
 
 /**
