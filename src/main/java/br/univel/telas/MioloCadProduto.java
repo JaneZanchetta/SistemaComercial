@@ -62,9 +62,9 @@ public class MioloCadProduto extends JPanel {
 	 */
 	public MioloCadProduto() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{116, 0, 0, 0, 0, 0};
+		gridBagLayout.columnWidths = new int[]{265, 0, 0, 0, 0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.columnWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
@@ -95,7 +95,7 @@ public class MioloCadProduto extends JPanel {
 		
 		txtDescricao = new JTextField();
 		GridBagConstraints gbc_txtDescricao = new GridBagConstraints();
-		gbc_txtDescricao.gridwidth = 2;
+		gbc_txtDescricao.gridwidth = 3;
 		gbc_txtDescricao.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtDescricao.anchor = GridBagConstraints.NORTH;
 		gbc_txtDescricao.insets = new Insets(0, 0, 5, 0);
@@ -181,21 +181,22 @@ public class MioloCadProduto extends JPanel {
 		gbc_lblMargemDeLucro.gridy = 3;
 		add(lblMargemDeLucro, gbc_lblMargemDeLucro);
 		
-		txtMargemLucro = new JTextField();
-		GridBagConstraints gbc_txtMargemLucro = new GridBagConstraints();
-		gbc_txtMargemLucro.insets = new Insets(0, 0, 5, 0);
-		gbc_txtMargemLucro.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtMargemLucro.gridx = 4;
-		gbc_txtMargemLucro.gridy = 3;
-		add(txtMargemLucro, gbc_txtMargemLucro);
-		txtMargemLucro.setColumns(10);
-		
 		btnNovo = new JButton("Novo");
 		btnNovo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				acaoNovo();
 			}
 		});
+		
+		txtMargemLucro = new JTextField();
+		GridBagConstraints gbc_txtMargemLucro = new GridBagConstraints();
+		gbc_txtMargemLucro.gridwidth = 2;
+		gbc_txtMargemLucro.insets = new Insets(0, 0, 5, 5);
+		gbc_txtMargemLucro.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtMargemLucro.gridx = 3;
+		gbc_txtMargemLucro.gridy = 3;
+		add(txtMargemLucro, gbc_txtMargemLucro);
+		txtMargemLucro.setColumns(10);
 		GridBagConstraints gbc_btnNovo = new GridBagConstraints();
 		gbc_btnNovo.insets = new Insets(0, 0, 5, 5);
 		gbc_btnNovo.gridx = 1;
@@ -227,20 +228,21 @@ public class MioloCadProduto extends JPanel {
 		add(btnSalvar, gbc_btnSalvar);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				acaoSelecionar();
-			}
-		});
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
-		gbc_scrollPane.gridwidth = 5;
+		gbc_scrollPane.gridwidth = 6;
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane.gridx = 0;
 		gbc_scrollPane.gridy = 7;
 		add(scrollPane, gbc_scrollPane);
 		
 		table = new JTable();
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				acaoSelecionar();
+			}
+			
+		});
 		scrollPane.setViewportView(table);
 		
 		setModel();
@@ -255,14 +257,24 @@ public class MioloCadProduto extends JPanel {
 	 */
 	protected void acaoSelecionar() {
 		int id = table.getSelectedRow();
-		if (id > 0) {
+		novo = false;
+		System.out.println("linha 277 " + novo);
+
+		if (id > -1) {
 			txtId.setText(Integer.toString(model.getLista().get(id).getId()));
 			txtCodBar.setText(Integer.toString(model.getLista().get(id).getCodBar()));
 			txtDescricao.setText((model.getLista().get(id).getDescricao()));
-			BigDecimal.valueOf(Double.parseDouble(txtCusto.getText()));
-			BigDecimal.valueOf(Double.parseDouble(txtMargemLucro.getText()));
+			BigDecimal bd = new BigDecimal (0);
+			bd = (model.getLista().get(id).getCusto());
+			txtCusto.setText(bd.toString());
+			bd = (model.getLista().get(id).getMargemLucro());
+			txtMargemLucro.setText(bd.toString());
+			comboCategoria.setSelectedItem(model.getLista().get(id).getCategoria().name());
+			comboUnidade.setSelectedItem(model.getLista().get(id).getUnidade().name());
 			novo = false;
+			
 			btnExcluir.setEnabled(true);
+			btnNovo.setEnabled(false);
 		}
 
 		
@@ -277,7 +289,6 @@ public class MioloCadProduto extends JPanel {
 		pd = new ProdutoDaoImpl();
 		List<Produto> lista;
 		lista = pd.liste();
-		System.out.println("voltou, vai pro model");
 		model = new ProdutoModel(lista);
 		table.setModel(model);
 		
@@ -293,37 +304,64 @@ public class MioloCadProduto extends JPanel {
 	 */
 	
 	protected void acaoSalvar() {
-		btnNovo.setEnabled(true);
-		int id = 0;
-		Produto p = new Produto();
-		if (!novo) {
-			id = Integer.parseInt(txtId.getText().trim());
-		}
 
-		int resposta = JOptionPane.showConfirmDialog(null, "Confirma informações?");
-		if (resposta == JOptionPane.YES_OPTION) {
-			p.setCategoria((Categoria) comboCategoria.getSelectedItem());
-			p.setCodBar(Integer.parseInt(txtCodBar.getText().trim()));
+		if (isValido()) {
 
-			BigDecimal.valueOf(Double.parseDouble(txtCusto.getText().trim()));
-			BigDecimal.valueOf(Double.parseDouble(txtMargemLucro.getText().trim()));
-			p.setUnidade((Unidade) comboUnidade.getSelectedItem());
-			p.setDescricao(txtDescricao.getText());
-			if (novo) {
-				try {
-					pd.create(p);
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			} else {
-				id = ((model.getLista().get(table.getSelectedRow()).getId()));
-				pd.update(p);
+			btnNovo.setEnabled(true);
+			int id = 0;
+			Produto p = new Produto();
+			if (!novo) {
+				id = Integer.parseInt(txtId.getText().trim());
+				System.out.println("linha 312 " + id);
 			}
-			JOptionPane.showMessageDialog(this, "Operação realizada com sucesso!");
+
+			int resposta = JOptionPane.showConfirmDialog(null, "Confirma informações?");
+			if (resposta == JOptionPane.YES_OPTION) {
+				p.setCategoria((Categoria) comboCategoria.getSelectedItem());
+				p.setCodBar(Integer.parseInt(txtCodBar.getText().trim()));
+				p.setCusto(BigDecimal.valueOf(Double.parseDouble(txtCusto.getText().trim())));
+				p.setMargemLucro(BigDecimal.valueOf(Double.parseDouble(txtMargemLucro.getText().trim())));
+				p.setUnidade((Unidade) comboUnidade.getSelectedItem());
+				p.setDescricao(txtDescricao.getText());
+				if (novo) {
+					try {
+						pd.create(p);
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				} else {
+					id = ((model.getLista().get(table.getSelectedRow()).getId()));
+					p.setId(id);
+					System.out.println("331" + id);
+					pd.update(p);
+				}
+				JOptionPane.showMessageDialog(this, "Operação realizada com sucesso!");
+			}
+			limparCampos();
+			table.setModel(model);
 		}
-		limparCampos();
-		table.setModel(model);
+	}
+
+	private boolean isValido() {
+		if ((txtDescricao.getText().trim().isEmpty()) || (txtDescricao.getText().trim() == null)) {
+			JOptionPane.showMessageDialog(this, "Informe a Descrição");
+			return false;
+		}
+		if ((txtCodBar.getText().trim().isEmpty()) || (txtCodBar.getText().trim() == null)) {
+			JOptionPane.showMessageDialog(this, "Informe o Código de Barra");
+			return false;
+		}
+		if ((txtCusto.getText().trim().isEmpty()) || (txtCusto.getText().trim() == null)) {
+			JOptionPane.showMessageDialog(this, "Informe o Custo");
+			return false;
+		} 
+		
+		if ((txtMargemLucro.getText().trim().isEmpty()) || (txtMargemLucro.getText().trim() == null)) {
+			JOptionPane.showMessageDialog(this, "Informe a Margem de Lucro");
+			return false;
+		}
+		return true;
 	}		
 	
 
@@ -366,7 +404,7 @@ protected void acaoExcluir() {
 		limparCampos();
 		novo = true;
 		btnExcluir.setEnabled(false);
-		btnNovo.setEnabled(false);
+//		btnNovo.setEnabled(false);
 		txtDescricao.grabFocus();
 //		txtDescricao.requestFocusInWindow();
 		

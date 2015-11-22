@@ -19,8 +19,8 @@ public class ProdutoModel extends AbstractTableModel {
 
 	private List<Produto> lista = new ArrayList<>();
 
-	public ProdutoModel(List<Produto> lista2) {
-		// TODO Auto-generated constructor stub
+	public ProdutoModel(List<Produto> l) {
+		lista = l;
 	}
 
 	public List<Produto> getLista() {
@@ -66,13 +66,13 @@ public class ProdutoModel extends AbstractTableModel {
 		case 2:
 			return p.getCodBar();
 		case 3:
-			return "Categria";
+			return p.getCategoria();
 		case 4:
 			return p.getCusto();
 		case 5:
 			return p.getMargemLucro();
 		case 6:
-			return "UNID. MEDIDA";
+			return p.getUnidade();
 
 		default:
 			return "erro";

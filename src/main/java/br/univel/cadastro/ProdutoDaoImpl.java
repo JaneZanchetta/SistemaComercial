@@ -60,21 +60,20 @@ public class ProdutoDaoImpl  implements ProdutoDao {
 	 * 05/11/2015 00:41:37
 	 */
 	public void update(Produto p) {
-		String sql = "UPDATE produto SET ID = ?, DESCRICAO = ?, CODBAR = ?, CATEGORIA = ?, "
+		String sql = "UPDATE produto SET  DESCRICAO = ?, CODBAR = ?, CATEGORIA = ?, "
 				+ "UNIDADE = ?, CUSTO = ?, MARGEMLUCRO = ?" + " WHERE ID = ?";
 
 		PreparedStatement ps;
 		try {
 			ps = con.prepareStatement(sql);
 
-			ps.setInt(1, p.getId());
-			ps.setString(2, p.getDescricao());
-			ps.setInt(3, p.getCodBar());
-			ps.setString(4, p.getCategoria().toString());
-			ps.setString(5, p.getUnidade().toString());
-			ps.setBigDecimal(6, p.getCusto());
-			ps.setBigDecimal(7, p.getMargemLucro());
-			ps.setInt(8, p.getId());
+			ps.setString(1, p.getDescricao());
+			ps.setInt(2, p.getCodBar());
+			ps.setString(3, p.getCategoria().toString());
+			ps.setString(4, p.getUnidade().toString());
+			ps.setBigDecimal(5, p.getCusto());
+			ps.setBigDecimal(6, p.getMargemLucro());
+			ps.setInt(7, p.getId());
 			int res = ps.executeUpdate();
 			ps.close();
 		} catch (SQLException e) {

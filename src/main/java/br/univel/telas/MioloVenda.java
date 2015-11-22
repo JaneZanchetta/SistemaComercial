@@ -43,6 +43,8 @@ import java.awt.event.MouseEvent;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 
 /**
  * @author Jane
@@ -78,6 +80,11 @@ public class MioloVenda extends JPanel {
 		JPanel painelGeral = new JPanel();
 		
 		JPanel painelProduto = new JPanel();
+		painelProduto.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+			}
+		});
 		painelProduto.setBackground(SystemColor.window);
 		
 		JButton btnSair = new JButton("Sair");
@@ -151,11 +158,9 @@ public class MioloVenda extends JPanel {
 		painelProduto.add(lblProdutos, gbc_lblProdutos);
 		
 		cbProduto =new JComboBox(new DefaultComboBoxModel());
-		cbProduto.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		cbProduto.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent arg0) {
 				setaValor();
-				cbProduto.transferFocus();
-//				txtQtde.transferFocus();
 			}
 		});
 		GridBagConstraints gbc_cbProduto = new GridBagConstraints();
@@ -193,10 +198,11 @@ public class MioloVenda extends JPanel {
 		txtUnitProduto = new JTextField();
 		txtUnitProduto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				adicionaItem();
+				System.out.println( " linha 194 ");
+				acaoAdicionar();
 				limpaItem();
 				setModel();
-				txtQtde.requestFocus();
+//				txtQtde.requestFocus();
 				
 			}
 		});
@@ -236,6 +242,18 @@ public class MioloVenda extends JPanel {
 		gbc_btnRemovertem.gridx = 0;
 		gbc_btnRemovertem.gridy = 5;
 		painelProduto.add(btnRemovertem, gbc_btnRemovertem);
+		
+		JButton btnAdicionaItem = new JButton("Adiciona Item");
+		btnAdicionaItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				acaoAdicionar();
+			}
+		});
+		GridBagConstraints gbc_btnAdicionaItem = new GridBagConstraints();
+		gbc_btnAdicionaItem.insets = new Insets(0, 0, 5, 0);
+		gbc_btnAdicionaItem.gridx = 1;
+		gbc_btnAdicionaItem.gridy = 5;
+		painelProduto.add(btnAdicionaItem, gbc_btnAdicionaItem);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
@@ -366,19 +384,14 @@ public class MioloVenda extends JPanel {
 
 		
 	}
-	
-	/**
-	 * @author Jane Z.
-	 * 21 de nov de 2015 10:52:48
-	 * Calcula valor unitário do produto conforme custo/lucro do cadastro
-	 * e exibe na tela
-	 */
-//	protected BigDecimal setaValor() {
-		protected void setaValor() {
+
+	protected void setaValor() {
+	/*
 		Produto p = new Produto();
-		BigDecimal unitario = new BigDecimal (0);
-		unitario = (p.getCusto().multiply(p.getMargemLucro().add(p.getCusto())));
-		txtUnitProduto.setText(unitario.toString());
+		BigDecimal unitario = new BigDecimal(0);
+		unitario = p.getCusto(cbProduto.getSelectedItem());
+		txtUnitProduto.setText(p.getCusto().cbProduto.getSelectedItem().);
+*/		
 	}
 
 	/**
@@ -444,32 +457,42 @@ public class MioloVenda extends JPanel {
 	 * Calcula valor total do item e alimenta a lista geral de venda
 	 */
 
-protected void adicionaItem() {
-		BigDecimal unitario = new BigDecimal (txtUnitProduto.getText());
+	protected void acaoAdicionar() {
+		BigDecimal unitario = new BigDecimal(txtUnitProduto.getText());
 		BigDecimal vlrTotal = new BigDecimal(0);
 		int qtde;
 		if (txtQtde.getText().trim().equals("")) {
 			qtde = 0;
 		} else {
-		qtde = Integer.parseInt(txtQtde.getText());
+			qtde = Integer.parseInt(txtQtde.getText());
 		}
-		 
+
+		if (qtde <= 0) {
+			JOptionPane.showMessageDialog(null, "Quantidade inválida!");
+		} else {
+
+			vlrTotal = new BigDecimal(txtQtde.getText()).multiply(unitario);
+			txtTotalProduto.setText(vlrTotal.toString());
+			totalGeral = totalGeral.add(totalGeral.add(vlrTotal));
+			txtVlrTotal.setText(totalGeral.toString());
+			System.out.println("ADICIONAR NO MODEL");
+		}
+		Item item = new Item();
+		int id = cbProduto.getSelectedIndex();
 		
-	      if (qtde <= 0) {
-	    	  JOptionPane.showMessageDialog(null, "Quantidade inválida!");
-	      } else {
+		
+//		item.setIdProduto(idProduto);
+	//	item.setNomeProduto(nomeProduto);
+		item.setQtde(qtde);
+		item.setVlrUnitario(unitario);
+		item.setVlrTotal(vlrTotal);
+		lista.add(item);
+		model = new VendaModel(lista);
+		table.setModel(model);
+
+	}
 
 		
-		vlrTotal = new BigDecimal (txtQtde.getText()).multiply(unitario);
-  	    txtTotalProduto.setText(vlrTotal.toString()); 
-  	    totalGeral = totalGeral.add(totalGeral.add(vlrTotal));
-  	    txtVlrTotal.setText(totalGeral.toString());
-  	    System.out.println("ADICIONAR NO MODEL");
-  	    System.out.println("ADICIONAR NO array");
-	      }  	    
-  	    
-			
-	}
 
 /**
  * @author Jane Z.

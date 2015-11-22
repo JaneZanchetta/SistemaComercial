@@ -402,7 +402,6 @@ public class MioloCadCliente extends JPanel {
 	 */
 	protected void acaoSelecionar() {
 		int id = table.getSelectedRow();
-		System.out.println(id);
 		if (id > 0) {
 			txtId.setText(Integer.toString(model.getLista().get(id).getId()));
 			txtNome.setText((model.getLista().get(id).getNome()));
@@ -410,7 +409,17 @@ public class MioloCadCliente extends JPanel {
 			txtTelefone.setText((model.getLista().get(id).getTelefone()));
 			txtCidade.setText(model.getLista().get(id).getCidade());
 			txtEmail.setText(model.getLista().get(id).getEmail());
-			// txtUF.setText(model.getLista().get(id).getUF());
+			
+			comboUF.setSelectedItem(table.getValueAt(table.getSelectedRow(),
+					5));
+			comboGenero.setSelectedItem(table.getValueAt(
+					table.getSelectedRow(), 7));
+			
+//			comboUF.getModel().setSelectedItem(model);
+	//		comboGenero.getModel().setSelectedItem(model);
+	//		JcomboBox.getModel().setSelectedItem(ITEM);  
+//			comboUF.setSelectedItem(model.getLista().get(id).getUf().name());
+	//		comboGenero.setSelectedItem(model.getLista().get(id).getGenero().name());
 			novo = false;
 			btnExcluir.setEnabled(true);
 		}
