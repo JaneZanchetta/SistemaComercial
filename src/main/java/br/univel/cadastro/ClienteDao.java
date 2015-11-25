@@ -21,5 +21,5 @@ public interface ClienteDao {
 
 	public Cliente search (Cliente c);
 
-	public List<Cliente> liste();
+	public List<Cliente> liste(String str);
 }

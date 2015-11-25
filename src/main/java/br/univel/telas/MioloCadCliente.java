@@ -296,7 +296,8 @@ public class MioloCadCliente extends JPanel {
 	private void setModel() {
 		cd = new ClienteDaoImpl();
 		List<Cliente> lista;
-		lista = cd.liste();
+		String str="";
+		lista = cd.liste(str);
 		model = new ClienteModel(lista);
 		table.setModel(model);
 	}

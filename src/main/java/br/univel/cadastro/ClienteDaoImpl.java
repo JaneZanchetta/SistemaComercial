@@ -136,7 +136,7 @@ public class ClienteDaoImpl implements ClienteDao {
 				st = con.createStatement();
 				result = st.executeQuery("SELECT nome, telefone, endereco, "
 						+ "cidade, Uf, email, genero"
-						+ "  FROM CLIENTE WHERE ID = ?");
+						+ "  FROM CLIENTE");
 				c.setId(result.getInt(1));
 				c.setNome(result.getString("Nome"));
 				c.setTelefone(result.getString("Telefone"));
@@ -162,7 +162,7 @@ public class ClienteDaoImpl implements ClienteDao {
 /**
  * @Author Jane Z. 02/11/2015 11:15:09
  */
-	public List<Cliente> liste() {
+	public List<Cliente> liste(String str) {
 		lista = new ArrayList<Cliente>();
 		Statement st = null;
 		ResultSet result = null;
@@ -173,27 +173,8 @@ public class ClienteDaoImpl implements ClienteDao {
 				st = con.createStatement();
 				result = st.executeQuery("SELECT id, nome, telefone, endereco, "
 						+ "cidade, Uf, email, genero"
-						+ "  FROM CLIENTE ");
+						+ "  FROM CLIENTE where NOME LIKE '%'" + str);
 				while (result.next()) {
-	/*				
-					lista.add(c = new Cliente(
-							result.getInt("ID"),
-							result.getString("Nome"),
-							result.getString("Telefone"),
-							result.getString("Endereco"),
-							result.getString("Cidade"),
-							result.gets
-							UF.valueOf(UF.class, result.getString("UF")),
-							result.getString("Email"),
-							Genero.valueOf(Genero.class, result.getString("GENERO")
-							)
-						)
-							);
-					
-					
-					/*
-					 * 
-					 */
 					Cliente c = new Cliente();
 					c.setId(result.getInt(1));
 					c.setNome(result.getString("Nome"));
@@ -227,6 +208,7 @@ public class ClienteDaoImpl implements ClienteDao {
 
 		
 	
-	}	
+	}
+
 
 }

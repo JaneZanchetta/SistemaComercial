@@ -29,7 +29,7 @@ public interface ProdutoDao {
 
 	public Produto search (Produto p);
 
-	public List<Produto> liste();
+	public List<Produto> liste(String str);
 	
 
 }

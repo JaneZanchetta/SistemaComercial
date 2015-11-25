@@ -178,7 +178,8 @@ public class MioloCadUsuario extends JPanel {
 	}
 	
 	private void preencheCombo() {
-		List<Cliente> lista =  cd.liste();
+		String str="";
+		List<Cliente> lista =  cd.liste(str);
 		for (Cliente c: lista) {
 			comboCliente.addItem(c);
 		}

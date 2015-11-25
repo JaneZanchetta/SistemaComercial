@@ -45,6 +45,7 @@ import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
+import javax.swing.SwingConstants;
 
 /**
  * @author Jane
@@ -60,8 +61,6 @@ public class MioloVenda extends JPanel {
 	private JTextField txtQtde;
 	private JTextField txtUnitProduto;
 	private JTextField txtTotalProduto;
-	private JComboBox <Cliente>cbCliente;
-	private JComboBox <Produto>cbProduto;
 	private ClienteDaoImpl cd;
 	private ProdutoDaoImpl pd;
 	BigDecimal totalGeral = new BigDecimal(0);
@@ -69,6 +68,8 @@ public class MioloVenda extends JPanel {
 	private VendaModel model;
 	private List<Item> lista = new ArrayList<>();
 	private JTable table;
+	private JTextField txtNomeProduto;
+	private JTextField txtIdCliente;
 
 
 	/**
@@ -88,6 +89,10 @@ public class MioloVenda extends JPanel {
 		painelProduto.setBackground(SystemColor.window);
 		
 		JButton btnSair = new JButton("Sair");
+		btnSair.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
 		btnSair.setFont(new Font("Tahoma", Font.BOLD, 11));
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
@@ -95,15 +100,13 @@ public class MioloVenda extends JPanel {
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(painelCliente, GroupLayout.DEFAULT_SIZE, 678, Short.MAX_VALUE)
+						.addComponent(painelCliente, GroupLayout.DEFAULT_SIZE, 586, Short.MAX_VALUE)
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 								.addComponent(painelGeral, GroupLayout.PREFERRED_SIZE, 251, GroupLayout.PREFERRED_SIZE)
-								.addGroup(groupLayout.createSequentialGroup()
-									.addGap(78)
-									.addComponent(btnSair)))
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(painelProduto, GroupLayout.DEFAULT_SIZE, 417, Short.MAX_VALUE)))
+								.addComponent(btnSair))
+							.addGap(18)
+							.addComponent(painelProduto, GroupLayout.DEFAULT_SIZE, 317, Short.MAX_VALUE)))
 					.addContainerGap())
 		);
 		groupLayout.setVerticalGroup(
@@ -114,16 +117,19 @@ public class MioloVenda extends JPanel {
 					.addGap(18)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(painelGeral, GroupLayout.PREFERRED_SIZE, 290, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(btnSair))
-						.addComponent(painelProduto, GroupLayout.DEFAULT_SIZE, 332, Short.MAX_VALUE))
-					.addContainerGap())
+							.addComponent(painelProduto, GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE)
+							.addGap(18))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(painelGeral, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addGap(47)
+							.addComponent(btnSair)
+							.addGap(46)))
+					.addGap(43))
 		);
 		GridBagLayout gbl_painelCliente = new GridBagLayout();
-		gbl_painelCliente.columnWidths = new int[]{0, 0, 0, 0};
+		gbl_painelCliente.columnWidths = new int[]{0, 273, 136, 0};
 		gbl_painelCliente.rowHeights = new int[]{0, 0};
-		gbl_painelCliente.columnWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_painelCliente.columnWeights = new double[]{0.0, 1.0, 1.0, Double.MIN_VALUE};
 		gbl_painelCliente.rowWeights = new double[]{0.0, Double.MIN_VALUE};
 		painelCliente.setLayout(gbl_painelCliente);
 		
@@ -136,39 +142,54 @@ public class MioloVenda extends JPanel {
 		gbc_lblCliente.gridy = 0;
 		painelCliente.add(lblCliente, gbc_lblCliente);
 		
-		cbCliente = new JComboBox(new DefaultComboBoxModel());
-		GridBagConstraints gbc_cbCliente = new GridBagConstraints();
-		gbc_cbCliente.fill = GridBagConstraints.HORIZONTAL;
-		gbc_cbCliente.gridx = 2;
-		gbc_cbCliente.gridy = 0;
-		painelCliente.add(cbCliente, gbc_cbCliente);
+		txtIdCliente = new JTextField();
+		txtIdCliente.setColumns(10);
+		GridBagConstraints gbc_txtIdCliente = new GridBagConstraints();
+		gbc_txtIdCliente.anchor = GridBagConstraints.NORTH;
+		gbc_txtIdCliente.insets = new Insets(0, 0, 0, 5);
+		gbc_txtIdCliente.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtIdCliente.gridx = 1;
+		gbc_txtIdCliente.gridy = 0;
+		painelCliente.add(txtIdCliente, gbc_txtIdCliente);
+		
+		JButton btnBuscaCliente = new JButton("Busca");
+		GridBagConstraints gbc_btnBuscaCliente = new GridBagConstraints();
+		gbc_btnBuscaCliente.gridx = 2;
+		gbc_btnBuscaCliente.gridy = 0;
+		painelCliente.add(btnBuscaCliente, gbc_btnBuscaCliente);
 		GridBagLayout gbl_painelProduto = new GridBagLayout();
-		gbl_painelProduto.columnWidths = new int[]{0, 0, 0};
+		gbl_painelProduto.columnWidths = new int[]{0, 91, 109, 0};
 		gbl_painelProduto.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
-		gbl_painelProduto.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
+		gbl_painelProduto.columnWeights = new double[]{1.0, 1.0, 0.0, Double.MIN_VALUE};
 		gbl_painelProduto.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		painelProduto.setLayout(gbl_painelProduto);
 		
-		JLabel lblProdutos = new JLabel("Produtos");
+		JLabel lblProdutos = new JLabel("Produto");
 		lblProdutos.setFont(new Font("Tahoma", Font.BOLD, 13));
 		GridBagConstraints gbc_lblProdutos = new GridBagConstraints();
+		gbc_lblProdutos.anchor = GridBagConstraints.EAST;
 		gbc_lblProdutos.insets = new Insets(0, 0, 5, 5);
 		gbc_lblProdutos.gridx = 0;
 		gbc_lblProdutos.gridy = 0;
 		painelProduto.add(lblProdutos, gbc_lblProdutos);
 		
-		cbProduto =new JComboBox(new DefaultComboBoxModel());
-		cbProduto.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent arg0) {
-				setaValor();
-			}
-		});
-		GridBagConstraints gbc_cbProduto = new GridBagConstraints();
-		gbc_cbProduto.insets = new Insets(0, 0, 5, 0);
-		gbc_cbProduto.fill = GridBagConstraints.HORIZONTAL;
-		gbc_cbProduto.gridx = 1;
-		gbc_cbProduto.gridy = 1;
-		painelProduto.add(cbProduto, gbc_cbProduto);
+		txtNomeProduto = new JTextField();
+		txtNomeProduto.setHorizontalAlignment(SwingConstants.TRAILING);
+		GridBagConstraints gbc_txtNomeProduto = new GridBagConstraints();
+		gbc_txtNomeProduto.gridwidth = 2;
+		gbc_txtNomeProduto.insets = new Insets(0, 0, 5, 5);
+		gbc_txtNomeProduto.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtNomeProduto.gridx = 0;
+		gbc_txtNomeProduto.gridy = 1;
+		painelProduto.add(txtNomeProduto, gbc_txtNomeProduto);
+		txtNomeProduto.setColumns(6);
+		
+		JButton btnBuscaProduto = new JButton("Busca");
+		GridBagConstraints gbc_btnBuscaProduto = new GridBagConstraints();
+		gbc_btnBuscaProduto.insets = new Insets(0, 0, 5, 0);
+		gbc_btnBuscaProduto.gridx = 2;
+		gbc_btnBuscaProduto.gridy = 1;
+		painelProduto.add(btnBuscaProduto, gbc_btnBuscaProduto);
 		
 		JLabel lblQuantidade = new JLabel("Quantidade");
 		GridBagConstraints gbc_lblQuantidade = new GridBagConstraints();
@@ -180,7 +201,7 @@ public class MioloVenda extends JPanel {
 		
 		txtQtde = new JTextField();
 		GridBagConstraints gbc_txtQtde = new GridBagConstraints();
-		gbc_txtQtde.insets = new Insets(0, 0, 5, 0);
+		gbc_txtQtde.insets = new Insets(0, 0, 5, 5);
 		gbc_txtQtde.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtQtde.gridx = 1;
 		gbc_txtQtde.gridy = 2;
@@ -207,7 +228,7 @@ public class MioloVenda extends JPanel {
 			}
 		});
 		GridBagConstraints gbc_txtUnitProduto = new GridBagConstraints();
-		gbc_txtUnitProduto.insets = new Insets(0, 0, 5, 0);
+		gbc_txtUnitProduto.insets = new Insets(0, 0, 5, 5);
 		gbc_txtUnitProduto.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtUnitProduto.gridx = 1;
 		gbc_txtUnitProduto.gridy = 3;
@@ -231,7 +252,7 @@ public class MioloVenda extends JPanel {
 		
 		txtTotalProduto = new JTextField();
 		GridBagConstraints gbc_txtTotalProduto = new GridBagConstraints();
-		gbc_txtTotalProduto.insets = new Insets(0, 0, 5, 0);
+		gbc_txtTotalProduto.insets = new Insets(0, 0, 5, 5);
 		gbc_txtTotalProduto.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtTotalProduto.gridx = 1;
 		gbc_txtTotalProduto.gridy = 4;
@@ -250,7 +271,7 @@ public class MioloVenda extends JPanel {
 			}
 		});
 		GridBagConstraints gbc_btnAdicionaItem = new GridBagConstraints();
-		gbc_btnAdicionaItem.insets = new Insets(0, 0, 5, 0);
+		gbc_btnAdicionaItem.insets = new Insets(0, 0, 5, 5);
 		gbc_btnAdicionaItem.gridx = 1;
 		gbc_btnAdicionaItem.gridy = 5;
 		painelProduto.add(btnAdicionaItem, gbc_btnAdicionaItem);
@@ -258,7 +279,7 @@ public class MioloVenda extends JPanel {
 		JScrollPane scrollPane = new JScrollPane();
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
 		gbc_scrollPane.insets = new Insets(30, 0, 0, 0);
-		gbc_scrollPane.gridwidth = 2;
+		gbc_scrollPane.gridwidth = 3;
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane.gridx = 0;
 		gbc_scrollPane.gridy = 6;
@@ -313,14 +334,6 @@ public class MioloVenda extends JPanel {
 		painelGeral.add(txtData, gbc_txtData);
 		txtData.setColumns(10);
 		
-		JLabel lblValorTotal = new JLabel("Valor Total");
-		lblValorTotal.setFont(new Font("Tahoma", Font.BOLD, 13));
-		GridBagConstraints gbc_lblValorTotal = new GridBagConstraints();
-		gbc_lblValorTotal.insets = new Insets(0, 0, 5, 5);
-		gbc_lblValorTotal.gridx = 0;
-		gbc_lblValorTotal.gridy = 2;
-		painelGeral.add(lblValorTotal, gbc_lblValorTotal);
-		
 		JButton btnFinalizaCompra = new JButton("Finaliza Compra");
 		btnFinalizaCompra.setFont(new Font("Arial Black", Font.PLAIN, 12));
 		GridBagConstraints gbc_btnFinalizaCompra = new GridBagConstraints();
@@ -329,13 +342,21 @@ public class MioloVenda extends JPanel {
 		gbc_btnFinalizaCompra.gridy = 2;
 		painelGeral.add(btnFinalizaCompra, gbc_btnFinalizaCompra);
 		
+		JLabel lblValorTotal = new JLabel("Valor Total");
+		lblValorTotal.setFont(new Font("Tahoma", Font.BOLD, 13));
+		GridBagConstraints gbc_lblValorTotal = new GridBagConstraints();
+		gbc_lblValorTotal.insets = new Insets(0, 0, 5, 5);
+		gbc_lblValorTotal.gridx = 0;
+		gbc_lblValorTotal.gridy = 3;
+		painelGeral.add(lblValorTotal, gbc_lblValorTotal);
+		
 		txtVlrTotal = new JTextField();
 		txtVlrTotal.setEditable(false);
 		txtVlrTotal.setFont(new Font("Times New Roman", Font.BOLD, 18));
 		GridBagConstraints gbc_txtVlrTotal = new GridBagConstraints();
-		gbc_txtVlrTotal.insets = new Insets(0, 0, 5, 5);
+		gbc_txtVlrTotal.insets = new Insets(0, 0, 5, 0);
 		gbc_txtVlrTotal.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtVlrTotal.gridx = 0;
+		gbc_txtVlrTotal.gridx = 1;
 		gbc_txtVlrTotal.gridy = 3;
 		painelGeral.add(txtVlrTotal, gbc_txtVlrTotal);
 		txtVlrTotal.setColumns(10);
@@ -383,15 +404,6 @@ public class MioloVenda extends JPanel {
 		acaoNovo();
 
 		
-	}
-
-	protected void setaValor() {
-	/*
-		Produto p = new Produto();
-		BigDecimal unitario = new BigDecimal(0);
-		unitario = p.getCusto(cbProduto.getSelectedItem());
-		txtUnitProduto.setText(p.getCusto().cbProduto.getSelectedItem().);
-*/		
 	}
 
 	/**
@@ -447,8 +459,6 @@ public class MioloVenda extends JPanel {
 	 * 
 	 */
 	private void limpaCampos() {
-	cbCliente.setSelectedIndex(0);
-	cbProduto.setSelectedIndex(0);
 	}
 
 	/**
