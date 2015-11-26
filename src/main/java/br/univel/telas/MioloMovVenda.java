@@ -267,6 +267,8 @@ public class MioloMovVenda extends JPanel {
 		btnAdicionaItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				acaoAdicionar();
+				limpaFormulario();
+
 			}
 		});
 		
@@ -410,8 +412,6 @@ public class MioloMovVenda extends JPanel {
 			txtTotalGeral.setText(totalGeral.toString());
 		}
 		Item item = new Item();
-		
-		
 		item.setIdProduto(Integer.parseInt(txtIdProduto.getText().trim()));
 		item.setNomeProduto(txtNomeProduto.getText());
 		item.setQtde(qtde);
@@ -422,7 +422,26 @@ public class MioloMovVenda extends JPanel {
 		tableFita.setModel(modelV);
 
 	}
+	
+	/**
+	 * @author Jane Z. 26 de nov de 2015 20:41:26
+	 * Remove o item selecionado do Array de ítens
+	 * e atualiza a "fita" (tableModel);
+	 * deduz o valor do total geral da compra.
+	 */
 
+	protected void acaoRemover() {
+//  falta fazer o botao chamar a selecao e exibir; e chamar a acao remover 
+		BigDecimal vlrTotal = new BigDecimal(0);
+		vlrTotal = new BigDecimal(txtTotal.getText());
+		totalGeral = totalGeral.subtract(totalGeral.subtract(vlrTotal));
+		txtTotalGeral.setText(totalGeral.toString());
+
+		lista.remove(tableFita.getSelectedRow());
+		modelV = new VendaModel(lista);
+		tableFita.setModel(modelV);
+
+	}
 
 
 	/**
