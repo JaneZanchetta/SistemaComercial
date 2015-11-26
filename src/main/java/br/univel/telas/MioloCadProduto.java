@@ -288,7 +288,7 @@ public class MioloCadProduto extends JPanel {
 	private void setModel() {
 		pd = new ProdutoDaoImpl();
 		List<Produto> lista;
-		lista = pd.liste();
+		lista = pd.liste("");
 		model = new ProdutoModel(lista);
 		table.setModel(model);
 		

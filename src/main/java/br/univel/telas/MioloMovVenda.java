@@ -25,6 +25,7 @@ import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.border.TitledBorder;
@@ -62,7 +63,10 @@ public class MioloMovVenda extends JPanel {
 	private Connection con;
 	private ClienteModel model;
 	private ProdutoModel modelP;
+	private VendaModel modelV;
 	private BigDecimal totalGeral;
+	private List<Item> lista = new ArrayList<>();
+
 
 	/**
 	 * Create the panel.
@@ -400,25 +404,22 @@ public class MioloMovVenda extends JPanel {
 		if (qtde <= 0) {
 			JOptionPane.showMessageDialog(null, "Quantidade inválida!");
 		} else {
-
 			vlrTotal = new BigDecimal(txtQtde.getText()).multiply(unitario);
 			txtTotal.setText(vlrTotal.toString());
 			totalGeral = totalGeral.add(totalGeral.add(vlrTotal));
 			txtTotalGeral.setText(totalGeral.toString());
-			System.out.println("ADICIONAR NO MODEL");
 		}
 		Item item = new Item();
 		
 		
-//		item.setIdProduto(idProduto);
-	//	item.setNomeProduto(nomeProduto);
+		item.setIdProduto(Integer.parseInt(txtIdProduto.getText().trim()));
+		item.setNomeProduto(txtNomeProduto.getText());
 		item.setQtde(qtde);
 		item.setVlrUnitario(unitario);
 		item.setVlrTotal(vlrTotal);
-//		lista.add(item);
-	//	model = new VendaModel(lista);
-		table.setModel(model);
-
+		lista.add(item);
+		modelV = new VendaModel(lista);
+		tableFita.setModel(modelV);
 
 	}
 
@@ -465,6 +466,13 @@ public class MioloMovVenda extends JPanel {
 		
 	}
 
+	/**
+	 * @author Jane Z. 
+	 * 25 de nov de 2015 00:56:12
+	 * 
+	 * Limpa  os campos do formulário
+	 */
+	
 	private void limpaFormulario() {
 		txtData.setText(new SimpleDateFormat("dd/MM/yyyy").format(new Date(System.currentTimeMillis())));
 		txtIdCliente.setText("");

@@ -399,8 +399,8 @@ public class MioloVenda extends JPanel {
 		setLayout(groupLayout);
 		cd = new ClienteDaoImpl();
 		pd = new ProdutoDaoImpl();
-		preencheComboCliente();
-		preencheComboProduto();
+//		preencheComboCliente();
+	//	preencheComboProduto();
 		acaoNovo();
 
 		
@@ -488,7 +488,7 @@ public class MioloVenda extends JPanel {
 			System.out.println("ADICIONAR NO MODEL");
 		}
 		Item item = new Item();
-		int id = cbProduto.getSelectedIndex();
+//		int id = cbProduto.getSelectedIndex();
 		
 		
 //		item.setIdProduto(idProduto);
@@ -509,20 +509,20 @@ public class MioloVenda extends JPanel {
  * 18 de nov de 2015 23:00:54
  * Método para buscar os produtos cadastrados e colocá-los no Combo
  */
-	private void preencheComboProduto() {
-		List<Produto> lista =  pd.liste();
-		for (Produto p: lista) {
-			cbProduto.addItem(p);
-		}
+//	private void preencheComboProduto() {
+	//	List<Produto> lista =  pd.liste();
+//		for (Produto p: lista) {
+	//		cbProduto.addItem(p);
+		//}
 		
-	}
+//	}
 
 	/**
 	 * @author Jane Z.
 	 * 18 de nov de 2015 23:03:29
 	 * Método para buscar os clientes cadastrados e colocá-los no Combo
 	 */
-	
+/*	
 	private void preencheComboCliente() {
 		List <Cliente> lista =  cd.liste();
 		for (Cliente c: lista) {
@@ -530,4 +530,5 @@ public class MioloVenda extends JPanel {
 		}
 		
 	}
+	*/
 }

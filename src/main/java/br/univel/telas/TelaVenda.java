@@ -17,7 +17,7 @@ public class TelaVenda extends MolduraAbstrata {
 
 	@Override
 	protected void configuraMiolo() {
-		super.add(new MioloVenda(), BorderLayout.CENTER);
+		super.add(new MioloMovVenda(), BorderLayout.CENTER);
 		
 	}
 	
