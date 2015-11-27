@@ -154,8 +154,7 @@ public class ProdutoDaoImpl  implements ProdutoDao {
 			try {
 				st = con.createStatement();
 				result = st.executeQuery("SELECT id, descricao, codBar, categoria, "
-						+ "unidade, custo, margemLucro FROM produto where DESCRICAO LIKE '%'"
-						+ str);
+						+ "unidade, custo, margemLucro FROM produto where DESCRICAO LIKE '%" + str + "%'");
 				while (result.next()) {
 					Produto p = new Produto();
 					p.setDescricao(result.getString("Descricao"));

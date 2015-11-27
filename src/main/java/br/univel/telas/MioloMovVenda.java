@@ -194,6 +194,7 @@ public class MioloMovVenda extends JPanel {
 		lblCompraNro.setFont(new Font("Tahoma", Font.BOLD, 13));
 		
 		txtData = new JTextField();
+		txtData.setFont(new Font("Calibri", Font.BOLD, 18));
 		txtData.setColumns(10);
 		
 		JButton btnFinalizaCompra = new JButton("Fechamento");
@@ -278,11 +279,7 @@ public class MioloMovVenda extends JPanel {
 			gl_painelProduto.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_painelProduto.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(gl_painelProduto.createParallelGroup(Alignment.LEADING, false)
-						.addGroup(gl_painelProduto.createSequentialGroup()
-							.addComponent(lblProduto)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(txtNomeProduto, GroupLayout.PREFERRED_SIZE, 272, GroupLayout.PREFERRED_SIZE))
+					.addGroup(gl_painelProduto.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_painelProduto.createSequentialGroup()
 							.addGroup(gl_painelProduto.createParallelGroup(Alignment.LEADING)
 								.addComponent(lblQuantidade)
@@ -297,16 +294,20 @@ public class MioloMovVenda extends JPanel {
 									.addComponent(lblTotal))
 								.addGroup(gl_painelProduto.createSequentialGroup()
 									.addGap(18)
-									.addComponent(txtTotal, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_painelProduto.createParallelGroup(Alignment.LEADING)
-						.addComponent(txtIdProduto, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnAdicionaItem))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_painelProduto.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnRemoveItem, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnPesquisarProduto, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+									.addComponent(txtTotal, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnAdicionaItem)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnRemoveItem, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_painelProduto.createSequentialGroup()
+							.addComponent(lblProduto)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(txtNomeProduto, GroupLayout.PREFERRED_SIZE, 272, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(txtIdProduto, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnPesquisarProduto, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap())
 		);
 		gl_painelProduto.setVerticalGroup(
 			gl_painelProduto.createParallelGroup(Alignment.LEADING)
@@ -336,6 +337,12 @@ public class MioloMovVenda extends JPanel {
 		painelProduto.setLayout(gl_painelProduto);
 		
 		tablePesquisa = new JTable();
+		tablePesquisa.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				getSelecao();
+			}
+		});
 		painelPesquisa.add(tablePesquisa);
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -518,7 +525,9 @@ public class MioloMovVenda extends JPanel {
 protected void acaoPesquisarCliente() {
 		flag = 1;
 		String str=txtNomeCliente.getText();
-		List<Cliente> lista =  cd.liste(str);
+		cd = new ClienteDaoImpl();
+		List<Cliente> lista;
+		lista = cd.liste(str);
 		model = new ClienteModel(lista);
 		tablePesquisa.setModel(model);
 	}
@@ -531,6 +540,7 @@ protected void acaoPesquisarCliente() {
 	protected void acaoPesquisarProduto() {
 		flag = 2;
 		String str=txtNomeProduto.getText();
+		pd = new ProdutoDaoImpl();
 		List<Produto> lista =  pd.liste(str);
 		modelP = new ProdutoModel(lista);
 		tablePesquisa.setModel(modelP);
