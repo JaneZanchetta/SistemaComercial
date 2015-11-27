@@ -466,6 +466,18 @@ public class MioloMovVenda extends JPanel {
 			} else {
 				txtIdProduto.setText(Integer.toString(modelP.getLista().get(id).getId()));
 				txtNomeProduto.setText((modelP.getLista().get(id).getDescricao()));
+				
+				BigDecimal custo = new BigDecimal(0);
+				custo = (modelP.getLista().get(id).getCusto());
+				BigDecimal margem = new BigDecimal(0);
+				margem = (modelP.getLista().get(id).getMargemLucro());
+				margem = margem.divide(new BigDecimal(100));
+				margem = custo.multiply(margem);
+				BigDecimal unitario = new BigDecimal(0);
+				unitario = custo.add(margem);
+				txtUnitario.setText(unitario.toString());
+				
+				
 //				txtUnitario = calcular custo + margem de lucro
 			}
 
