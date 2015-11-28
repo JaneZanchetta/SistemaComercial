@@ -212,7 +212,7 @@ public class MioloMovVenda extends JPanel {
 		JButton btnFinalizaCompra = new JButton("Fechamento");
 		btnFinalizaCompra.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				setaPagamento();
+				acaoFecharCompra();
 			}
 		});
 		btnFinalizaCompra.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -224,12 +224,12 @@ public class MioloMovVenda extends JPanel {
 			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
+					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 						.addComponent(lblCompraNro, GroupLayout.PREFERRED_SIZE, 86, GroupLayout.PREFERRED_SIZE)
 						.addComponent(txtData, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnAbandona, GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)
 						.addComponent(btnFinalizaCompra, 0, 0, Short.MAX_VALUE))
-					.addContainerGap(28, Short.MAX_VALUE))
+					.addContainerGap())
 		);
 		gl_panel.setVerticalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
@@ -237,11 +237,11 @@ public class MioloMovVenda extends JPanel {
 					.addComponent(lblCompraNro)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(txtData, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(31)
+					.addGap(53)
 					.addComponent(btnFinalizaCompra)
 					.addGap(18)
 					.addComponent(btnAbandona)
-					.addContainerGap(46, Short.MAX_VALUE))
+					.addContainerGap(45, Short.MAX_VALUE))
 		);
 		panel.setLayout(gl_panel);
 		
@@ -422,6 +422,23 @@ public class MioloMovVenda extends JPanel {
 		start();
 
 	}
+	
+	
+	/**
+	 * @author Jane Z. 
+	 * 28 de nov de 2015 19:38:23
+	 * Fechamento da compra
+	 * Verifica se todos campos necessarios foram preenchidos
+	 * se sim, chama método para fazer persistência dos dados
+	 */
+	
+protected void acaoFecharCompra() {
+	if (txtIdCliente.getText().trim().equals("")) {
+		JOptionPane.showMessageDialog(null, "Informe Cliente");
+		txtIdCliente.requestFocus();
+	}
+	
+	}
 /**
  * @author Jane Z. 
  * 28 de nov de 2015 18:49:22
@@ -531,6 +548,7 @@ public class MioloMovVenda extends JPanel {
 	 * 25 de nov de 2015 01:16:31
 	 * Transfere para o textField o cliente ou produto selecionado,
 	 * conforme flag marcado
+	 * se Produto, calcula e exibe valor do item e qtde inicial = 1
 	 */
 	protected void getSelecao() {
 		int id = tablePesquisa.getSelectedRow();
@@ -551,9 +569,9 @@ public class MioloMovVenda extends JPanel {
 				BigDecimal unitario = new BigDecimal(0);
 				unitario = custo.add(margem);
 				txtUnitario.setText(unitario.toString());
+				txtQtde.setText("1'");
 				
 				
-//				txtUnitario = calcular custo + margem de lucro
 			}
 
 		}
