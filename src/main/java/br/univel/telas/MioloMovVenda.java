@@ -66,13 +66,15 @@ public class MioloMovVenda extends JPanel {
 	private VendaModel modelV;
 	private BigDecimal totalGeral;
 	private List<Item> lista = new ArrayList<>();
+	private Cliente c;
+	// cria uma instancia privada no miolo e um getmiolo; se null cria novo senao nao cria;
 
 
 	/**
 	 * Create the panel.
 	 */
 	public MioloMovVenda() {
-		
+// troca para privado		
 		JPanel painelCliente = new JPanel();
 		painelCliente.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 
@@ -227,6 +229,11 @@ public class MioloMovVenda extends JPanel {
 		btnFinalizaCompra.setFont(new Font("Tahoma", Font.BOLD, 12));
 		
 		JButton btnAbandona = new JButton("Abandona");
+		btnAbandona.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				acaoAbandonar();
+			}
+		});
 		btnAbandona.setFont(new Font("Tahoma", Font.BOLD, 11));
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
@@ -426,11 +433,26 @@ public class MioloMovVenda extends JPanel {
 		);
 		painelCliente.setLayout(gl_painelCliente);
 		setLayout(groupLayout);
+		abreConexao();
 		start();
 
 	}
 	
-	
+/**
+ * @author Jane Z. 
+ * 3 de dez de 2015 20:04:10	
+ * Confirma se usuário realmente deseja abandonar a compra; 
+ * em caso afirmativo elimina a compra em andamento e encerra 
+ */
+	protected void acaoAbandonar() {
+		int resposta = JOptionPane.showConfirmDialog(null, "Deseja realmente abandonar a compra ?");
+		if (resposta == JOptionPane.YES_OPTION) {
+			start();
+		}
+		
+	}
+
+
 	/**
 	 * @author Jane Z. 
 	 * 28 de nov de 2015 19:38:23
@@ -485,7 +507,6 @@ protected void acaoFecharCompra() {
 	 */
 
 	protected BigDecimal calculaTotal() {
-		System.out.println("MMV 488: ");
 		BigDecimal unitario = new BigDecimal(txtUnitario.getText());
 		BigDecimal vlrTotal = new BigDecimal(0);
 		int qtde;
@@ -500,7 +521,7 @@ protected void acaoFecharCompra() {
 		} else {
 			vlrTotal = new BigDecimal(txtQtde.getText()).multiply(unitario);
 			txtTotal.setText(vlrTotal.toString());
-			totalGeral = totalGeral.add(totalGeral.add(vlrTotal));			
+			totalGeral = totalGeral.add(vlrTotal);			
 			txtTotalGeral.setText(totalGeral.toString());
 		}
 		return vlrTotal;
@@ -596,16 +617,23 @@ protected void acaoFecharCompra() {
 	 */
 	
 	private void start() {
-		con = Conexao.abrirConexao();
 //		Produto p = new Produto();
 		totalGeral = new BigDecimal(0);
-		Cliente c = new Cliente();
+		c = new Cliente();
 		limpaFormulario();
 		setModel();
-
 		
 	}
 
+	private void abreConexao() {
+		con = Conexao.abrirConexao();
+	}
+	
+	private void fechaConexao() {
+		Conexao.fecharConexao();
+	}
+	
+	
 	private void setModel() {
 			cd = new ClienteDaoImpl();
 			List<Cliente> lista;

@@ -37,24 +37,7 @@ public class Conexao {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-
 				
-/*				
-				
-				
-				String driverName = "org.postgresql.Driver";
-//				String url = "jdbc:postgresql://localhost:5433//SisCom";
-				String url = "jdbc:postgresql://localhost:5433//postgres";
-			String user = "postgres";
-				String pass = "postgres";
-				try {
-					return conexao = DriverManager.getConnection(url, user, pass);
-
-				} catch (SQLException e) {
-					throw new RuntimeException(e);
-				}
-			}
-*/
 		}
 			return conexao;
 	}
@@ -66,7 +49,7 @@ public class Conexao {
 	 * fecha Conexão
 	 */
 
-	private void fecharConexao () {
+	public static void fecharConexao () {
 		try {
 			conexao.close();
 		} catch (SQLException e) {
