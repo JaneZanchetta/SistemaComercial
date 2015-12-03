@@ -96,6 +96,8 @@ public class MioloMovVenda extends JPanel {
 		painelFechamento.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		
 		JPanel panel = new JPanel();
+		
+		JLabel lbltensDaCompra = new JLabel("\u00CDtens da Compra");
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -109,7 +111,9 @@ public class MioloMovVenda extends JPanel {
 									.addComponent(painelFechamento, GroupLayout.PREFERRED_SIZE, 292, GroupLayout.PREFERRED_SIZE))
 								.addComponent(painelProduto, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(painelFita, GroupLayout.PREFERRED_SIZE, 437, GroupLayout.PREFERRED_SIZE))
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(lbltensDaCompra, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE)
+								.addComponent(painelFita, GroupLayout.PREFERRED_SIZE, 437, GroupLayout.PREFERRED_SIZE)))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 								.addComponent(painelCliente, GroupLayout.DEFAULT_SIZE, 683, Short.MAX_VALUE)
@@ -131,12 +135,14 @@ public class MioloMovVenda extends JPanel {
 							.addComponent(panel, GroupLayout.PREFERRED_SIZE, 213, GroupLayout.PREFERRED_SIZE)))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(painelProduto, GroupLayout.PREFERRED_SIZE, 115, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+						.addComponent(painelProduto, GroupLayout.PREFERRED_SIZE, 115, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lbltensDaCompra))
+					.addPreferredGap(ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
 							.addComponent(painelFechamento, GroupLayout.PREFERRED_SIZE, 136, GroupLayout.PREFERRED_SIZE)
 							.addGap(105))
-						.addGroup(groupLayout.createSequentialGroup()
+						.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
 							.addComponent(painelFita, GroupLayout.PREFERRED_SIZE, 250, GroupLayout.PREFERRED_SIZE)
 							.addContainerGap())))
 		);
@@ -311,24 +317,20 @@ public class MioloMovVenda extends JPanel {
 							.addGroup(gl_painelProduto.createParallelGroup(Alignment.LEADING)
 								.addComponent(lblQuantidade)
 								.addComponent(txtQtde, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addGap(39)
-							.addGroup(gl_painelProduto.createParallelGroup(Alignment.TRAILING)
-								.addGroup(gl_painelProduto.createSequentialGroup()
-									.addComponent(lblValor)
-									.addGap(62))
-								.addGroup(gl_painelProduto.createSequentialGroup()
-									.addComponent(txtUnitario, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-									.addGap(18)))
 							.addGroup(gl_painelProduto.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_painelProduto.createSequentialGroup()
-									.addGap(17)
+									.addGap(39)
+									.addComponent(lblValor)
+									.addGap(79)
 									.addComponent(lblTotal))
 								.addGroup(gl_painelProduto.createSequentialGroup()
-									.addGap(18)
+									.addGap(42)
+									.addComponent(txtUnitario, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.UNRELATED)
 									.addComponent(txtTotal, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED)
+									.addPreferredGap(ComponentPlacement.UNRELATED)
 									.addComponent(btnAdicionaItem)
-									.addPreferredGap(ComponentPlacement.RELATED)
+									.addPreferredGap(ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
 									.addComponent(btnRemoveItem, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE))))
 						.addGroup(gl_painelProduto.createSequentialGroup()
 							.addComponent(lblProduto)
@@ -336,8 +338,8 @@ public class MioloMovVenda extends JPanel {
 							.addComponent(txtNomeProduto, GroupLayout.PREFERRED_SIZE, 272, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(txtIdProduto, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnPesquisarProduto, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE)))
+							.addGap(18)
+							.addComponent(btnPesquisarProduto, GroupLayout.PREFERRED_SIZE, 94, GroupLayout.PREFERRED_SIZE)))
 					.addContainerGap())
 		);
 		gl_painelProduto.setVerticalGroup(
@@ -349,23 +351,23 @@ public class MioloMovVenda extends JPanel {
 						.addComponent(txtNomeProduto, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(txtIdProduto, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnPesquisarProduto))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_painelProduto.createParallelGroup(Alignment.TRAILING)
-						.addGroup(Alignment.LEADING, gl_painelProduto.createSequentialGroup()
-							.addGroup(gl_painelProduto.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblQuantidade)
-								.addComponent(lblValor)
-								.addComponent(lblTotal))
-							.addGap(18)
-							.addComponent(txtQtde, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addContainerGap())
+					.addGap(18)
+					.addGroup(gl_painelProduto.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblQuantidade)
+						.addComponent(lblValor)
+						.addComponent(lblTotal))
+					.addGroup(gl_painelProduto.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_painelProduto.createSequentialGroup()
+							.addGap(18)
+							.addComponent(txtQtde, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_painelProduto.createSequentialGroup()
+							.addGap(20)
 							.addGroup(gl_painelProduto.createParallelGroup(Alignment.BASELINE)
-								.addComponent(btnRemoveItem)
-								.addComponent(btnAdicionaItem)
+								.addComponent(txtUnitario, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 								.addComponent(txtTotal, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(txtUnitario, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addContainerGap())))
+								.addComponent(btnAdicionaItem)
+								.addComponent(btnRemoveItem))))
+					.addGap(17))
 		);
 		painelProduto.setLayout(gl_painelProduto);
 		
@@ -492,8 +494,9 @@ protected void acaoFecharCompra() {
 		} else {
 			vlrTotal = new BigDecimal(txtQtde.getText()).multiply(unitario);
 			txtTotal.setText(vlrTotal.toString());
+			System.out.println("MMV 495: " + vlrTotal);
 			totalGeral = totalGeral.add(vlrTotal);
-			System.out.println("MMV 437" + vlrTotal);
+			System.out.println("MMV 497: " + vlrTotal);
 			txtTotalGeral.setText(totalGeral.toString());
 		}
 		return vlrTotal;
@@ -515,7 +518,7 @@ protected void acaoFecharCompra() {
 		item.setNomeProduto(txtNomeProduto.getText());
 		item.setQtde(qtde);
 		item.setVlrUnitario(unitario);
-		item.setVlrTotal(calculaTotal());
+//		item.setVlrTotal(calculaTotal());
 		lista.add(item);
 		modelV = new VendaModel(lista);
 		tableFita.setModel(modelV);
@@ -552,7 +555,7 @@ protected void acaoFecharCompra() {
 	 */
 	protected void getSelecao() {
 		int id = tablePesquisa.getSelectedRow();
-		if (id > 0) {
+		if (!(id < 0)) {
 			if (flag == 1) {
 				txtIdCliente.setText(Integer.toString(modelC.getLista().get(id).getId()));
 				txtNomeCliente.setText((modelC.getLista().get(id).getNome()));
@@ -569,7 +572,7 @@ protected void acaoFecharCompra() {
 				BigDecimal unitario = new BigDecimal(0);
 				unitario = custo.add(margem);
 				txtUnitario.setText(unitario.toString());
-				txtQtde.setText("1'");
+				txtQtde.setText("1");
 				
 				
 			}
@@ -591,6 +594,7 @@ protected void acaoFecharCompra() {
 	private void start() {
 		con = Conexao.abrirConexao();
 //		Produto p = new Produto();
+		BigDecimal totalGeral = new BigDecimal(0);
 		Cliente c = new Cliente();
 		limpaFormulario();
 		setModel();

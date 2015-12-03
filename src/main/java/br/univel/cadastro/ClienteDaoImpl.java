@@ -174,11 +174,9 @@ public class ClienteDaoImpl implements ClienteDao {
 				result = st.executeQuery("SELECT id, nome, telefone, endereco, "
 						+ "cidade, Uf, email, genero"
 						+ "  FROM CLIENTE where NOME LIKE '%" + str + "%'");
-			//			+ " where NOME LIKE '% + str + %'");
 				while (result.next()) {
 					Cliente c = new Cliente();
 					c.setId(result.getInt(1));
-					System.out.println("181: " + c.getId());
 					c.setNome(result.getString("Nome"));
 					c.setTelefone(result.getString("Telefone"));
 					c.setEndereco(result.getString("Endereco"));

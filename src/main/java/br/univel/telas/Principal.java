@@ -50,8 +50,8 @@ public class Principal extends JFrame {
 	 * Create the frame.
 	 */
 	public Principal() {
-		setPreferredSize(new Dimension(1000, 700));
-		setMinimumSize(new Dimension(1000, 700));
+		setPreferredSize(new Dimension(1300, 700));
+		setMinimumSize(new Dimension(1300, 700));
 		blockLogin();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
