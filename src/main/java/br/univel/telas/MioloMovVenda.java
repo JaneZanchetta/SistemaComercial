@@ -75,8 +75,10 @@ public class MioloMovVenda extends JPanel {
 		
 		JPanel painelCliente = new JPanel();
 		painelCliente.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
+
 		
-		JPanel painelPesquisa = new JPanel();
+		JScrollPane painelPesquisa = new JScrollPane();
+	//		JPanel painelPesquisa = new JPanel();
 		painelPesquisa.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -88,7 +90,8 @@ public class MioloMovVenda extends JPanel {
 		JPanel painelProduto = new JPanel();
 		painelProduto.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		
-		JPanel painelFita = new JPanel();
+//		JPanel painelFita = new JPanel();
+		JScrollPane painelFita = new JScrollPane();
 		painelFita.setBackground(new Color(248, 248, 255));
 		painelFita.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		
@@ -252,8 +255,9 @@ public class MioloMovVenda extends JPanel {
 		panel.setLayout(gl_panel);
 		
 		tableFita = new JTable();
-		painelFita.add(tableFita);
-		
+//		painelFita.add(tableFita);
+		painelFita.setViewportView(tableFita);
+	
 		JScrollPane scrollPane_1 = new JScrollPane();
 		painelFita.add(scrollPane_1);
 		
@@ -301,7 +305,7 @@ public class MioloMovVenda extends JPanel {
 		btnAdicionaItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				acaoAdicionar();
-				limpaFormulario();
+				limpaItem();
 
 			}
 		});
@@ -378,7 +382,8 @@ public class MioloMovVenda extends JPanel {
 				getSelecao();
 			}
 		});
-		painelPesquisa.add(tablePesquisa);
+//		painelPesquisa.add(tablePesquisa);
+		painelPesquisa.setViewportView(tablePesquisa);
 		
 		JLabel lblCliente = new JLabel("Cliente");
 		
@@ -480,6 +485,7 @@ protected void acaoFecharCompra() {
 	 */
 
 	protected BigDecimal calculaTotal() {
+		System.out.println("MMV 488: ");
 		BigDecimal unitario = new BigDecimal(txtUnitario.getText());
 		BigDecimal vlrTotal = new BigDecimal(0);
 		int qtde;
@@ -494,9 +500,7 @@ protected void acaoFecharCompra() {
 		} else {
 			vlrTotal = new BigDecimal(txtQtde.getText()).multiply(unitario);
 			txtTotal.setText(vlrTotal.toString());
-			System.out.println("MMV 495: " + vlrTotal);
-			totalGeral = totalGeral.add(vlrTotal);
-			System.out.println("MMV 497: " + vlrTotal);
+			totalGeral = totalGeral.add(totalGeral.add(vlrTotal));			
 			txtTotalGeral.setText(totalGeral.toString());
 		}
 		return vlrTotal;
@@ -518,7 +522,7 @@ protected void acaoFecharCompra() {
 		item.setNomeProduto(txtNomeProduto.getText());
 		item.setQtde(qtde);
 		item.setVlrUnitario(unitario);
-//		item.setVlrTotal(calculaTotal());
+		item.setVlrTotal(calculaTotal());
 		lista.add(item);
 		modelV = new VendaModel(lista);
 		tableFita.setModel(modelV);
@@ -594,7 +598,7 @@ protected void acaoFecharCompra() {
 	private void start() {
 		con = Conexao.abrirConexao();
 //		Produto p = new Produto();
-		BigDecimal totalGeral = new BigDecimal(0);
+		totalGeral = new BigDecimal(0);
 		Cliente c = new Cliente();
 		limpaFormulario();
 		setModel();
@@ -614,7 +618,7 @@ protected void acaoFecharCompra() {
 	 * @author Jane Z. 
 	 * 25 de nov de 2015 00:56:12
 	 * 
-	 * Limpa  os campos do formulário
+	 * Limpa  os campos do formulário para iniciar nova venda
 	 */
 	
 	private void limpaFormulario() {
@@ -623,13 +627,21 @@ protected void acaoFecharCompra() {
 		txtIdProduto.setText("");
 		txtNomeCliente.setText("");
 		txtNomeProduto.setText("");
-		txtQtde.setText("");
-		txtTotal.setText("");
 		txtTotalGeral.setText("");
-		txtUnitario.setText("");
 		txtValorPago.setText("");
 		txtTroco.setText("");
-		
+	}
+	
+	/**
+	 * @author Jane Z. 
+	 * 3 de dez de 2015 19:46:48
+	 * Limpa  linha do ítem
+	 * 
+	 */
+	private void limpaItem() {
+		txtQtde.setText("");
+		txtTotal.setText("");
+		txtUnitario.setText("");
 		
 	}
 
