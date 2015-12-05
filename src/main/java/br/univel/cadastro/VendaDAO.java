@@ -17,6 +17,6 @@ public interface VendaDAO {
 
 	public void update (Venda v);
 
-	public List<Venda> liste(int op, String str);
+	public List<Venda> liste(int op, Object arg);
 
 }

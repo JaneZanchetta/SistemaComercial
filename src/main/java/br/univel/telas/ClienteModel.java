@@ -26,11 +26,10 @@ public class ClienteModel extends AbstractTableModel {
 
 	}	
 	
+	public  ClienteModel() {
+		lista.clear();
 
-	public ClienteModel() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+	}	
 
 
 

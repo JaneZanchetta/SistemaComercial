@@ -30,12 +30,17 @@ import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.border.TitledBorder;
 
+import com.sun.javafx.css.CalculatedValue;
+
 import br.univel.cadastro.Cliente;
 import br.univel.cadastro.ClienteDaoImpl;
 import br.univel.cadastro.Conexao;
+import br.univel.cadastro.Genero;
 import br.univel.cadastro.Item;
 import br.univel.cadastro.Produto;
 import br.univel.cadastro.ProdutoDaoImpl;
+import br.univel.cadastro.UF;
+import br.univel.cadastro.Venda;
 
 import javax.swing.border.EtchedBorder;
 import java.awt.SystemColor;
@@ -164,7 +169,7 @@ public class MioloMovVenda extends JPanel {
 		txtValorPago = new JTextField();
 		txtValorPago.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				calculaTroco();
+				acaoCalcularTroco();
 			}
 		});
 		txtValorPago.setEnabled(false);
@@ -292,12 +297,7 @@ public class MioloMovVenda extends JPanel {
 		txtQtde = new JTextField();
 		txtQtde.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if (txtQtde.getText().trim().equals("")) {
-					JOptionPane.showMessageDialog(null, "Informe a quantidade");
-					txtQtde.getFocusListeners();
-				} else {
-					calculaTotal();
-				}
+				calculaTotal();
 			}
 		});
 		txtQtde.setColumns(10);
@@ -328,6 +328,7 @@ public class MioloMovVenda extends JPanel {
 							.addGroup(gl_painelProduto.createParallelGroup(Alignment.LEADING)
 								.addComponent(lblQuantidade)
 								.addComponent(txtQtde, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(gl_painelProduto.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_painelProduto.createSequentialGroup()
 									.addGap(39)
@@ -337,11 +338,11 @@ public class MioloMovVenda extends JPanel {
 								.addGroup(gl_painelProduto.createSequentialGroup()
 									.addGap(42)
 									.addComponent(txtUnitario, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.UNRELATED)
+									.addPreferredGap(ComponentPlacement.RELATED)
 									.addComponent(txtTotal, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.UNRELATED)
+									.addPreferredGap(ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
 									.addComponent(btnAdicionaItem)
-									.addPreferredGap(ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
+									.addPreferredGap(ComponentPlacement.RELATED)
 									.addComponent(btnRemoveItem, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE))))
 						.addGroup(gl_painelProduto.createSequentialGroup()
 							.addComponent(lblProduto)
@@ -367,18 +368,14 @@ public class MioloMovVenda extends JPanel {
 						.addComponent(lblQuantidade)
 						.addComponent(lblValor)
 						.addComponent(lblTotal))
-					.addGroup(gl_painelProduto.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_painelProduto.createSequentialGroup()
-							.addGap(18)
-							.addComponent(txtQtde, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_painelProduto.createSequentialGroup()
-							.addGap(20)
-							.addGroup(gl_painelProduto.createParallelGroup(Alignment.BASELINE)
-								.addComponent(txtUnitario, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(txtTotal, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(btnAdicionaItem)
-								.addComponent(btnRemoveItem))))
-					.addGap(17))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_painelProduto.createParallelGroup(Alignment.BASELINE)
+						.addComponent(txtQtde, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(txtUnitario, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(txtTotal, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnAdicionaItem)
+						.addComponent(btnRemoveItem))
+					.addGap(2))
 		);
 		painelProduto.setLayout(gl_painelProduto);
 		
@@ -442,7 +439,7 @@ public class MioloMovVenda extends JPanel {
  * @author Jane Z. 
  * 3 de dez de 2015 20:04:10	
  * Confirma se usuário realmente deseja abandonar a compra; 
- * em caso afirmativo elimina a compra em andamento e encerra 
+ * em caso afirmativo elimina a compra em andamento e inicia nova venda 
  */
 	protected void acaoAbandonar() {
 		int resposta = JOptionPane.showConfirmDialog(null, "Deseja realmente abandonar a compra ?");
@@ -461,19 +458,86 @@ public class MioloMovVenda extends JPanel {
 	 * se sim, chama método para fazer persistência dos dados
 	 */
 	
-protected void acaoFecharCompra() {
-	if (txtIdCliente.getText().trim().equals("")) {
-		JOptionPane.showMessageDialog(null, "Informe Cliente");
-		txtIdCliente.requestFocus();
+	protected void acaoFecharCompra() {
+		if (txtIdCliente.getText().trim().equals("")) {
+			JOptionPane.showMessageDialog(null, "Informe Cliente");
+			txtIdCliente.requestFocus();
+		}
+		if (txtTotalGeral.getText().trim().equals("")) {
+			JOptionPane.showMessageDialog(null, "Adicione ítens para fechar compra");
+
+		}
+		acaoCalcularTroco();
+		acaoPersistirDados();
+
 	}
 	
+	/**
+	 * @author Jane Z. 3 de dez de 2015 22:06:00
+	 * 
+	 * faz a persistencia dos dados através do DAO
+	 * 
+	 */
+private void acaoPersistirDados() {
+	int resposta = JOptionPane.showConfirmDialog(null, "Confirma informações?");
+	if (resposta == JOptionPane.YES_OPTION) {
+
+	int id = 0;
+	Venda v = new Venda();
+	v.setIdCliente(Integer.parseInt(txtIdCliente.getText()));
+	v.setDataCompra(new java.util.Date());
+	v.setNomeCliente(txtNomeCliente.getText());
+	v.setTotalCompra(totalGeral);
+	chama salvamento!!!
+	
+	
 	}
+	
+	/*
+	 * 	private int idCliente;
+	private int nroCompra;
+	private String nomeCliente;
+	private BigDecimal totalCompra;
+	private Date dataCompra;
+
+	 */
+/*
+		String nome = txtNome.getText().trim();
+		String fone = txtTelefone.getText().trim();
+		String endereco = txtEndereco.getText().trim();
+		String cidade = txtCidade.getText().trim();
+		String email = txtEmail.getText().trim();
+		UF uf = (UF) comboUF.getSelectedItem();
+		Genero g = (Genero) comboGenero.getSelectedItem();
+		int resposta = JOptionPane.showConfirmDialog(null, "Confirma informações?");
+		if (resposta == JOptionPane.YES_OPTION) {
+			c.setEndereco(endereco);
+			c.setTelefone(fone);
+			c.setNome(nome);
+			c.setCidade(cidade);
+			c.setEmail(email);
+			c.setUf((uf));
+			System.out.println("UF selecionado (367) "+ uf);
+			c.setGenero(g);
+			if (novo) {
+				cd.create(c);
+			} else {
+				id = ((model.getLista().get(table.getSelectedRow()).getId()));
+				c.setId(id);
+				System.out.println("ID a alterar (373) "+ id);
+				cd.update(c);
+			}
+		// TODO Auto-generated method stub
+ */
+		
+	}
+
 /**
  * @author Jane Z. 
  * 28 de nov de 2015 18:49:22
  * calcula valor do troco
  */
-	protected void calculaTroco() {
+	protected void acaoCalcularTroco() {
 		if (txtValorPago.getText().trim().equals("")) {
 			JOptionPane.showMessageDialog(null, "Informe valor do Pagamento");
 			setaPagamento();	
@@ -482,8 +546,7 @@ protected void acaoFecharCompra() {
 			BigDecimal vlrTotal = new BigDecimal(0);
 			vlrTotal = new BigDecimal((txtTotalGeral.getText()));
 			troco = new BigDecimal(txtValorPago.getText()).subtract(vlrTotal);
-			txtTotal.setText(vlrTotal.toString());
-			totalGeral = totalGeral.add(totalGeral.add(vlrTotal));			
+			txtTroco.setText(troco.toString());
 	}
 	}
 
@@ -497,6 +560,7 @@ protected void acaoFecharCompra() {
 		txtValorPago.setEnabled(true);
 		txtValorPago.requestFocusInWindow();
 		}
+	
 	
 
 	
@@ -521,10 +585,19 @@ protected void acaoFecharCompra() {
 		} else {
 			vlrTotal = new BigDecimal(txtQtde.getText()).multiply(unitario);
 			txtTotal.setText(vlrTotal.toString());
-			totalGeral = totalGeral.add(vlrTotal);			
-			txtTotalGeral.setText(totalGeral.toString());
 		}
 		return vlrTotal;
+	}
+
+	/**
+	 * @author Jane Z. 3 de dez de 2015 21:06:28
+	 * Soma o valor recebido (total do ítem) ao total geral da compra
+	 * @param vlrTotal
+	 */
+	
+	private void somaGeral(BigDecimal vlrTotal) {
+		totalGeral = totalGeral.add(vlrTotal);			
+		txtTotalGeral.setText(totalGeral.toString());
 	}
 
 	/**
@@ -538,16 +611,18 @@ protected void acaoFecharCompra() {
 		
 		int qtde = Integer.parseInt(txtQtde.getText());
 		BigDecimal unitario = new BigDecimal(txtUnitario.getText());
+		BigDecimal totalItem = new BigDecimal(0);
 		Item item = new Item();
 		item.setIdProduto(Integer.parseInt(txtIdProduto.getText().trim()));
 		item.setNomeProduto(txtNomeProduto.getText());
 		item.setQtde(qtde);
 		item.setVlrUnitario(unitario);
-		item.setVlrTotal(calculaTotal());
+		totalItem = calculaTotal();
+		item.setVlrTotal(totalItem);
+		somaGeral(totalItem);
 		lista.add(item);
 		modelV = new VendaModel(lista);
 		tableFita.setModel(modelV);
-
 	}
 	
 	/**
@@ -635,18 +710,17 @@ protected void acaoFecharCompra() {
 	
 	
 	private void setModel() {
-			cd = new ClienteDaoImpl();
-			List<Cliente> lista;
-			String str="";
-			lista = cd.liste(str);
-			modelC = new ClienteModel(lista);
+		modelV = new VendaModel();
+		tableFita.setModel(modelV);
+		tablePesquisa.setModel(modelV);
+		
 	}
 
 	/**
 	 * @author Jane Z. 
 	 * 25 de nov de 2015 00:56:12
 	 * 
-	 * Limpa  os campos do formulário para iniciar nova venda
+	 * Limpa  dados gerais do formulário e seta data para iniciar nova venda
 	 */
 	
 	private void limpaFormulario() {

@@ -5,7 +5,6 @@ import java.util.Date;
 
 public class Venda {
 	
-	private static int sequence = 0;  
 
 	private int idCliente;
 	private int nroCompra;
@@ -34,7 +33,7 @@ public class Venda {
 	 * @param nroCompra the nroCompra to set
 	 */
 	public void setNroCompra(int nroCompra) {
-		this.nroCompra = sequence++;
+		this.nroCompra = nroCompra;
 	}
 	/**
 	 * @return the nomeCliente

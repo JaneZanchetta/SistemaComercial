@@ -15,7 +15,10 @@ public class VendaModel extends AbstractTableModel{
 
 	}	
 
-	
+	public VendaModel() {
+		lista.clear();
+	}	
+
 	private List<Item> lista = new ArrayList<>();
 	
 	@Override
