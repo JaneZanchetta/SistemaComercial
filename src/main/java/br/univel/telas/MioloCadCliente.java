@@ -365,14 +365,12 @@ public class MioloCadCliente extends JPanel {
 			c.setCidade(cidade);
 			c.setEmail(email);
 			c.setUf((uf));
-			System.out.println("UF selecionado (367) "+ uf);
 			c.setGenero(g);
 			if (novo) {
 				cd.create(c);
 			} else {
 				id = ((model.getLista().get(table.getSelectedRow()).getId()));
 				c.setId(id);
-				System.out.println("ID a alterar (373) "+ id);
 				cd.update(c);
 			}
 			

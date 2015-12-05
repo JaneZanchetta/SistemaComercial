@@ -32,17 +32,22 @@ public class VendaDaoImpl implements VendaDAO {
 	 * 
 	 */
 	@Override
-	public void create(Venda v) throws SQLException {
+	public int create(Venda v) throws SQLException {
 		PreparedStatement ps;
-		ps = con.prepareStatement("INSERT INTO venda " + "(NROCOMPRA, IDCLIENTE, NOMECLIENTE, TOTALCOMPRA, DATACOMPRA) "
-				+ "VALUES (default,?,?,?,?)");
+		int idNro=0;
+		ps = con.prepareStatement("INSERT INTO venda " + "(NROCOMPRA, IDCLIENTE, NOMECLIENTE, TOTALCOMPRA) "
+				+ "VALUES (default,?,?,?) returning nrocompra into idNro");
 		ps.setInt(1, v.getIdCliente());
 		ps.setString(2, v.getNomeCliente());
 		ps.setBigDecimal(3, v.getTotalCompra());
-		ps.setDate(4, (java.sql.Date) new java.util.Date());
+		System.out.println("47");
+//		ps.setDate(4, (java.sql.Date) new java.util.Date());
+		ps.setDate(20151210,null);
+		System.out.println("49");
 		int res = ps.executeUpdate();
 
 		ps.close();
+		return idNro;
 	}
 
 	@Override

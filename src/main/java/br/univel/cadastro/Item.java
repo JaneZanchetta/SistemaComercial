@@ -15,6 +15,27 @@ public class Item {
 	private int qtde;
 	private BigDecimal vlrUnitario;
 	private BigDecimal vlrTotal;
+	public String getCategoria() {
+		return categoria;
+	}
+	public void setCategoria(String categoria) {
+		this.categoria = categoria;
+	}
+	public BigDecimal getCusto() {
+		return custo;
+	}
+	public void setCusto(BigDecimal custo) {
+		this.custo = custo;
+	}
+	public BigDecimal getMargemLucro() {
+		return margemLucro;
+	}
+	public void setMargemLucro(BigDecimal margemLucro) {
+		this.margemLucro = margemLucro;
+	}
+	private String categoria;
+	private BigDecimal custo;
+	private BigDecimal margemLucro;
 	
 	public int getIdProduto() {
 		return idProduto;

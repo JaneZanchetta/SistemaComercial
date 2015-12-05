@@ -11,7 +11,7 @@ import java.util.List;
  */
 
 public interface VendaDAO {
-	public void create (Venda v) throws SQLException;
+	public int create (Venda v) throws SQLException;
 
 	public Venda read (int nroCompra);
 

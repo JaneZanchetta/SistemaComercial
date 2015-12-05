@@ -24,12 +24,15 @@ import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.border.TitledBorder;
 
+import com.sun.javafx.beans.IDProperty;
 import com.sun.javafx.css.CalculatedValue;
 
 import br.univel.cadastro.Cliente;
@@ -37,10 +40,13 @@ import br.univel.cadastro.ClienteDaoImpl;
 import br.univel.cadastro.Conexao;
 import br.univel.cadastro.Genero;
 import br.univel.cadastro.Item;
+import br.univel.cadastro.ItemVenda;
+import br.univel.cadastro.ItemVendaDaoImpl;
 import br.univel.cadastro.Produto;
 import br.univel.cadastro.ProdutoDaoImpl;
 import br.univel.cadastro.UF;
 import br.univel.cadastro.Venda;
+import br.univel.cadastro.VendaDaoImpl;
 
 import javax.swing.border.EtchedBorder;
 import java.awt.SystemColor;
@@ -64,6 +70,8 @@ public class MioloMovVenda extends JPanel {
 	private JTextField txtTroco;
 	private ClienteDaoImpl cd;
 	private ProdutoDaoImpl pd;
+	private VendaDaoImpl vd;
+	private ItemVendaDaoImpl ivd;
 	private int flag;
 	private Connection con;
 	private ClienteModel modelC;
@@ -72,12 +80,24 @@ public class MioloMovVenda extends JPanel {
 	private BigDecimal totalGeral;
 	private List<Item> lista = new ArrayList<>();
 	private Cliente c;
+	private static MioloMovVenda instance;
 	// cria uma instancia privada no miolo e um getmiolo; se null cria novo senao nao cria;
 
 
 	/**
 	 * Create the panel.
 	 */
+	
+	
+	public synchronized static MioloMovVenda getInstance() {
+		if (instance == null) {
+			instance = new MioloMovVenda();
+		}
+		return instance;
+	}
+
+	
+	
 	public MioloMovVenda() {
 // troca para privado		
 		JPanel painelCliente = new JPanel();
@@ -99,6 +119,12 @@ public class MioloMovVenda extends JPanel {
 		
 //		JPanel painelFita = new JPanel();
 		JScrollPane painelFita = new JScrollPane();
+		painelFita.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				getSelecaoItem();
+			}
+		});
 		painelFita.setBackground(new Color(248, 248, 255));
 		painelFita.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		
@@ -169,7 +195,7 @@ public class MioloMovVenda extends JPanel {
 		txtValorPago = new JTextField();
 		txtValorPago.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				acaoCalcularTroco();
+				acaoFecharCompra();
 			}
 		});
 		txtValorPago.setEnabled(false);
@@ -228,7 +254,7 @@ public class MioloMovVenda extends JPanel {
 		JButton btnFinalizaCompra = new JButton("Fechamento");
 		btnFinalizaCompra.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				acaoFecharCompra();
+				validaFechamento();
 			}
 		});
 		btnFinalizaCompra.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -435,6 +461,19 @@ public class MioloMovVenda extends JPanel {
 
 	}
 	
+protected void getSelecaoItem() {
+	int id = tablePesquisa.getSelectedRow();
+	if (!(id < 0)) {
+    		modelV = new VendaModel(lista);
+			txtIdProduto.setText((String) ((modelV.getValueAt(id, 1))));
+			txtNomeProduto.setText((String) modelV.getValueAt(id, 2));
+			txtQtde.setText((String)(modelV.getValueAt(id, 3)));
+			txtUnitario.setText((String)(modelV.getValueAt(id, 4)));
+			txtTotal.setText((String)(modelV.getValueAt(id, 5)));			
+		}
+		
+	}
+
 /**
  * @author Jane Z. 
  * 3 de dez de 2015 20:04:10	
@@ -458,7 +497,7 @@ public class MioloMovVenda extends JPanel {
 	 * se sim, chama método para fazer persistência dos dados
 	 */
 	
-	protected void acaoFecharCompra() {
+	protected void validaFechamento() {
 		if (txtIdCliente.getText().trim().equals("")) {
 			JOptionPane.showMessageDialog(null, "Informe Cliente");
 			txtIdCliente.requestFocus();
@@ -467,9 +506,8 @@ public class MioloMovVenda extends JPanel {
 			JOptionPane.showMessageDialog(null, "Adicione ítens para fechar compra");
 
 		}
-		acaoCalcularTroco();
-		acaoPersistirDados();
-
+		txtValorPago.setEnabled(true);
+		txtValorPago.requestFocusInWindow();
 	}
 	
 	/**
@@ -478,91 +516,60 @@ public class MioloMovVenda extends JPanel {
 	 * faz a persistencia dos dados através do DAO
 	 * 
 	 */
-private void acaoPersistirDados() {
-	int resposta = JOptionPane.showConfirmDialog(null, "Confirma informações?");
-	if (resposta == JOptionPane.YES_OPTION) {
-
-	int id = 0;
-	Venda v = new Venda();
-	v.setIdCliente(Integer.parseInt(txtIdCliente.getText()));
-	v.setDataCompra(new java.util.Date());
-	v.setNomeCliente(txtNomeCliente.getText());
-	v.setTotalCompra(totalGeral);
-	chama salvamento!!!
-	
-	
-	}
-	
-	/*
-	 * 	private int idCliente;
-	private int nroCompra;
-	private String nomeCliente;
-	private BigDecimal totalCompra;
-	private Date dataCompra;
-
-	 */
-/*
-		String nome = txtNome.getText().trim();
-		String fone = txtTelefone.getText().trim();
-		String endereco = txtEndereco.getText().trim();
-		String cidade = txtCidade.getText().trim();
-		String email = txtEmail.getText().trim();
-		UF uf = (UF) comboUF.getSelectedItem();
-		Genero g = (Genero) comboGenero.getSelectedItem();
-		int resposta = JOptionPane.showConfirmDialog(null, "Confirma informações?");
+	private void acaoPersistirDados() {
+		int resposta = JOptionPane.showConfirmDialog(null, "Confirma compra?");
 		if (resposta == JOptionPane.YES_OPTION) {
-			c.setEndereco(endereco);
-			c.setTelefone(fone);
-			c.setNome(nome);
-			c.setCidade(cidade);
-			c.setEmail(email);
-			c.setUf((uf));
-			System.out.println("UF selecionado (367) "+ uf);
-			c.setGenero(g);
-			if (novo) {
-				cd.create(c);
-			} else {
-				id = ((model.getLista().get(table.getSelectedRow()).getId()));
-				c.setId(id);
-				System.out.println("ID a alterar (373) "+ id);
-				cd.update(c);
+
+			int id = 0;
+			Venda v = new Venda();
+			v.setIdCliente(Integer.parseInt(txtIdCliente.getText()));
+			v.setDataCompra(new java.util.Date());
+			v.setNomeCliente(txtNomeCliente.getText());
+			v.setTotalCompra(totalGeral);
+			vd = new VendaDaoImpl();
+			try {
+				id = vd.create(v);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-		// TODO Auto-generated method stub
- */
-		
+/*
+			Iterator<Item> iterator;
+			if (iterator.hasNext()) {
+				Item i = new Item();
+				Produto p = new Produto();
+				i = iterator.next();
+				ItemVenda iv = new ItemVenda();
+				ivd = new ItemVendaDaoImpl();
+				iv.setIdProduto(i.getIdProduto());
+				iv.setNomeProduto(i.getNomeProduto());
+				iv.setNroCompra(id);
+				iv.setVlrUnitario(i.getVlrUnitario());
+			}
+*/
+		}
+
 	}
 
 /**
  * @author Jane Z. 
  * 28 de nov de 2015 18:49:22
- * calcula valor do troco
+ * Solicita valor recebido, calcula valor do troco
  */
-	protected void acaoCalcularTroco() {
+	protected void acaoFecharCompra() {
 		if (txtValorPago.getText().trim().equals("")) {
 			JOptionPane.showMessageDialog(null, "Informe valor do Pagamento");
-			setaPagamento();	
-		} else {
-			BigDecimal troco = new BigDecimal(0);
-			BigDecimal vlrTotal = new BigDecimal(0);
-			vlrTotal = new BigDecimal((txtTotalGeral.getText()));
-			troco = new BigDecimal(txtValorPago.getText()).subtract(vlrTotal);
-			txtTroco.setText(troco.toString());
-	}
-	}
-
-	/**
-	 * @author Jane Z. 
-	 * 28 de nov de 2015 18:38:55
-	 * Solicita valor recebido,
-	 * Solicita valor pago
-	 */
-	protected void setaPagamento() {
-		txtValorPago.setEnabled(true);
-		txtValorPago.requestFocusInWindow();
+			txtValorPago.setEnabled(true);
+			txtValorPago.requestFocusInWindow();
 		}
+		BigDecimal troco = new BigDecimal(0);
+		BigDecimal vlrTotal = new BigDecimal(0);
+		vlrTotal = new BigDecimal((txtTotalGeral.getText()));
+		troco = new BigDecimal(txtValorPago.getText().trim()).subtract(vlrTotal);
+		txtTroco.setText(troco.toString());
+		acaoPersistirDados();
+	}
 	
-	
-
 	
 	/**
 	 * @author Jane Z. 
@@ -609,8 +616,8 @@ private void acaoPersistirDados() {
 	
 	protected void acaoAdicionar() {
 		
-		int qtde = Integer.parseInt(txtQtde.getText());
-		BigDecimal unitario = new BigDecimal(txtUnitario.getText());
+		int qtde = Integer.parseInt(txtQtde.getText().trim());
+		BigDecimal unitario = new BigDecimal(txtUnitario.getText().trim());
 		BigDecimal totalItem = new BigDecimal(0);
 		Item item = new Item();
 		item.setIdProduto(Integer.parseInt(txtIdProduto.getText().trim()));
